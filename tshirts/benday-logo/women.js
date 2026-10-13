@@ -15,7 +15,10 @@ const PALETTES = {
 // on a narrower body; lettering on the back 6 in wide.
 const BOX = { w: 9.5, h: 10.8 }, BACK_TEXT_IN = 6;
 
-module.exports = { PALETTES, BOX, BACK_TEXT_IN };
+// The final pick for the women's tee (2026-10-13): Saint in Hot Pink.
+const FINAL = ['saint', 'hot-pink'];
+
+module.exports = { PALETTES, BOX, BACK_TEXT_IN, FINAL };
 
 if (require.main === module) {
   for (const [id, p] of Object.entries(PALETTES)) {

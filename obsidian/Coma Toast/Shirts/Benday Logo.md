@@ -1,7 +1,7 @@
 ---
 tags: [coma-toast, shirt, benday-logo, printful]
 updated: 2026-10-13
-status: men's (blue) and women's (pink/blush/lilac) samples, waiting on mark and palette choice
+status: women's final (Saint, Hot Pink); men's waiting on mark choice
 ---
 # Benday Logo
 
@@ -37,6 +37,13 @@ Every design gets this (standing rule). Here it matches the front: white **Rubik
 - **Limit:** Printful's back print area on the Bella+Canvas 3001 is 12 × 16 in on every size and starts near the back collar, so its bottom edge ends roughly 11 in above the hem: the wordmark lands on the lower-middle back, not at the hem like PaintShop. To get it down at the hem, the shirt would need a product with a lower back print area, or an all-over print tee.
 
 ## Women's version
+**FINAL (picked 2026-10-13): Saint in Hot Pink** (`#ff2e88`). Front 9.5 × 10.16 in, centered, top 1.5 in below the collar; `$Daily Bread$` back print in Hot Pink. Printful-ready files in `tshirts/benday-logo/women/final/` (and `G:\ComaToast\Benday Logo\Women\Final\`): `front-saint-hot-pink.png` (+ `.svg`) and `back-daily-bread-hot-pink.png`. Mockup: `benday-women-final.png`.
+
+Printful setup (Women's Relaxed T-Shirt | Bella + Canvas 6400):
+1. **Front print:** upload `front-saint-hot-pink.png`, set it 9.5 in wide (keeps its proportions), center it, top 1.5 in below the collar seam in the mockup.
+2. **Back print:** upload `back-daily-bread-hot-pink.png` and let it fill the area.
+3. Check the mockup on an S–M and an L–3XL size (the print area is scaled per size).
+
 The same design for a women's tee, with feminine accent colors in place of the blue. Black outline, black face and white fill stay.
 - **Shirt:** **Women's Relaxed T-Shirt | Bella + Canvas 6400** (Printful product 360), DTG. Front and back print area: **12 × 16 in for L–3XL, 10 × 12 in for S–M**; Printful scales the graphic for each size (from Printful's file guidelines).
 - **Palettes:**
@@ -90,9 +97,10 @@ From the repo root (needs Node and Playwright, or `playwright-core` with `PLAYWR
 
 - **v3:** `$Daily Bread$` back print added in the front's style, in the bottom-right corner of the back print area.
 - **Women's:** the same design for the Bella+Canvas 6400 women's tee in Hot Pink, Blush and Lilac, 9.5 × 10.8 in box, with the back print.
+- **Women's final:** Saint in Hot Pink.
 
 ## Open items
-- [ ] Pick the mark.
-- [ ] Pick the women's palette (Hot Pink, Blush or Lilac).
+- [ ] Pick the mark for the men's tee.
+- [x] Women's: Saint in Hot Pink.
 - [ ] Pick shirt colors.
 - [ ] Confirm placement in Printful's mockup, then order a sample.

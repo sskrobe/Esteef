@@ -6,7 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const { logos } = require('./benday');
-const { PALETTES } = require('./women');
+const { PALETTES, FINAL } = require('./women');
 
 const root = path.join(__dirname, 'women');
 const PX = 14;
@@ -58,7 +58,21 @@ const href = p => 'file:///' + p.replace(/\\/g, '/');
   }
   await shoot(`<body style="margin:0;padding:10px;background:#f4f4f2;display:grid;grid-template-columns:repeat(6,auto);gap:6px 10px">${back.join('')}</body>`,
     6 * (28 * PX + 10) + 30, 'benday-women-back.png');
+  // Final pick: front and back of the chosen mark and palette on a white and a black tee.
+  const [fMark, fPal] = FINAL;
+  const fs_ = JSON.parse(fs.readFileSync(path.join(root, fPal, 'sizes.json'), 'utf8')), z = fs_[fMark], b = fs_.back;
+  const fin = [];
+  for (const [sname, [c, collar]] of Object.entries(SHIRTS)) {
+    fin.push(fig(`<svg viewBox="-14 -1.5 28 29" width="${28 * PX}" height="${29 * PX}"><path d="${TEE}" fill="${c}"/>
+      <path d="M-3.4,0 Q0,5.4 3.4,0" fill="none" stroke="${collar}" stroke-width="0.7"/>
+      <image href="${href(path.join(root, fPal, z.file))}" x="${-z.wIn / 2}" y="${LOGO_TOP}" width="${z.wIn}" height="${z.hIn}"/></svg>`, `Front · ${sname} tee`));
+    fin.push(fig(`<svg viewBox="-14 -1.5 28 29" width="${28 * PX}" height="${29 * PX}"><path d="${BACK_TEE}" fill="${c}"/>
+      <path d="M-3.4,0 Q0,1.8 3.4,0" fill="none" stroke="${collar}" stroke-width="0.7"/>
+      <image href="${href(path.join(root, fPal, b.file))}" x="-6" y="${AREA_TOP}" width="12" height="16"/></svg>`, `Back · ${sname} tee`));
+  }
+  await shoot(`<body style="margin:0;padding:10px;background:#e9e7ea;display:grid;grid-template-columns:repeat(4,auto);gap:6px 10px">${fin.join('')}</body>`,
+    4 * (28 * PX + 10) + 30, 'benday-women-final.png');
   fs.unlinkSync(tmp);
   await browser.close();
-  console.log('wrote benday-women-samples.png and benday-women-back.png');
+  console.log('wrote benday-women-samples.png, benday-women-back.png and benday-women-final.png');
 })();
