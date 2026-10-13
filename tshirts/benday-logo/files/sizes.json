@@ -5,7 +5,8 @@
     "w": 3150,
     "h": 3369,
     "wIn": 10.5,
-    "hIn": 11.23
+    "hIn": 11.23,
+    "pxPerUnit": 20.95
   },
   "saint": {
     "name": "Saint",
@@ -13,7 +14,8 @@
     "w": 3150,
     "h": 3369,
     "wIn": 10.5,
-    "hIn": 11.23
+    "hIn": 11.23,
+    "pxPerUnit": 20.95
   },
   "little-devil": {
     "name": "Little Devil",
@@ -21,7 +23,8 @@
     "w": 3150,
     "h": 3492,
     "wIn": 10.5,
-    "hIn": 11.64
+    "hIn": 11.64,
+    "pxPerUnit": 20.95
   },
   "heaven-sent": {
     "name": "Heaven Sent",
@@ -29,7 +32,8 @@
     "w": 3150,
     "h": 2673,
     "wIn": 10.5,
-    "hIn": 8.91
+    "hIn": 8.91,
+    "pxPerUnit": 16.624
   },
   "raising-hell": {
     "name": "Raising Hell",
@@ -37,6 +41,18 @@
     "w": 3150,
     "h": 2845,
     "wIn": 10.5,
-    "hIn": 9.48
+    "hIn": 9.48,
+    "pxPerUnit": 17.068
+  },
+  "back": {
+    "file": "back-daily-bread.png",
+    "art": "daily-bread-benday.png",
+    "wIn": 8.94,
+    "hIn": 3.4,
+    "areaIn": [
+      12,
+      16
+    ],
+    "insetIn": 0.1
   }
 }

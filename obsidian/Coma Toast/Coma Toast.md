@@ -32,6 +32,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 - **Logo files:** `logos/final/` in the repo (SVGs, PNGs, `coma-toast-logos.zip`).
 
 ## Shared design choices
+- **Every design gets a ` Bread$` back print** (standing rule): bottom right of the back, as low as the product's back print area allows, in that design's art style.
 - Shirt base color for dark tees: `#121214` (near-black).
 - Colorways used so far: Hot Wire (`#ff2e88` pink + `#c6ff00` lime), Toxic (`#ffe600` yellow + `#00e5ff` cyan), Riot (`#00e5ff` cyan + `#ff2e88` pink). White accent `#f4f4f2`.
 - Printful All-Over Print Men's Crew Neck (product 257) print files: front and back 28 × 36 in (4200 × 5400 px), sleeves 20 × 12 in (3000 × 1800 px), 150 dpi. The collar band is cut from the top 2.3 in of the front file, so keep that strip plain. Full template measurements are in [[PaintShop]]. Always check placement in Printful's mockup preview before ordering.

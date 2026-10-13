@@ -38,12 +38,13 @@ const out = path.join(__dirname, 'files');
       const ox = o.getContext('2d'); ox.imageSmoothingQuality = 'high';
       // redraw from the vector at the final scale for crisp edges
       ox.drawImage(img, -x0 * k, -y0 * k, N * k, N * k);
-      return { png: o.toDataURL('image/png'), w: o.width, h: o.height };
+      return { png: o.toDataURL('image/png'), w: o.width, h: o.height, pxPerUnit: k * N / 240 };
     }, { svg: buildSvg(l, { size: 4000, style: STYLE }), BOX_W, BOX_H });
     const file = `benday-${l.id}.png`;
     fs.writeFileSync(path.join(out, file), setDpi(Buffer.from(res.png.split(',')[1], 'base64'), true));
     fs.writeFileSync(path.join(out, `benday-${l.id}.svg`), buildSvg(l, { size: 1000, style: STYLE }) + '\n');
-    sizes[l.id] = { name: l.name, file, w: res.w, h: res.h, wIn: +(res.w / DPI).toFixed(2), hIn: +(res.h / DPI).toFixed(2) };
+    // pxPerUnit: print pixels per drawing unit, so the back print can match the front's dot size
+    sizes[l.id] = { name: l.name, file, w: res.w, h: res.h, wIn: +(res.w / DPI).toFixed(2), hIn: +(res.h / DPI).toFixed(2), pxPerUnit: +res.pxPerUnit.toFixed(3) };
     console.log('wrote', file, `${res.w} x ${res.h} px = ${sizes[l.id].wIn} x ${sizes[l.id].hIn} in`);
   }
   fs.writeFileSync(path.join(out, 'sizes.json'), JSON.stringify(sizes, null, 2) + '\n');

@@ -68,16 +68,19 @@ function rng(seed) {
   return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
 }
 
-function swatch(seed, id) {
+// sw is the block in drawing units (default: behind the toast); the back wordmark passes its own, with
+// optional n: [points per long edge, per short edge], jx (end raggedness), streaks and scratches counts.
+function swatch(seed, id, sw = SW) {
   const r = rng(seed), R = (a, b) => a + r() * (b - a);
-  const { x0, y0, x1, y1, pitch } = SW;
+  const { x0, y0, x1, y1, pitch } = sw;
   // rough outline: jittered points along each edge, the left and right ends more ragged (brush ends)
   const pts = [];
   const edge = (ax, ay, bx, by, n, jx, jy) => { for (let i = 0; i < n; i++) { const t = i / n; pts.push([ax + (bx - ax) * t + R(-jx, jx), ay + (by - ay) * t + R(-jy, jy)]); } };
-  edge(x0, y0, x1, y0, 24, 1, 2.2);
-  edge(x1, y0, x1, y1, 30, 4.5, 1);
-  edge(x1, y1, x0, y1, 24, 1, 2.2);
-  edge(x0, y1, x0, y0, 30, 4.5, 1);
+  const [nTop, nSide] = sw.n || [24, 30], jx = sw.jx ?? 4.5;
+  edge(x0, y0, x1, y0, nTop, 1, 2.2);
+  edge(x1, y0, x1, y1, nSide, jx, 1);
+  edge(x1, y1, x0, y1, nTop, 1, 2.2);
+  edge(x0, y1, x0, y0, nSide, jx, 1);
   const outline = `<path d="M${pts.map(p => p.map(v => v.toFixed(1)).join(',')).join(' L')} Z"/>`;
   // stipple: dots nearly touching at the bottom right, opening up toward the top left
   const d = [];
@@ -88,7 +91,7 @@ function swatch(seed, id) {
     }
   // dry-brush streaks off the left and right ends, and square chips (the PaintShop paint)
   const extra = [];
-  for (const side of [-1, 1]) for (let i = 0; i < 11; i++) {
+  for (const side of [-1, 1]) for (let i = 0; i < (sw.streaks ?? 11); i++) {
     const y = R(y0 + 4, y1 - 4), len = R(4, 14), h = R(1.2, 3.6), x = side < 0 ? x0 - len + R(0, 5) : x1 - R(0, 5);
     extra.push(`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${len.toFixed(1)}" height="${h.toFixed(1)}"/>`);
   }
@@ -99,14 +102,14 @@ function swatch(seed, id) {
   }
   // dry-brush scratches: thin horizontal gaps through the paint, mostly toward the ragged ends
   const scratches = [];
-  for (let i = 0; i < 26; i++) {
+  for (let i = 0; i < (sw.scratches ?? 26); i++) {
     const left = r() < 0.5, len = R(8, 34), y = R(y0 + 3, y1 - 3), h = R(0.5, 1.6);
     const x = left ? x0 - 2 + R(0, 14) : x1 + 2 - len - R(0, 14);
     scratches.push(`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${len.toFixed(1)}" height="${h.toFixed(1)}"/>`);
   }
   return {
     def: `<mask id="${id}" maskUnits="userSpaceOnUse" x="-30" y="-30" width="260" height="260"><g fill="#fff">${outline}</g><g fill="#000">${scratches.join('')}</g></mask>`,
-    art: `<g transform="rotate(${SW.tilt} 100 119)" fill="${BLUE}"><g mask="url(#${id})">${d.join('')}</g>${extra.join('')}</g>`,
+    art: `<g transform="rotate(${sw.tilt} ${(x0 + x1) / 2} ${(y0 + y1) / 2})" fill="${BLUE}"><g mask="url(#${id})">${d.join('')}</g>${extra.join('')}</g>`,
   };
 }
 
@@ -134,4 +137,4 @@ function buildSvg(logo, { size = 1000, style = 'sticker', seed = 5 } = {}) {
     + backdrop + keyline.join('') + body.join('') + '</svg>';
 }
 
-module.exports = { logos, buildSvg, COLORS: { INK, WHITE, BLUE } };
+module.exports = { logos, buildSvg, swatch, COLORS: { INK, WHITE, BLUE } };
