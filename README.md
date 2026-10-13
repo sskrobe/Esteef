@@ -25,6 +25,8 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `logos/round-12/` is the same fifteen marks as Round 11 with a more mouth-like heartbeat (flat line, one small blip). Rebuild with `node logos/round-12/build.js`.
 
+- `logos/round-13/` is a mouth study: the four go-forward designs (Saint, Little Devil, Heaven Sent, Raising Hell) with seven heartbeat mouths, shown at full and chest-logo size. Rebuild with `node logos/round-13/build.js`.
+
 ## T-shirt designs
 
 - `tshirts/index.html` previews the tee concepts on shirt mockups.
