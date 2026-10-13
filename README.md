@@ -48,4 +48,4 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 ## Notes and local copies
 
 - `obsidian/Coma Toast/` holds the Obsidian notes: the project hub (`Coma Toast.md`), `Logo Marks.md`, and one note per shirt in `Shirts/` (`PaintShop.md` has every spec and the change log).
-- `sync-local.ps1` (Windows PowerShell, from the repo root) pulls the latest and copies the PaintShop files to `G:\ComaToast\PaintShop\`, and the notes into your vault with `-Vault "<vault path>"`.
+- `sync-local.cmd` (Command Prompt) or `sync-local.ps1` (PowerShell), from the repo root, pulls the latest and copies the PaintShop files to `G:\ComaToast\PaintShop\`, and the notes into your vault with `-Vault "<vault path>"`.
