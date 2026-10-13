@@ -18,7 +18,7 @@
 //   only=logo | only=wordmark  renders just that on a transparent background; hide=1 leaves the logo off
 //   top    the shoulder line, in design units down from the top of the panel (Printful's 28 x 36 in
 //          template: 325 = 2.6 in). Nothing is painted above it; on the front that strip is the collar.
-//   wmr, hem  wordmark right edge and its clearance above the bottom of the panel (design units)
+//   wmr, wmw, hem  wordmark right edge, width, and clearance above the bottom of the panel (design units)
 const Q = new URLSearchParams(location.search);
 const W = +(Q.get('w') || 3000), H = +(Q.get('h') || 4000), S = +(Q.get('s') || 1);
 const TOP = +(Q.get('top') || 0), BH = H - TOP;
@@ -52,7 +52,7 @@ const WORDMARK_FONTS = {
   block: { name: 'Rubik Mono One', css: '400 100px "Rubik Mono One"' },
   // Graffiti, and graffiti crossed with pixels. pixel: rebuilt from square cells (cells per cap
   // height); drips: square drips under the letters; shadow: a 3D drop shadow in the other color.
-  'wet-paint': { name: 'Rubik Wet Paint', css: '400 100px "Rubik Wet Paint"' },
+  'wet-paint': { name: 'Rubik Wet Paint', css: '400 100px "Rubik Wet Paint"', gap: 10 },
   'spray': { name: 'Rubik Spray Paint', css: '400 100px "Rubik Spray Paint"' },
   'handstyle': { name: 'Sedgwick Ave Display', css: '400 100px "Sedgwick Ave Display"', gap: 6 },
   'throw-up': { name: 'Knewave', css: '400 100px "Knewave"', shadow: true, gap: 4 },
@@ -64,7 +64,7 @@ const WM_TEXT = ['$', 'Daily Bread', '$'];
 // Back wordmark: right edge in design units (about 3.8 in in from the right edge of the panel), 5.6 in
 // wide, set as low as it can go: its lowest point (drips included) sits WM_HEM_CLEAR above the bottom
 // of the panel, which is 1.5 in of clearance for the hem fold and print trim (125 units = 1 in).
-const WM_RIGHT = +(Q.get('wmr') || 2520), WM_W = 700, WM_HEM_CLEAR = +(Q.get('hem') || 190);
+const WM_RIGHT = +(Q.get('wmr') || 2520), WM_W = +(Q.get('wmw') || 700), WM_HEM_CLEAR = +(Q.get('hem') || 190);
 let WM_BASE = 3600;
 
 // Measure the wordmark at a given width: returns the font string and per-piece widths.

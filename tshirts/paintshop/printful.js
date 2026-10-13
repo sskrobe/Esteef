@@ -1,8 +1,9 @@
 // Renders the final PaintShop tee files for Printful, one folder per colorway (printful/<colorway>/):
-//   front.jpg           front panel: the 10 in outline toast centered in its clean window
-//   front-no-logo.jpg   the same front without the toast (add the logo PNG as a layer instead)
-//   back.jpg            back panel: square paint, $Daily Bread$ (Wet Paint) at the hem, hidden "Esteef"
-//   sleeve-left.jpg, sleeve-right.jpg
+//   front.png           front panel: the 9 in outline toast centered in its clean window
+//   front-no-logo.png   the same front without the toast (add the logo PNG as a layer instead)
+//   back.png            back panel: square paint, $Daily Bread$ (Wet Paint) at the hem, hidden "Esteef"
+//   sleeve-left.png, sleeve-right.png
+// Print files are lossless PNG: JPEG blurs the edges of bright color on black (chroma subsampling).
 //   coma-toast-<colorway>.png       the logo alone, transparent, at the shirt's proportions
 //   daily-bread-<colorway>.png      the $Daily Bread$ wordmark alone, transparent
 // Sizes match Printful's template for the All-Over Print Men's Crew Neck T-Shirt (product 257), read
@@ -18,19 +19,20 @@ const path = require('path');
 
 const out = path.join(__dirname, 'printful');
 const PANEL = 'w=3500&h=4500&top=325', SLEEVE = 'w=2500&h=1500';
-// The toast is 10 in tall and about 9.7 in wide, centered across the chest, its top edge 9.6 in down
-// (at the top of Printful's safe area, about 1.5 in below the neckline cut).
-const CHEST = '1750,1825,1207,1250';
-// $Daily Bread$: right edge 8.2 in right of center, lowest drip 2.5 in above the bottom of the panel
-// (the bottom of Printful's safe area, clear of the hem).
-const WM = 'wm=wet-paint&wmr=2770&hem=312';
+// The toast is 9 in tall and about 8.7 in wide, centered across the chest, its top edge 10.6 in down,
+// about 2.5 in below the neckline cut, so there's dark space under the collar as in the concept.
+// Printful scales the file down proportionally for smaller sizes, so this layout holds for every size.
+const CHEST = '1750,1887,1086,1125';
+// $Daily Bread$: 7 in wide, right edge 20.8 in across (inside the safe area's right edge), lowest drip
+// 2.5 in above the bottom of the panel (the bottom of Printful's safe area, clear of the hem).
+const WM = 'wm=wet-paint&wmw=875&wmr=2600&hem=312';
 const COLORWAYS = (process.env.CW || 'hot-wire,toxic,riot').split(',');
 const jobs = cw => [
-  { file: 'front.jpg', q: `panel=front&seed=3&${PANEL}&s=1.2&cw=${cw}&logo=${CHEST}` },
-  { file: 'front-no-logo.jpg', q: `panel=front&seed=3&${PANEL}&s=1.2&cw=${cw}&logo=${CHEST}&hide=1` },
-  { file: 'back.jpg', q: `panel=back&seed=11&${PANEL}&s=1.2&cw=${cw}&${WM}` },
-  { file: 'sleeve-left.jpg', q: `panel=sleeve&seed=21&${SLEEVE}&s=1.2&cw=${cw}` },
-  { file: 'sleeve-right.jpg', q: `panel=sleeve&seed=34&${SLEEVE}&s=1.2&cw=${cw}` },
+  { file: 'front.png', q: `panel=front&seed=3&${PANEL}&s=1.2&cw=${cw}&logo=${CHEST}` },
+  { file: 'front-no-logo.png', q: `panel=front&seed=3&${PANEL}&s=1.2&cw=${cw}&logo=${CHEST}&hide=1` },
+  { file: 'back.png', q: `panel=back&seed=11&${PANEL}&s=1.2&cw=${cw}&${WM}` },
+  { file: 'sleeve-left.png', q: `panel=sleeve&seed=21&${SLEEVE}&s=1.2&cw=${cw}` },
+  { file: 'sleeve-right.png', q: `panel=sleeve&seed=34&${SLEEVE}&s=1.2&cw=${cw}` },
   { file: `coma-toast-${cw}.png`, q: `only=logo&w=3000&h=3000&s=1&cw=${cw}&logo=${CHEST}` },
   { file: `daily-bread-${cw}.png`, q: `only=wordmark&w=3000&h=900&s=1&cw=${cw}&${WM}` },
   // small previews for the page
