@@ -1,0 +1,537 @@
+<title>Coma Toast Official Marks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lookbook wall. Short intro, a sticky fabric picker, then a two-up grid of concept cards. */
+:root {
+  --paper: #f3f1f4;
+  --surface: #ffffff;
+  --ink: #18161b;
+  --muted: #6c6672;
+  --rule: #dcd7df;
+  --accent: #d6336f;
+  --tee-edge: rgba(24, 22, 27, 0.22);
+  --stage-fabric: #f7f7f5;
+  --stage-ink: #141414;
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33;
+    --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.25); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33;
+  --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.25); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 28px; }
+header { display: grid; gap: 14px; max-width: 68ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 7vw, 76px); line-height: .95; margin: 0; text-wrap: balance; letter-spacing: -.02em; }
+h1 em { font-weight: 500; color: var(--accent); }
+.lede { margin: 0; color: var(--muted); font-size: 16px; }
+.lede strong { color: var(--ink); font-weight: 600; }
+
+.toolbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--paper); padding-block: 12px; border-bottom: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; }
+.fabric { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.swatch { display: inline-flex; align-items: center; gap: 7px; font: 500 13px var(--font-body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 5px 12px 5px 6px; cursor: pointer; }
+.swatch .chip { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--tee-edge); }
+.swatch[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.picks { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); min-width: 0; }
+.picks button { font: 600 13px var(--font-body); color: var(--paper); background: var(--ink); border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer; white-space: nowrap; }
+.picks button:disabled { opacity: .4; cursor: default; }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.sections { display: grid; gap: 36px; }
+.section-title { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 12px; color: var(--ink); }
+.namer { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; cursor: pointer; }
+.namer input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.wordmark { display: none; margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(18px, 3vw, 26px); letter-spacing: .2em; text-transform: uppercase; line-height: 1; }
+.show-name .wordmark { display: block; }
+.mark.outline { display: none; }
+.outline-view .mark.outline { display: block; }
+.outline-view .mark.solid { display: none; }
+.show-name .stage { grid-template-rows: auto auto; align-content: center; gap: 6px; }
+.show-name .mark { width: 50%; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 18px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.card.picked { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.stage { position: relative; background: var(--stage-fabric); color: var(--stage-ink); aspect-ratio: 4 / 3; max-width: 100%; display: grid; place-items: center; transition: background .25s, color .25s; }
+.mark { width: 62%; max-width: 260px; }
+.mark svg { display: block; width: 100%; height: auto; }
+.num { position: absolute; top: 12px; left: 14px; font-family: var(--font-mono); font-size: 12px; opacity: .55; }
+.body { padding: 16px 18px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.title-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: 25px; line-height: 1.1; margin: 0; letter-spacing: .005em; }
+.pick { display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--font-body); color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.pick svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+.pick[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+.pick[aria-pressed="true"] svg { fill: currentColor; }
+.tags { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.tags .x { color: var(--accent); }
+.tags .style { margin-left: auto; border: 1px solid var(--rule); border-radius: 3px; padding: 1px 6px; color: var(--muted); }
+.note { margin: 0; color: var(--muted); font-size: 14px; }
+.tees { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--rule); }
+.tee { margin: 0; display: grid; gap: 2px; justify-items: center; }
+.tee > svg { width: 100%; max-width: 110px; height: auto; display: block; }
+.tee figcaption { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+
+footer { color: var(--muted); font-size: 13px; max-width: 68ch; display: grid; gap: 6px; }
+footer h3 { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin: 0; font-weight: 500; }
+footer p { margin: 0; }
+@media (prefers-reduced-motion: reduce) { .stage { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Brand identity &middot; Coma Toast &middot; official marks &middot; v1</p>
+    <h1>Coma Toast, <em>made official.</em></h1>
+    <p class="lede">The four go-forward marks, locked: <strong>X’d-out eyes</strong>, the <strong>Soft Pulse</strong> heartbeat mouth, and a heaven-or-hell topper sitting tight to the toast. Production files are in the repo: one-color black and white SVGs, plus transparent PNGs at 3000 px. Switch the shirt color to check each one, and use <strong>Outline test</strong> to see the silhouettes.</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="fabric" role="group" aria-label="Shirt color">
+      <span class="label">Shirt color</span>
+  <button type="button" class="swatch" id="fabric-0" data-fabric="#f7f7f5" data-ink="#141414" aria-pressed="true">
+    <span class="chip" style="background:#f7f7f5"></span>White
+  </button>
+  <button type="button" class="swatch" id="fabric-1" data-fabric="#1b1b1d" data-ink="#f4f4f2" aria-pressed="false">
+    <span class="chip" style="background:#1b1b1d"></span>Black
+  </button>
+  <button type="button" class="swatch" id="fabric-2" data-fabric="#b9b8b5" data-ink="#1c1c1e" aria-pressed="false">
+    <span class="chip" style="background:#b9b8b5"></span>Heather grey
+  </button>
+  <button type="button" class="swatch" id="fabric-3" data-fabric="#1f2a44" data-ink="#f1efe8" aria-pressed="false">
+    <span class="chip" style="background:#1f2a44"></span>Navy
+  </button>
+  <button type="button" class="swatch" id="fabric-4" data-fabric="#e9b9c4" data-ink="#2a1a20" aria-pressed="false">
+    <span class="chip" style="background:#e9b9c4"></span>Washed pink
+  </button>
+    </div>
+    <label class="namer"><input type="checkbox" id="outline-test"> Outline test</label>
+    <label class="namer"><input type="checkbox" id="show-name"> Show the name</label>
+    <div class="picks">
+      <span id="pick-count">Shortlist up to 5 favorites</span>
+      <button type="button" id="copy-picks" disabled>Copy shortlist</button>
+    </div>
+  </div>
+
+  <main class="sections">
+    <section>
+      <h3 class="section-title">Official marks</h3>
+      <div class="grid">
+  <article class="card" data-n="1" data-name="Saint">
+    <div class="stage">
+      <span class="num">01</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Saint"><title>Saint</title><mask id="m-saint-4" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-saint-4)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Saint"><filter id="m-saint-5" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-saint-5)"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-saint-5)"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Saint</h2>
+        <button class="pick" type="button" id="pick-saint" aria-pressed="false" aria-label="Shortlist Saint">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Halo</span><span class="style final">Final</span></p>
+      <p class="note">Halo only. The cleanest mark: knocked out, but clearly a good soul.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Saint on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Saint"><mask id="m-saint-6" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-saint-6)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Saint on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Saint"><mask id="m-saint-7" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-saint-7)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Saint on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Saint"><mask id="m-saint-8" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-saint-8)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="2" data-name="Little Devil">
+    <div class="stage">
+      <span class="num">02</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Little Devil"><title>Little Devil</title><mask id="m-little-devil-9" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-little-devil-9)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Little Devil"><filter id="m-little-devil-10" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-little-devil-10)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-little-devil-10)"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Little Devil</h2>
+        <button class="pick" type="button" id="pick-little-devil" aria-pressed="false" aria-label="Shortlist Little Devil">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Horns</span><span class="style final">Final</span></p>
+      <p class="note">Two small horns on the crust bumps. Changes the whole outline with almost no extra width.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Little Devil on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Little Devil"><mask id="m-little-devil-11" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-little-devil-11)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Little Devil on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Little Devil"><mask id="m-little-devil-12" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-little-devil-12)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Little Devil on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Little Devil"><mask id="m-little-devil-13" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-little-devil-13)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="3" data-name="Heaven Sent">
+    <div class="stage">
+      <span class="num">03</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Heaven Sent"><title>Heaven Sent</title><mask id="m-heaven-sent-14" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g></g></g><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M16,64 Q42,72 58,96 M18,88 Q40,92 58,110 M30,112 Q46,116 60,124" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M16,64 Q42,72 58,96 M18,88 Q40,92 58,110 M30,112 Q46,116 60,124" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-heaven-sent-14)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Heaven Sent"><filter id="m-heaven-sent-15" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-heaven-sent-15)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-heaven-sent-15)"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-heaven-sent-15)"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Heaven Sent</h2>
+        <button class="pick" type="button" id="pick-heaven-sent" aria-pressed="false" aria-label="Shortlist Heaven Sent">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Halo + angel wings</span><span class="style final">Final</span></p>
+      <p class="note">Halo and rounded angel wings: the full angel, and the most crest-like of the four.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Heaven Sent on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Heaven Sent"><mask id="m-heaven-sent-16" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g></g></g><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M16,64 Q42,72 58,96 M18,88 Q40,92 58,110 M30,112 Q46,116 60,124" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M16,64 Q42,72 58,96 M18,88 Q40,92 58,110 M30,112 Q46,116 60,124" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-heaven-sent-16)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Heaven Sent on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Heaven Sent"><mask id="m-heaven-sent-17" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g></g></g><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M16,64 Q42,72 58,96 M18,88 Q40,92 58,110 M30,112 Q46,116 60,124" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M16,64 Q42,72 58,96 M18,88 Q40,92 58,110 M30,112 Q46,116 60,124" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-heaven-sent-17)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Heaven Sent on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Heaven Sent"><mask id="m-heaven-sent-18" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M66,102 C56,74 36,52 12,50 Q2,52 6,62 A9,9 0 0 0 8,80 A9,9 0 0 0 12,97 A9,9 0 0 0 20,112 A9,9 0 0 0 33,124 A9,9 0 0 0 49,132 Q60,140 66,136 Z"/></g></g></g><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M16,64 Q42,72 58,96 M18,88 Q40,92 58,110 M30,112 Q46,116 60,124" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g><g transform="translate(200,0) scale(-1,1)"><g transform="translate(66,104) scale(0.84) translate(-66,-104)"><path d="M16,64 Q42,72 58,96 M18,88 Q40,92 58,110 M30,112 Q46,116 60,124" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M62,65.96000000000001 A38,9 0 1 0 138,65.96000000000001 A38,9 0 1 0 62,65.96000000000001 Z M72,65.96000000000001 A28,4.5 0 1 0 128,65.96000000000001 A28,4.5 0 1 0 72,65.96000000000001 Z"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-heaven-sent-18)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="4" data-name="Raising Hell">
+    <div class="stage">
+      <span class="num">04</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Raising Hell"><title>Raising Hell</title><mask id="m-raising-hell-19" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/></g></g><path d="M60,104 L16,64 M60,110 L20,100 M60,118 L22,118 M60,126 L34,134" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,104 L16,64 M60,110 L20,100 M60,118 L22,118 M60,126 L34,134" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#fff" stroke="none"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-raising-hell-19)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Raising Hell"><filter id="m-raising-hell-20" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-raising-hell-20)"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-raising-hell-20)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-raising-hell-20)"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Raising Hell</h2>
+        <button class="pick" type="button" id="pick-raising-hell" aria-pressed="false" aria-label="Shortlist Raising Hell">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Horns + devil wings</span><span class="style final">Final</span></p>
+      <p class="note">Horns and pointed bat wings: the full devil, and the sharpest outline of the four.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Raising Hell on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Raising Hell"><mask id="m-raising-hell-21" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/></g></g><path d="M60,104 L16,64 M60,110 L20,100 M60,118 L22,118 M60,126 L34,134" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,104 L16,64 M60,110 L20,100 M60,118 L22,118 M60,126 L34,134" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#fff" stroke="none"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-raising-hell-21)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Raising Hell on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Raising Hell"><mask id="m-raising-hell-22" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/></g></g><path d="M60,104 L16,64 M60,110 L20,100 M60,118 L22,118 M60,126 L34,134" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,104 L16,64 M60,110 L20,100 M60,118 L22,118 M60,126 L34,134" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#fff" stroke="none"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-raising-hell-22)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Raising Hell on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Raising Hell"><mask id="m-raising-hell-23" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M66,100 L44,76 L12,60 Q28,82 18,98 Q36,98 16,116 Q42,112 30,136 Q52,126 66,144 Z"/></g></g><path d="M60,104 L16,64 M60,110 L20,100 M60,118 L22,118 M60,126 L34,134" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,104 L16,64 M60,110 L20,100 M60,118 L22,118 M60,126 L34,134" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#fff" stroke="none"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/><g transform="translate(200,0) scale(-1,1)"><path d="M60,98.96000000000001 Q52,68.96000000000001 40,48.96000000000001 Q66,60.96000000000001 80,88.96000000000001 Z"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.78) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.78) translate(-100,-118)">
+    <path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/>
+    <path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,151 L91,151 Q95.5,144 100,151 Q104.5,158 109,151 L120,151" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-raising-hell-23)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article></div>
+    </section>
+  </main>
+
+  <footer>
+    <h3>Next round</h3>
+    <p>Shortlist your favorites and paste the list back to me with any notes (which animal, which twist, simpler or bolder). Next: color, a proper Coma Toast wordmark lockup, and placement on tees and hoodies.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var swatches = Array.prototype.slice.call(document.querySelectorAll('.swatch'));
+  function setFabric(btn) {
+    swatches.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+    root.style.setProperty('--stage-fabric', btn.dataset.fabric);
+    root.style.setProperty('--stage-ink', btn.dataset.ink);
+    try { localStorage.setItem('fabric', btn.id); } catch (e) {}
+  }
+  swatches.forEach(function (b) { b.addEventListener('click', function () { setFabric(b); }); });
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var count = document.getElementById('pick-count');
+  var copy = document.getElementById('copy-picks');
+  function picked() { return cards.filter(function (c) { return c.classList.contains('picked'); }); }
+  function refresh() {
+    var p = picked();
+    count.textContent = p.length ? p.map(function (c) { return '#' + c.dataset.n + ' ' + c.dataset.name; }).join(', ') : 'Shortlist up to 5 favorites';
+    copy.disabled = !p.length;
+    try { localStorage.setItem('picks', JSON.stringify(p.map(function (c) { return c.dataset.n; }))); } catch (e) {}
+  }
+  function toggle(card, on) {
+    card.classList.toggle('picked', on);
+    card.querySelector('.pick').setAttribute('aria-pressed', String(on));
+  }
+  cards.forEach(function (card) {
+    card.querySelector('.pick').addEventListener('click', function () {
+      var on = !card.classList.contains('picked');
+      if (on && picked().length >= 5) toggle(picked()[0], false);
+      toggle(card, on);
+      refresh();
+    });
+  });
+  copy.addEventListener('click', function () {
+    var text = 'Logo shortlist: ' + count.textContent;
+    var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy shortlist'; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.getSelection().selectAllChildren(count); });
+    else window.getSelection().selectAllChildren(count);
+  });
+
+  try {
+    var f = document.getElementById(localStorage.getItem('fabric'));
+    if (f) setFabric(f);
+    JSON.parse(localStorage.getItem('picks') || '[]').forEach(function (n) {
+      var c = document.querySelector('.card[data-n="' + n + '"]'); if (c) toggle(c, true);
+    });
+  } catch (e) {}
+  var outlineBox = document.getElementById('outline-test');
+  outlineBox.addEventListener('change', function () { root.classList.toggle('outline-view', outlineBox.checked); });
+  var nameBox = document.getElementById('show-name');
+  function setName(on) { root.classList.toggle('show-name', on); try { localStorage.setItem('showName', on ? '1' : ''); } catch (e) {} }
+  nameBox.addEventListener('change', function () { setName(nameBox.checked); });
+  try { if (localStorage.getItem('showName')) { nameBox.checked = true; setName(true); } } catch (e) {}
+  refresh();
+})();
+</script>

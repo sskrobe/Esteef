@@ -27,6 +27,14 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `logos/round-13/` is a mouth study: the four go-forward designs (Saint, Little Devil, Heaven Sent, Raising Hell) with seven heartbeat mouths, shown at full and chest-logo size. Rebuild with `node logos/round-13/build.js`.
 
+## Official marks (v1)
+
+`logos/final/` holds the four go-forward Coma Toast marks: Saint, Little Devil, Heaven Sent and Raising Hell. Each has X'd-out eyes and the Soft Pulse heartbeat mouth (Round 13, option E).
+
+- `logos/final/files/svg/`: one-color SVGs in black and white (cut-outs are transparent).
+- `logos/final/files/png/`: 3000 x 3000 transparent PNGs in black and white.
+- `logos/final/index.html`: gallery with shirt-color previews. Rebuild with `node logos/final/build.js`; re-export files with `node logos/final/export.js` (needs Playwright).
+
 ## T-shirt designs
 
 - `tshirts/index.html` previews the tee concepts on shirt mockups.
