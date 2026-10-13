@@ -1,11 +1,11 @@
 ---
 tags: [coma-toast, labels, printful]
 updated: 2026-10-13
-status: inside label v3 (Montserrat block), waiting on variant pick
+status: inside label final (Montserrat, tall square block)
 ---
 # Labels
 
-Part of [[Coma Toast]]. Inside and outside neck labels for the tees, with a Daily Bread logo. Made 2026-10-13. **Direction (v2): inside label only, "Daily Bread" (just the words), outline only so the shirt color shows through, in the brand font, Montserrat.** The drip font (Rubik Wet Paint) is design-specific and is not used on labels. Waiting on the pick of block variant.
+Part of [[Coma Toast]]. Inside and outside neck labels for the tees, with a Daily Bread logo. Made 2026-10-13. **Direction (v2): inside label only, "Daily Bread" (just the words), outline only so the shirt color shows through, in the brand font, Montserrat.** The drip font (Rubik Wet Paint) is design-specific and is not used on labels. **Final: the `tall` variant** (picked 2026-10-13).
 
 - **Local folder:** `G:\ComaToast\Labels\`
 - **Repo folder:** `tshirts/labels/` (files in `files/`)
@@ -17,7 +17,12 @@ Part of [[Coma Toast]]. Inside and outside neck labels for the tees, with a Dail
 ## Brand font: Montserrat (picked 2026-10-13)
 **Montserrat ExtraBold (800)**, set in capitals, is the go-forward corporate brand font for labels and other brand pieces. Free under the SIL Open Font License (Google Fonts).
 
-## Inside label (v3, current)
+## Inside label: FINAL
+**`tall`**: DAILY over BREAD in Montserrat ExtraBold capitals, outline only, the two words filling a 1.25 in square, at the top of Printful's 3 × 3 in inside label.
+- Upload `inside-label-white.png` for dark shirts or `inside-label-black.png` for light shirts to the **Inside label** placement (fill the area). Printful adds the size / material / care / origin text below it.
+- Files: `tshirts/labels/inside-label-black.png`, `tshirts/labels/inside-label-white.png` (copies of `inside/final/montserrat-tall-<color>.png`), and in `G:\ComaToast\Labels\`.
+
+## Inside label (v3, variants)
 - **Text:** DAILY over BREAD, Montserrat ExtraBold capitals, outline only (about 0.022 in, 1.6 pt, even all round; the letters are open so the shirt color shows through). Black for light shirts, white for dark shirts.
 - **Justified block:** each line is spaced so its first and last letters sit exactly on the same left and right edges as the other line, with a little extra modern tracking.
 - **Variants:**
@@ -88,8 +93,9 @@ From the repo root (needs Node and Playwright, or `playwright-core` with `PLAYWR
 - **2026-10-13 — v1:** six logo options in three styles, as inside and outside labels.
 - **v2:** inside label only; "Daily Bread" in outline, no drip font; six corporate brand font candidates, one line and stacked, black and white.
 - **v3:** Montserrat picked as the brand font. DAILY / BREAD as a justified block, a little more modern (caps, tracked), in three variants: block, framed, tall (square). Outline made by spreading the letter shape, so it is even everywhere.
+- **Final:** the tall variant picked as the inside label.
 
 ## Open items
 - [x] Brand font: Montserrat, stacked.
-- [ ] Pick the inside label variant: block, framed or tall.
+- [x] Inside label variant: tall.
 - [ ] Check both in Printful's mockup.
