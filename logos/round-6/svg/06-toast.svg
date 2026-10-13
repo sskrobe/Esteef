@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Toast"><title>Toast</title><mask id="m-toast-5" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,84) scale(0.95) translate(-100,-100)"><path d="M54,82 C30,82 30,40 64,36 C78,18 122,18 136,36 C170,40 170,82 146,82 L146,132 Q146,140 138,140 L62,140 Q54,140 54,132 Z"/></g></g><g transform="translate(100,84) scale(0.95) translate(-100,-100)"><path d="M65,84 C46,82 46,52 70,48 C82,34 118,34 130,48 C154,52 154,82 135,84 L135,130 L65,130 Z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M69,88 L91,88 A11,11 0 0 1 69,88 Z" fill="#000"/>
+    <circle cx="84.6" cy="92.6" r="4.0" fill="#fff"/><path d="M109,88 L131,88 A11,11 0 0 1 109,88 Z" fill="#000"/>
+    <circle cx="124.6" cy="92.6" r="4.0" fill="#fff"/>
+    <path d="M69,79.2 Q80,67.1 91,77.5" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <rect x="82" y="106" width="36" height="13" rx="4" fill="#000"/>
+          <path d="M91,108 L91,117 M100,108 L100,117 M109,108 L109,117" stroke="#fff" stroke-width="2.5"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="26" y="118" width="148" height="66" rx="24"/><rect x="172" y="130" width="12" height="26" rx="4"/><rect x="44" y="182" width="20" height="10" rx="3"/><rect x="136" y="182" width="20" height="10" rx="3"/></g>
+    <g fill="#fff" stroke="none"><rect x="26" y="118" width="148" height="66" rx="24"/><rect x="172" y="130" width="12" height="26" rx="4"/><rect x="44" y="182" width="20" height="10" rx="3"/><rect x="136" y="182" width="20" height="10" rx="3"/></g><path d="M46,124 L154,124" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+          <path d="M40,150 L160,150 M40,160 L160,160" stroke="#000" stroke-width="2.5"/>
+          <circle cx="152" cy="171" r="5" fill="#000"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-toast-5)"/></svg>

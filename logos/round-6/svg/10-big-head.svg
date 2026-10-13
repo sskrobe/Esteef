@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Big Head"><title>Big Head</title><mask id="m-big-head-9" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,102) scale(1) translate(-100,-100)"><path d="M100,22 C146,22 166,52 160,80 C154,110 124,132 100,134 C76,132 46,110 40,80 C34,52 54,22 100,22 Z"/>
+          <rect x="74" y="4" width="6" height="28" rx="3" transform="rotate(-28 77 30)"/><rect x="120" y="4" width="6" height="28" rx="3" transform="rotate(28 123 30)"/>
+          <circle cx="64" cy="8" r="7.5"/><circle cx="136" cy="8" r="7.5"/></g></g><g transform="translate(100,102) scale(1) translate(-100,-100)"><path d="M50,74 C56,58 80,58 90,80 C80,94 58,92 50,74 Z" fill="#000"/><path d="M150,74 C144,58 120,58 110,80 C120,94 142,92 150,74 Z" fill="#000"/>
+          <circle cx="70" cy="72" r="5" fill="#fff"/><circle cx="130" cy="72" r="5" fill="#fff"/>
+          <path d="M80,106 Q100,116 120,106 Q116,124 100,126 Q84,124 80,106 Z" fill="#000"/>
+          <path d="M88,111 L88,118 M96,113 L96,120 M104,113 L104,120 M112,111 L112,118" stroke="#fff" stroke-width="5" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><ellipse cx="100" cy="142" rx="94" ry="22"/><ellipse cx="100" cy="164" rx="42" ry="12"/></g>
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="142" rx="94" ry="22"/><ellipse cx="100" cy="164" rx="42" ry="12"/></g><circle cx="30" cy="144" r="5" fill="#000"/><circle cx="58" cy="148" r="5" fill="#000"/><circle cx="86" cy="148" r="5" fill="#000"/><circle cx="114" cy="148" r="5" fill="#000"/><circle cx="142" cy="148" r="5" fill="#000"/><circle cx="170" cy="144" r="5" fill="#000"/>
+          <path d="M14,138 Q100,126 186,138" fill="none" stroke="#000" stroke-width="3"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-big-head-9)"/></svg>

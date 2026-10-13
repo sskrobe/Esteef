@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Best in Show"><title>Best in Show</title><mask id="m-best-in-show-20" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="52" cy="100" rx="22" ry="34"/><ellipse cx="148" cy="100" rx="22" ry="34"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="100" cy="40" r="30"/><ellipse cx="100" cy="98" rx="35" ry="38"/></g>
+    <g fill="#fff" stroke="none"><circle cx="100" cy="40" r="30"/><ellipse cx="100" cy="98" rx="35" ry="38"/></g><path d="M84,30 Q92,22 100,30 Q108,22 116,30 M80,46 Q90,40 100,46 Q110,40 120,46" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          <path d="M76.5,90 L93.5,90 A8.5,8.5 0 0 1 76.5,90 Z" fill="#000"/>
+    <circle cx="88.6" cy="93.6" r="3.1" fill="#fff"/><path d="M106.5,90 L123.5,90 A8.5,8.5 0 0 1 106.5,90 Z" fill="#000"/>
+    <circle cx="118.6" cy="93.6" r="3.1" fill="#fff"/>
+    <path d="M76.5,83.2 Q85,73.8 93.5,81.9" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <ellipse cx="100" cy="112" rx="7" ry="5" fill="#000"/>
+          <path d="M92,124 Q101,128 110,120" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M88,166 L74,200 L86,194 L94,200 L98,170 Z M112,166 L126,200 L114,194 L106,200 L102,170 Z"/>
+          <circle cx="118.0" cy="160.0" r="8"/><circle cx="115.6" cy="169.0" r="8"/><circle cx="109.0" cy="175.6" r="8"/><circle cx="100.0" cy="178.0" r="8"/><circle cx="91.0" cy="175.6" r="8"/><circle cx="84.4" cy="169.0" r="8"/><circle cx="82.0" cy="160.0" r="8"/><circle cx="84.4" cy="151.0" r="8"/><circle cx="91.0" cy="144.4" r="8"/><circle cx="100.0" cy="142.0" r="8"/><circle cx="109.0" cy="144.4" r="8"/><circle cx="115.6" cy="151.0" r="8"/><circle cx="100" cy="160" r="18"/></g>
+    <g fill="#fff" stroke="none"><path d="M88,166 L74,200 L86,194 L94,200 L98,170 Z M112,166 L126,200 L114,194 L106,200 L102,170 Z"/>
+          <circle cx="118.0" cy="160.0" r="8"/><circle cx="115.6" cy="169.0" r="8"/><circle cx="109.0" cy="175.6" r="8"/><circle cx="100.0" cy="178.0" r="8"/><circle cx="91.0" cy="175.6" r="8"/><circle cx="84.4" cy="169.0" r="8"/><circle cx="82.0" cy="160.0" r="8"/><circle cx="84.4" cy="151.0" r="8"/><circle cx="91.0" cy="144.4" r="8"/><circle cx="100.0" cy="142.0" r="8"/><circle cx="109.0" cy="144.4" r="8"/><circle cx="115.6" cy="151.0" r="8"/><circle cx="100" cy="160" r="18"/></g><circle cx="100" cy="160" r="11" fill="none" stroke="#000" stroke-width="3"/><path d="M98,155 L101,153 L101,166" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-best-in-show-20)"/></svg>

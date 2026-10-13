@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Hang Time"><title>Hang Time</title><mask id="m-hang-time-25" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M2,30 Q100,16 198,30 L198,42 Q100,30 2,42 Z"/><ellipse cx="30" cy="22" rx="12" ry="5" transform="rotate(-20 30 22)"/><ellipse cx="172" cy="20" rx="12" ry="5" transform="rotate(20 172 20)"/>
+          <path d="M64,110 L54,40 Q58,30 68,34 L80,104 Z M136,110 L146,40 Q142,30 132,34 L120,104 Z"/></g><path d="M52,38 L58,30 M60,38 L66,30 M140,30 L146,38 M134,30 L140,38" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><ellipse cx="100" cy="128" rx="56" ry="52"/></g>
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="128" rx="56" ry="52"/></g><path d="M56,116 Q100,94 144,116 Q152,146 128,166 Q100,178 72,166 Q48,146 56,116 Z" fill="#000"/>
+          <ellipse cx="76" cy="128" rx="22" ry="12" transform="rotate(-20 76 128)" fill="#fff"/><ellipse cx="124" cy="128" rx="22" ry="12" transform="rotate(20 124 128)" fill="#fff"/>
+          <path d="M70,126 L88,126 A9,9 0 0 1 70,126 Z M112,126 L130,126 A9,9 0 0 1 112,126 Z" fill="#000"/>
+          <circle cx="83" cy="130" r="3" fill="#fff"/><circle cx="125" cy="130" r="3" fill="#fff"/>
+          <ellipse cx="100" cy="146" rx="10" ry="6.5" fill="#fff"/>
+          <path d="M88,160 Q102,166 114,156" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-hang-time-25)"/></svg>

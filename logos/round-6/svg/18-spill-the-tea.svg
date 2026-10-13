@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Spill the Tea"><title>Spill the Tea</title><mask id="m-spill-the-tea-17" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><rect x="104" y="-6" width="16" height="60" rx="3" transform="rotate(14 112 50)"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,76 L150,76 L138,186 Q137,194 130,194 L70,194 Q63,194 62,186 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,76 L150,76 L138,186 Q137,194 130,194 L70,194 Q63,194 62,186 Z"/></g><path d="M67,108 L89,108 A11,11 0 0 1 67,108 Z" fill="#000"/>
+    <circle cx="82.6" cy="112.6" r="4.0" fill="#fff"/><path d="M111,108 L133,108 A11,11 0 0 1 111,108 Z" fill="#000"/>
+    <circle cx="126.6" cy="112.6" r="4.0" fill="#fff"/>
+    <path d="M67,99.2 Q78,87.1 89,97.5" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/><path d="M90,134 Q102,140 112,128" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round"/>
+          <circle cx="76" cy="176" r="5.5" fill="#000"/><circle cx="92" cy="180" r="5.5" fill="#000"/><circle cx="108" cy="180" r="5.5" fill="#000"/><circle cx="124" cy="176" r="5.5" fill="#000"/><circle cx="84" cy="164" r="5.5" fill="#000"/><circle cx="100" cy="168" r="5.5" fill="#000"/><circle cx="116" cy="164" r="5.5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M46,70 Q46,36 100,34 Q154,36 154,70 Z"/><rect x="38" y="64" width="124" height="14" rx="7"/></g>
+    <g fill="#fff" stroke="none"><path d="M46,70 Q46,36 100,34 Q154,36 154,70 Z"/><rect x="38" y="64" width="124" height="14" rx="7"/></g><path d="M40,70 L160,70" stroke="#000" stroke-width="4"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-spill-the-tea-17)"/></svg>

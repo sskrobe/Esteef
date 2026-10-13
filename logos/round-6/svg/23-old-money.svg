@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Old Money"><title>Old Money</title><mask id="m-old-money-22" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M36,104 C36,70 64,54 100,54 C136,54 164,70 164,104 C168,132 150,160 100,162 C50,160 32,132 36,104 Z"/>
+          <path d="M44,74 L32,58 L60,62 Z M156,74 L168,58 L140,62 Z"/></g><path d="M63,100 L85,100 A11,11 0 0 1 63,100 Z" fill="#000"/>
+    <circle cx="78.6" cy="104.6" r="4.0" fill="#fff"/><path d="M115,100 L137,100 A11,11 0 0 1 115,100 Z" fill="#000"/>
+    <circle cx="130.6" cy="104.6" r="4.0" fill="#fff"/>
+    <path d="M63,91.2 Q74,79.1 85,89.5" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="126" cy="100" r="15" fill="none" stroke="#000" stroke-width="3.5"/>
+          <path d="M141,102 Q156,124 148,150" fill="none" stroke="#000" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <ellipse cx="100" cy="118" rx="15" ry="8.5" fill="#000"/>
+          <path d="M62,134 Q100,154 138,134 Q100,142 62,134 Z" fill="#000"/>
+          <path d="M76,138 L80,130 L84,139 Z M116,139 L120,130 L124,138 Z" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="66" y="2" width="68" height="44" rx="3"/><ellipse cx="100" cy="47" rx="56" ry="8"/></g>
+    <g fill="#fff" stroke="none"><rect x="66" y="2" width="68" height="44" rx="3"/><ellipse cx="100" cy="47" rx="56" ry="8"/></g><rect x="66" y="32" width="68" height="7" fill="#000"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-old-money-22)"/></svg>

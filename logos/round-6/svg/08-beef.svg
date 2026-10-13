@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Beef"><title>Beef</title><mask id="m-beef-7" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M48,126 L152,126 Q150,166 112,172 L112,180 L88,180 L88,172 Q50,166 48,126 Z"/>
+          <path d="M50,132 Q20,130 22,150 Q24,170 58,164 L56,154 Q34,156 34,148 Q34,140 52,142 Z"/>
+          <path d="M150,132 Q180,130 178,150 Q176,170 142,164 L144,154 Q166,156 166,148 Q166,140 148,142 Z"/>
+          <rect x="70" y="180" width="60" height="9" rx="2"/><rect x="60" y="188" width="80" height="10" rx="3"/></g><path d="M100,136 L105,147 L117,147 L107,154 L111,166 L100,159 L89,166 L93,154 L83,147 L95,147 Z" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,70) scale(0.78) translate(-100,-86)"><path d="M36,82 C36,24 164,24 164,82 Z"/><path d="M30,86 L170,86 L160,100 L146,92 L130,104 L114,92 L100,104 L86,92 L70,104 L54,92 L40,100 Z"/>
+          <rect x="24" y="106" width="152" height="22" rx="11"/><path d="M34,132 L166,132 Q166,148 150,148 L50,148 Q34,148 34,132 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,70) scale(0.78) translate(-100,-86)"><path d="M36,82 C36,24 164,24 164,82 Z"/><path d="M30,86 L170,86 L160,100 L146,92 L130,104 L114,92 L100,104 L86,92 L70,104 L54,92 L40,100 Z"/>
+          <rect x="24" y="106" width="152" height="22" rx="11"/><path d="M34,132 L166,132 Q166,148 150,148 L50,148 Q34,148 34,132 Z"/></g></g><g transform="translate(100,70) scale(0.78) translate(-100,-86)"><ellipse cx="78" cy="42" rx="4.5" ry="2.4" transform="rotate(-20 78 42)" fill="#000"/><ellipse cx="100" cy="38" rx="4.5" ry="2.4" transform="rotate(0 100 38)" fill="#000"/><ellipse cx="122" cy="42" rx="4.5" ry="2.4" transform="rotate(20 122 42)" fill="#000"/><ellipse cx="62" cy="56" rx="4.5" ry="2.4" transform="rotate(-30 62 56)" fill="#000"/><ellipse cx="138" cy="56" rx="4.5" ry="2.4" transform="rotate(30 138 56)" fill="#000"/>
+          <path d="M65,66 L87,66 A11,11 0 0 1 65,66 Z" fill="#000"/>
+    <circle cx="80.6" cy="70.6" r="4.0" fill="#fff"/><path d="M113,66 L135,66 A11,11 0 0 1 113,66 Z" fill="#000"/>
+    <circle cx="128.6" cy="70.6" r="4.0" fill="#fff"/>
+    <path d="M65,57.2 Q76,45.1 87,55.5" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M30,86 L170,86 L160,100 L146,92 L130,104 L114,92 L100,104 L86,92 L70,104 L54,92 L40,100 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+          <rect x="24" y="106" width="152" height="22" rx="11" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+          <path d="M36,114 q8,-5 16,0 M72,121 q8,-5 16,0 M116,114 q8,-5 16,0 M148,121 q8,-5 16,0" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          <path d="M34,132 L166,132 Q166,148 150,148 L50,148 Q34,148 34,132 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/></g></mask><rect width="200" height="200" fill="#111111" mask="url(#m-beef-7)"/></svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Boo-jee"><title>Boo-jee</title><mask id="m-boo-jee-24" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M56,150 L56,72 C56,40 76,22 100,22 C124,22 144,40 144,72 L144,150 L130,140 L116,150 L100,140 L84,150 L70,140 Z"/></g><rect x="66" y="62" width="30" height="18" rx="7" fill="#000"/><rect x="104" y="62" width="30" height="18" rx="7" fill="#000"/>
+          <rect x="94" y="66" width="12" height="4" fill="#000"/>
+          <path d="M72,72 L80,66 M110,72 L118,66" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M88,102 Q102,108 114,96" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="14" y="128" width="46" height="56" rx="3"/><path fill-rule="evenodd" d="M24,130 Q24,104 37,104 Q50,104 50,130 L44,130 Q44,111 37,111 Q30,111 30,130 Z"/></g>
+    <g fill="#fff" stroke="none"><rect x="14" y="128" width="46" height="56" rx="3"/><path fill-rule="evenodd" d="M24,130 Q24,104 37,104 Q50,104 50,130 L44,130 Q44,111 37,111 Q30,111 30,130 Z"/></g><path d="M22,146 L52,146" stroke="#000" stroke-width="3"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="140" y="138" width="48" height="50" rx="3"/><path fill-rule="evenodd" d="M150,140 Q150,116 164,116 Q178,116 178,140 L172,140 Q172,123 164,123 Q156,123 156,140 Z"/></g>
+    <g fill="#fff" stroke="none"><rect x="140" y="138" width="48" height="50" rx="3"/><path fill-rule="evenodd" d="M150,140 Q150,116 164,116 Q178,116 178,140 L172,140 Q172,123 164,123 Q156,123 156,140 Z"/></g><path d="M150,156 L178,156" stroke="#000" stroke-width="3"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-boo-jee-24)"/></svg>

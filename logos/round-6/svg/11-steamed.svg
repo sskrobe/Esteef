@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Steamed"><title>Steamed</title><mask id="m-steamed-10" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,98) scale(1) translate(-100,-100)"><path d="M28,120 C24,80 62,46 100,42 C138,46 176,80 172,120 Q100,142 28,120 Z"/><path d="M88,46 Q100,18 112,46 Z"/></g></g><g transform="translate(100,98) scale(1) translate(-100,-100)"><path d="M100,48 Q88,60 86,74 M100,48 Q112,60 114,74 M98,48 Q74,56 64,72 M102,48 Q126,56 136,72" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+          <path d="M62,94 L86,94 A12,12 0 0 1 62,94 Z" fill="#000"/>
+    <circle cx="79.0" cy="99.0" r="4.3" fill="#fff"/><path d="M114,94 L138,94 A12,12 0 0 1 114,94 Z" fill="#000"/>
+    <circle cx="131.0" cy="99.0" r="4.3" fill="#fff"/>
+    <path d="M62,84.4 Q74,71.2 86,82.6" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M90,120 Q100,112 110,120" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="18" y="114" width="164" height="64" rx="10"/><rect x="12" y="110" width="176" height="14" rx="6"/></g>
+    <g fill="#fff" stroke="none"><rect x="18" y="114" width="164" height="64" rx="10"/><rect x="12" y="110" width="176" height="14" rx="6"/></g><path d="M12,124 L188,124" stroke="#000" stroke-width="4"/>
+          <path d="M22,146 L178,146 M22,158 L178,158" stroke="#000" stroke-width="3"/>
+          <path d="M40,128 L40,142 M52,162 L52,174" stroke="#000" stroke-width="3" stroke-linecap="round"/><path d="M64,128 L64,142 M76,162 L76,174" stroke="#000" stroke-width="3" stroke-linecap="round"/><path d="M88,128 L88,142 M100,162 L100,174" stroke="#000" stroke-width="3" stroke-linecap="round"/><path d="M112,128 L112,142 M124,162 L124,174" stroke="#000" stroke-width="3" stroke-linecap="round"/><path d="M136,128 L136,142 M148,162 L148,174" stroke="#000" stroke-width="3" stroke-linecap="round"/><path d="M160,128 L160,142 M172,162 L172,174" stroke="#000" stroke-width="3" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-steamed-10)"/></svg>

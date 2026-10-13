@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Trash Talk"><title>Trash Talk</title><mask id="m-trash-talk-21" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="60" cy="42" r="17"/><circle cx="140" cy="42" r="17"/><ellipse cx="100" cy="80" rx="54" ry="46"/>
+          <path d="M48,88 L28,102 L54,104 Z M152,88 L172,102 L146,104 Z"/></g><circle cx="60" cy="42" r="7.5" fill="#000"/><circle cx="140" cy="42" r="7.5" fill="#000"/>
+          <path d="M48,66 Q100,54 152,66 Q156,88 132,92 Q116,82 100,92 Q84,82 68,92 Q44,88 48,66 Z" fill="#000"/>
+          <path d="M68,74 L88,74 A10,10 0 0 1 68,74 Z" fill="#fff"/>
+  <circle cx="82.2" cy="78.2" r="3.6" fill="#000"/><path d="M112,74 L132,74 A10,10 0 0 1 112,74 Z" fill="#fff"/>
+  <circle cx="126.2" cy="78.2" r="3.6" fill="#000"/>
+          <ellipse cx="100" cy="102" rx="8" ry="5.5" fill="#000"/>
+          <path d="M92,114 Q102,118 110,110" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="32" y="116" width="136" height="14" rx="5"/><path d="M42,130 L158,130 L150,194 L50,194 Z"/></g>
+    <g fill="#fff" stroke="none"><rect x="32" y="116" width="136" height="14" rx="5"/><path d="M42,130 L158,130 L150,194 L50,194 Z"/></g><path d="M34,130 L166,130" stroke="#000" stroke-width="4"/>
+          <path d="M68,140 L66.08,186" stroke="#000" stroke-width="4" stroke-linecap="round"/><path d="M88,140 L87.28,186" stroke="#000" stroke-width="4" stroke-linecap="round"/><path d="M112,140 L112.72,186" stroke="#000" stroke-width="4" stroke-linecap="round"/><path d="M132,140 L133.92,186" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-trash-talk-21)"/></svg>
