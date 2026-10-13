@@ -22,7 +22,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | Shirt | Status | Note |
 |---|---|---|
 | PaintShop | v10 files ready for Printful (Hot Wire, Toxic, Riot) | [[PaintShop]] |
-| Benday Logo | Samples of all five marks; waiting on pick | [[Benday Logo]] |
+| Benday Logo | v2 samples (Ben-Day stipple swatch) of all five marks; waiting on pick | [[Benday Logo]] |
 | Desk Tee | Rejected | [[Desk Tee]] |
 | S-Chain | Concept only | Cool S doodle as chain links over soda-can stripes (`tshirts/s-chain/`) |
 

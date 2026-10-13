@@ -2,41 +2,41 @@
   "plain": {
     "name": "Coma Toast",
     "file": "benday-plain.png",
-    "w": 3000,
-    "h": 2965,
-    "wIn": 10,
-    "hIn": 9.88
+    "w": 3150,
+    "h": 3369,
+    "wIn": 10.5,
+    "hIn": 11.23
   },
   "saint": {
     "name": "Saint",
     "file": "benday-saint.png",
-    "w": 2525,
-    "h": 3000,
-    "wIn": 8.42,
-    "hIn": 10
+    "w": 3150,
+    "h": 3369,
+    "wIn": 10.5,
+    "hIn": 11.23
   },
   "little-devil": {
     "name": "Little Devil",
     "file": "benday-little-devil.png",
-    "w": 2739,
-    "h": 3000,
-    "wIn": 9.13,
-    "hIn": 10
+    "w": 3150,
+    "h": 3492,
+    "wIn": 10.5,
+    "hIn": 11.64
   },
   "heaven-sent": {
     "name": "Heaven Sent",
     "file": "benday-heaven-sent.png",
-    "w": 3000,
-    "h": 2118,
-    "wIn": 10,
-    "hIn": 7.06
+    "w": 3150,
+    "h": 2673,
+    "wIn": 10.5,
+    "hIn": 8.91
   },
   "raising-hell": {
     "name": "Raising Hell",
     "file": "benday-raising-hell.png",
-    "w": 3000,
-    "h": 2313,
-    "wIn": 10,
-    "hIn": 7.71
+    "w": 3150,
+    "h": 2845,
+    "wIn": 10.5,
+    "hIn": 9.48
   }
 }

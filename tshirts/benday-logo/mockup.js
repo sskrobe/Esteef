@@ -1,5 +1,5 @@
 // True-scale mockup sheet for the Benday Logo: each mark on a size L tee (about 22 x 30 in body),
-// centered, top of the mark 3 in below the front collar seam, at its 10 x 10 in box size.
+// centered, top of the art 1.5 in below the front collar seam, at its 10.5 x 12 in box size.
 // Run after make.js: node tshirts/benday-logo/mockup.js
 const fs = require('fs');
 const path = require('path');
@@ -8,12 +8,12 @@ const { logos } = require('./benday');
 const files = path.join(__dirname, 'files');
 const sizes = JSON.parse(fs.readFileSync(path.join(files, 'sizes.json'), 'utf8'));
 const PX = 14;   // pixels per inch on the sheet
-const SHIRTS = [{ name: 'Heather gray', color: '#c9c8c6', collar: '#b5b4b2' }, { name: 'Black', color: '#17171a', collar: '#232327' }];
+const SHIRTS = [{ name: 'White', color: '#f7f7f5', collar: '#e4e4e2' }, { name: 'Black', color: '#17171a', collar: '#232327' }];
 
 // Tee outline in inches, centered on x = 0, y = 0 at the shoulder line beside the neck.
 const NECK_W = 3.6, NECK_DROP = 3.0, COLLAR = 0.75;
 const TEE = 'M-3.6,0 L-9.8,1.2 L-15.6,7.6 L-12.6,10.8 L-11,9.3 L-11,30 L11,30 L11,9.3 L12.6,10.8 L15.6,7.6 L9.8,1.2 L3.6,0 Q0,6 -3.6,0 Z';
-const LOGO_TOP = NECK_DROP + 3;   // 3 in below the collar seam at center front
+const LOGO_TOP = NECK_DROP + 1.5;   // 1.5 in below the collar seam at center front
 
 (async () => {
   const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
