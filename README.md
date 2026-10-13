@@ -19,6 +19,8 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `logos/round-9/` is 10 "Coma Toast" options: a plain slice of toast, out cold, with a different sleepy or hospital accessory each. Rebuild with `node logos/round-9/build.js`.
 
+- `logos/round-10/` combines X'd-out eyes with a heartbeat line (as the mouth or along the bottom) under compact, symmetrical medical and sleep accessories. Rebuild with `node logos/round-10/build.js`.
+
 ## T-shirt designs
 
 - `tshirts/index.html` previews the tee concepts on shirt mockups.

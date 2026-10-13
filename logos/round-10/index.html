@@ -1,0 +1,901 @@
+<title>Coma Toast Flatline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lookbook wall. Short intro, a sticky fabric picker, then a two-up grid of concept cards. */
+:root {
+  --paper: #f3f1f4;
+  --surface: #ffffff;
+  --ink: #18161b;
+  --muted: #6c6672;
+  --rule: #dcd7df;
+  --accent: #d6336f;
+  --tee-edge: rgba(24, 22, 27, 0.22);
+  --stage-fabric: #f7f7f5;
+  --stage-ink: #141414;
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33;
+    --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.25); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33;
+  --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.25); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 28px; }
+header { display: grid; gap: 14px; max-width: 68ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 7vw, 76px); line-height: .95; margin: 0; text-wrap: balance; letter-spacing: -.02em; }
+h1 em { font-weight: 500; color: var(--accent); }
+.lede { margin: 0; color: var(--muted); font-size: 16px; }
+.lede strong { color: var(--ink); font-weight: 600; }
+
+.toolbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--paper); padding-block: 12px; border-bottom: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; }
+.fabric { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.swatch { display: inline-flex; align-items: center; gap: 7px; font: 500 13px var(--font-body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 5px 12px 5px 6px; cursor: pointer; }
+.swatch .chip { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--tee-edge); }
+.swatch[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.picks { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); min-width: 0; }
+.picks button { font: 600 13px var(--font-body); color: var(--paper); background: var(--ink); border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer; white-space: nowrap; }
+.picks button:disabled { opacity: .4; cursor: default; }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.sections { display: grid; gap: 36px; }
+.section-title { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 12px; color: var(--ink); }
+.namer { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; cursor: pointer; }
+.namer input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.wordmark { display: none; margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(18px, 3vw, 26px); letter-spacing: .2em; text-transform: uppercase; line-height: 1; }
+.show-name .wordmark { display: block; }
+.mark.outline { display: none; }
+.outline-view .mark.outline { display: block; }
+.outline-view .mark.solid { display: none; }
+.show-name .stage { grid-template-rows: auto auto; align-content: center; gap: 6px; }
+.show-name .mark { width: 50%; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 18px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.card.picked { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.stage { position: relative; background: var(--stage-fabric); color: var(--stage-ink); aspect-ratio: 4 / 3; max-width: 100%; display: grid; place-items: center; transition: background .25s, color .25s; }
+.mark { width: 62%; max-width: 260px; }
+.mark svg { display: block; width: 100%; height: auto; }
+.num { position: absolute; top: 12px; left: 14px; font-family: var(--font-mono); font-size: 12px; opacity: .55; }
+.body { padding: 16px 18px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.title-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: 25px; line-height: 1.1; margin: 0; letter-spacing: .005em; }
+.pick { display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--font-body); color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.pick svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+.pick[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+.pick[aria-pressed="true"] svg { fill: currentColor; }
+.tags { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.tags .x { color: var(--accent); }
+.tags .style { margin-left: auto; border: 1px solid var(--rule); border-radius: 3px; padding: 1px 6px; color: var(--muted); }
+.note { margin: 0; color: var(--muted); font-size: 14px; }
+.tees { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--rule); }
+.tee { margin: 0; display: grid; gap: 2px; justify-items: center; }
+.tee > svg { width: 100%; max-width: 110px; height: auto; display: block; }
+.tee figcaption { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+
+footer { color: var(--muted); font-size: 13px; max-width: 68ch; display: grid; gap: 6px; }
+footer h3 { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin: 0; font-weight: 500; }
+footer p { margin: 0; }
+@media (prefers-reduced-motion: reduce) { .stage { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Brand identity &middot; Round 10 &middot; Coma Toast &middot; X eyes + heartbeat</p>
+    <h1>Coma Toast, <em>vitals pending.</em></h1>
+    <p class="lede">The keepers combined: <strong>X’d-out eyes</strong> and a <strong>heartbeat line</strong>. Six options use the heartbeat as the mouth, and four run it along the bottom like a baseline. Each top piece is medical, sleep or "dead" themed, kept roughly symmetrical and inside the toast’s width, so every mark fits a compact, balanced footprint.</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="fabric" role="group" aria-label="Shirt color">
+      <span class="label">Shirt color</span>
+  <button type="button" class="swatch" id="fabric-0" data-fabric="#f7f7f5" data-ink="#141414" aria-pressed="true">
+    <span class="chip" style="background:#f7f7f5"></span>White
+  </button>
+  <button type="button" class="swatch" id="fabric-1" data-fabric="#1b1b1d" data-ink="#f4f4f2" aria-pressed="false">
+    <span class="chip" style="background:#1b1b1d"></span>Black
+  </button>
+  <button type="button" class="swatch" id="fabric-2" data-fabric="#b9b8b5" data-ink="#1c1c1e" aria-pressed="false">
+    <span class="chip" style="background:#b9b8b5"></span>Heather grey
+  </button>
+  <button type="button" class="swatch" id="fabric-3" data-fabric="#1f2a44" data-ink="#f1efe8" aria-pressed="false">
+    <span class="chip" style="background:#1f2a44"></span>Navy
+  </button>
+  <button type="button" class="swatch" id="fabric-4" data-fabric="#e9b9c4" data-ink="#2a1a20" aria-pressed="false">
+    <span class="chip" style="background:#e9b9c4"></span>Washed pink
+  </button>
+    </div>
+    <label class="namer"><input type="checkbox" id="outline-test"> Outline test</label>
+    <label class="namer"><input type="checkbox" id="show-name"> Show the name</label>
+    <div class="picks">
+      <span id="pick-count">Shortlist up to 5 favorites</span>
+      <button type="button" id="copy-picks" disabled>Copy shortlist</button>
+    </div>
+  </div>
+
+  <main class="sections">
+    <section>
+      <h3 class="section-title">Coma Toast</h3>
+      <div class="grid">
+  <article class="card" data-n="1" data-name="Dead Royalty">
+    <div class="stage">
+      <span class="num">01</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Dead Royalty"><title>Dead Royalty</title><mask id="m-dead-royalty-10" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g><rect x="60" y="47" width="80" height="4.5" fill="#000"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-dead-royalty-10)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Dead Royalty"><filter id="m-dead-royalty-11" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-dead-royalty-11)"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-dead-royalty-11)"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Dead Royalty</h2>
+        <button class="pick" type="button" id="pick-dead-royalty" aria-pressed="false" aria-label="Shortlist Dead Royalty">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Crown + heartbeat mouth</span><span class="style new">New</span></p>
+      <p class="note">The keeper combo: X eyes, a heartbeat for a mouth, and a crown. Knocked out, still in charge.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Dead Royalty on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Dead Royalty"><mask id="m-dead-royalty-12" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g><rect x="60" y="47" width="80" height="4.5" fill="#000"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-dead-royalty-12)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Dead Royalty on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Dead Royalty"><mask id="m-dead-royalty-13" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g><rect x="60" y="47" width="80" height="4.5" fill="#000"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-dead-royalty-13)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Dead Royalty on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Dead Royalty"><mask id="m-dead-royalty-14" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M58,58 L55,24 L79,38 L100,15 L121,38 L145,24 L142,58 Z"/>
+      <circle cx="55" cy="22" r="5.5"/><circle cx="100" cy="13" r="5.5"/><circle cx="145" cy="22" r="5.5"/></g><rect x="60" y="47" width="80" height="4.5" fill="#000"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-dead-royalty-14)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="2" data-name="Long Live">
+    <div class="stage">
+      <span class="num">02</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Long Live"><title>Long Live</title><mask id="m-long-live-15" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g><rect x="65" y="35" width="70" height="4.5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-long-live-15)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Long Live"><filter id="m-long-live-16" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-long-live-16)"><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-long-live-16)"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-long-live-16)"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Long Live</h2>
+        <button class="pick" type="button" id="pick-long-live" aria-pressed="false" aria-label="Shortlist Long Live">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Crown + heartbeat line</span><span class="style new">New</span></p>
+      <p class="note">"Long live the king" with the pulse running underneath. Same crown, but the heartbeat becomes a baseline the whole mark sits on.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Long Live on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Long Live"><mask id="m-long-live-17" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g><rect x="65" y="35" width="70" height="4.5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-long-live-17)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Long Live on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Long Live"><mask id="m-long-live-18" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g><rect x="65" y="35" width="70" height="4.5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-long-live-18)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Long Live on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Long Live"><mask id="m-long-live-19" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,114) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M63,46 L60,18 L81.5,29 L100,9 L118.5,29 L140,18 L137,46 Z"/>
+      <circle cx="60" cy="16" r="5.5"/><circle cx="100" cy="7" r="5.5"/><circle cx="140" cy="16" r="5.5"/></g><rect x="65" y="35" width="70" height="4.5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-long-live-19)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="3" data-name="Saint">
+    <div class="stage">
+      <span class="num">03</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Saint"><title>Saint</title><mask id="m-saint-20" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-saint-20)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Saint"><filter id="m-saint-21" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-saint-21)"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-saint-21)"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Saint</h2>
+        <button class="pick" type="button" id="pick-saint" aria-pressed="false" aria-label="Shortlist Saint">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Halo + heartbeat mouth</span><span class="style new">New</span></p>
+      <p class="note">Halo floating above, X eyes, heartbeat mouth: somewhere between alive and the afterlife. Clean and very balanced.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Saint on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Saint"><mask id="m-saint-22" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-saint-22)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Saint on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Saint"><mask id="m-saint-23" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-saint-23)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Saint on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Saint"><mask id="m-saint-24" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g>
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M56,42 A44,10 0 1 0 144,42 A44,10 0 1 0 56,42 Z M67,42 A33,5 0 1 0 133,42 A33,5 0 1 0 67,42 Z"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-saint-24)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="4" data-name="Night Nurse">
+    <div class="stage">
+      <span class="num">04</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Night Nurse"><title>Night Nurse</title><mask id="m-night-nurse-25" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g><path d="M56,52 Q100,42 144,52" fill="none" stroke="#000" stroke-width="3.5"/><path d="M95,26 L105,26 L105,33 L112,33 L112,43 L105,43 L105,50 L95,50 L95,43 L88,43 L88,33 L95,33 Z" fill="#000"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-night-nurse-25)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Night Nurse"><filter id="m-night-nurse-26" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-night-nurse-26)"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-night-nurse-26)"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Night Nurse</h2>
+        <button class="pick" type="button" id="pick-night-nurse" aria-pressed="false" aria-label="Shortlist Night Nurse">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Nurse’s cap + heartbeat mouth</span><span class="style new">New</span></p>
+      <p class="note">A classic folded nurse’s cap with a plus sign. The most obviously "medical" option, and the cap stays neatly inside the toast’s width.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Night Nurse on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Night Nurse"><mask id="m-night-nurse-27" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g><path d="M56,52 Q100,42 144,52" fill="none" stroke="#000" stroke-width="3.5"/><path d="M95,26 L105,26 L105,33 L112,33 L112,43 L105,43 L105,50 L95,50 L95,43 L88,43 L88,33 L95,33 Z" fill="#000"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-night-nurse-27)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Night Nurse on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Night Nurse"><mask id="m-night-nurse-28" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g><path d="M56,52 Q100,42 144,52" fill="none" stroke="#000" stroke-width="3.5"/><path d="M95,26 L105,26 L105,33 L112,33 L112,43 L105,43 L105,50 L95,50 L95,43 L88,43 L88,33 L95,33 Z" fill="#000"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-night-nurse-28)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Night Nurse on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Night Nurse"><mask id="m-night-nurse-29" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,138) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,74 L60,30 Q100,18 140,30 L150,74 Q100,64 50,74 Z"/></g><path d="M56,52 Q100,42 144,52" fill="none" stroke="#000" stroke-width="3.5"/><path d="M95,26 L105,26 L105,33 L112,33 L112,43 L105,43 L105,50 L95,50 L95,43 L88,43 L88,33 L95,33 Z" fill="#000"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-night-nurse-29)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="5" data-name="Scrubbed In">
+    <div class="stage">
+      <span class="num">05</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Scrubbed In"><title>Scrubbed In</title><mask id="m-scrubbed-in-30" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g><path d="M46,64 Q100,56 154,64" fill="none" stroke="#000" stroke-width="4"/><path d="M66,38 L74,38 M70,34 L70,42" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M96,32 L104,32 M100,28 L100,36" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M126,38 L134,38 M130,34 L130,42" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M80,50 L88,50 M84,46 L84,54" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M112,50 L120,50 M116,46 L116,54" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M54,52 L62,52 M58,48 L58,56" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M138,52 L146,52 M142,48 L142,56" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-scrubbed-in-30)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Scrubbed In"><filter id="m-scrubbed-in-31" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-scrubbed-in-31)"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-scrubbed-in-31)"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Scrubbed In</h2>
+        <button class="pick" type="button" id="pick-scrubbed-in" aria-pressed="false" aria-label="Shortlist Scrubbed In">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Surgical cap + heartbeat mouth</span><span class="style new">New</span></p>
+      <p class="note">A patterned surgical scrub cap pulled over the crust, like the toast is the surgeon and the patient at the same time.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Scrubbed In on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Scrubbed In"><mask id="m-scrubbed-in-32" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g><path d="M46,64 Q100,56 154,64" fill="none" stroke="#000" stroke-width="4"/><path d="M66,38 L74,38 M70,34 L70,42" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M96,32 L104,32 M100,28 L100,36" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M126,38 L134,38 M130,34 L130,42" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M80,50 L88,50 M84,46 L84,54" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M112,50 L120,50 M116,46 L116,54" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M54,52 L62,52 M58,48 L58,56" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M138,52 L146,52 M142,48 L142,56" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-scrubbed-in-32)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Scrubbed In on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Scrubbed In"><mask id="m-scrubbed-in-33" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g><path d="M46,64 Q100,56 154,64" fill="none" stroke="#000" stroke-width="4"/><path d="M66,38 L74,38 M70,34 L70,42" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M96,32 L104,32 M100,28 L100,36" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M126,38 L134,38 M130,34 L130,42" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M80,50 L88,50 M84,46 L84,54" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M112,50 L120,50 M116,46 L116,54" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M54,52 L62,52 M58,48 L58,56" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M138,52 L146,52 M142,48 L142,56" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-scrubbed-in-33)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Scrubbed In on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Scrubbed In"><mask id="m-scrubbed-in-34" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M44,78 Q44,22 100,20 Q156,22 156,78 Z"/></g><path d="M46,64 Q100,56 154,64" fill="none" stroke="#000" stroke-width="4"/><path d="M66,38 L74,38 M70,34 L70,42" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M96,32 L104,32 M100,28 L100,36" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M126,38 L134,38 M130,34 L130,42" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M80,50 L88,50 M84,46 L84,54" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M112,50 L120,50 M116,46 L116,54" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M54,52 L62,52 M58,48 L58,56" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M138,52 L146,52 M142,48 L142,56" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-scrubbed-in-34)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="6" data-name="Head Case">
+    <div class="stage">
+      <span class="num">06</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Head Case"><title>Head Case</title><mask id="m-head-case-35" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g><path d="M40,105 Q100,88 160,105" fill="none" stroke="#000" stroke-width="2.5" stroke-dasharray="6 5"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-head-case-35)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Head Case"><filter id="m-head-case-36" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-head-case-36)"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-head-case-36)"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Head Case</h2>
+        <button class="pick" type="button" id="pick-head-case" aria-pressed="false" aria-label="Shortlist Head Case">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Head bandage + heartbeat mouth</span><span class="style new">New</span></p>
+      <p class="note">A bandage wrapped around its head and tied in a bow on top. The bow keeps it symmetrical and adds a little cuteness.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Head Case on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Head Case"><mask id="m-head-case-37" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g><path d="M40,105 Q100,88 160,105" fill="none" stroke="#000" stroke-width="2.5" stroke-dasharray="6 5"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-head-case-37)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Head Case on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Head Case"><mask id="m-head-case-38" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g><path d="M40,105 Q100,88 160,105" fill="none" stroke="#000" stroke-width="2.5" stroke-dasharray="6 5"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-head-case-38)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Head Case on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Head Case"><mask id="m-head-case-39" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,140) scale(0.82) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g>
+    <g fill="#fff" stroke="none"><path d="M36,96 Q100,78 164,96 L164,114 Q100,96 36,114 Z"/><path d="M100,80 Q84,64 76,70 Q72,78 98,84 Z M100,80 Q116,64 124,70 Q128,78 102,84 Z"/><circle cx="100" cy="82" r="6.5"/></g><path d="M40,105 Q100,88 160,105" fill="none" stroke="#000" stroke-width="2.5" stroke-dasharray="6 5"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-head-case-39)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="7" data-name="Legend">
+    <div class="stage">
+      <span class="num">07</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Legend"><title>Legend</title><mask id="m-legend-40" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/><g transform="translate(200,0) scale(-1,1)"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-legend-40)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Legend"><filter id="m-legend-41" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/><g transform="translate(200,0) scale(-1,1)"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-legend-41)"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/><g transform="translate(200,0) scale(-1,1)"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-legend-41)"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Legend</h2>
+        <button class="pick" type="button" id="pick-legend" aria-pressed="false" aria-label="Shortlist Legend">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Laurel wreath + heartbeat mouth</span><span class="style new">New</span></p>
+      <p class="note">A laurel wreath hugging the top of the slice: half victory crown, half funeral wreath. Very fashion-house.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Legend on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Legend"><mask id="m-legend-42" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/><g transform="translate(200,0) scale(-1,1)"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-legend-42)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Legend on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Legend"><mask id="m-legend-43" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/><g transform="translate(200,0) scale(-1,1)"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-legend-43)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Legend on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Legend"><mask id="m-legend-44" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/><g transform="translate(200,0) scale(-1,1)"><ellipse cx="34.2" cy="170.0" rx="13" ry="6" transform="rotate(270.0 34.2 170.0)"/><ellipse cx="25.4" cy="145.3" rx="13" ry="6" transform="rotate(289.0 25.4 145.3)"/><ellipse cx="24.7" cy="118.9" rx="13" ry="6" transform="rotate(308.0 24.7 118.9)"/><ellipse cx="32.3" cy="93.7" rx="13" ry="6" transform="rotate(327.0 32.3 93.7)"/><ellipse cx="47.2" cy="72.5" rx="13" ry="6" transform="rotate(346.0 47.2 72.5)"/><ellipse cx="67.9" cy="57.5" rx="13" ry="6" transform="rotate(365.0 67.9 57.5)"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,130) scale(0.8) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M74,152 L88,152 L93,143 L99,161 L105,138 L110,152 L126,152" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-legend-44)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="8" data-name="Beauty Rest">
+    <div class="stage">
+      <span class="num">08</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Beauty Rest"><title>Beauty Rest</title><mask id="m-beauty-rest-45" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g><path d="M54,56 Q66,64 80,56 M120,56 Q134,64 146,56" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M58,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M66,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M74,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M126,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M134,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M142,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-beauty-rest-45)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Beauty Rest"><filter id="m-beauty-rest-46" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-beauty-rest-46)"><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-beauty-rest-46)"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-beauty-rest-46)"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Beauty Rest</h2>
+        <button class="pick" type="button" id="pick-beauty-rest" aria-pressed="false" aria-label="Shortlist Beauty Rest">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Sleep mask + heartbeat line</span><span class="style new">New</span></p>
+      <p class="note">A sleep mask pushed up on its forehead, X eyes underneath, heartbeat along the bottom. Ready for bed, possibly forever.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Beauty Rest on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Beauty Rest"><mask id="m-beauty-rest-47" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g><path d="M54,56 Q66,64 80,56 M120,56 Q134,64 146,56" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M58,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M66,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M74,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M126,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M134,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M142,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-beauty-rest-47)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Beauty Rest on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Beauty Rest"><mask id="m-beauty-rest-48" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g><path d="M54,56 Q66,64 80,56 M120,56 Q134,64 146,56" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M58,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M66,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M74,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M126,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M134,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M142,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-beauty-rest-48)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Beauty Rest on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Beauty Rest"><mask id="m-beauty-rest-49" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,118) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,52 Q38,36 58,36 L86,38 Q100,46 114,38 L142,36 Q162,36 162,52 Q162,72 140,72 Q122,72 110,62 Q100,58 90,62 Q78,72 60,72 Q38,72 38,52 Z"/></g><path d="M54,56 Q66,64 80,56 M120,56 Q134,64 146,56" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M58,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M66,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M74,60 l-1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M126,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M134,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M142,60 l1,6" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-beauty-rest-49)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="9" data-name="Bedtime">
+    <div class="stage">
+      <span class="num">09</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Bedtime"><title>Bedtime</title><mask id="m-bedtime-50" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g><path d="M46,66 L154,66" stroke="#000" stroke-width="3.5"/><path d="M74,64 L92,30 M100,64 L108,24 M126,64 L118,32" stroke="#000" stroke-width="5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-bedtime-50)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Bedtime"><filter id="m-bedtime-51" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bedtime-51)"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bedtime-51)"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bedtime-51)"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Bedtime</h2>
+        <button class="pick" type="button" id="pick-bedtime" aria-pressed="false" aria-label="Shortlist Bedtime">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Nightcap + heartbeat line</span><span class="style new">New</span></p>
+      <p class="note">A symmetrical striped nightcap with a pom on top, and the pulse underneath. Sleep-themed, but stays tidy and upright.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bedtime on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bedtime"><mask id="m-bedtime-52" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g><path d="M46,66 L154,66" stroke="#000" stroke-width="3.5"/><path d="M74,64 L92,30 M100,64 L108,24 M126,64 L118,32" stroke="#000" stroke-width="5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-bedtime-52)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bedtime on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bedtime"><mask id="m-bedtime-53" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g><path d="M46,66 L154,66" stroke="#000" stroke-width="3.5"/><path d="M74,64 L92,30 M100,64 L108,24 M126,64 L118,32" stroke="#000" stroke-width="5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-bedtime-53)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bedtime on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bedtime"><mask id="m-bedtime-54" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,72 Q62,38 100,16 Q138,38 150,72 Z"/><rect x="44" y="64" width="112" height="16" rx="7"/><circle cx="100" cy="12" r="10"/></g><path d="M46,66 L154,66" stroke="#000" stroke-width="3.5"/><path d="M74,64 L92,30 M100,64 L108,24 M126,64 L118,32" stroke="#000" stroke-width="5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-bedtime-54)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="10" data-name="Cold Case">
+    <div class="stage">
+      <span class="num">10</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Cold Case"><title>Cold Case</title><mask id="m-cold-case-55" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g>
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g><path d="M56,46 Q100,34 144,46 M56,58 Q100,48 144,58" fill="none" stroke="#000" stroke-width="3"/><path d="M92,18 L108,18 M92,25 L108,25" stroke="#000" stroke-width="2.5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-cold-case-55)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Cold Case"><filter id="m-cold-case-56" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-cold-case-56)"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-cold-case-56)"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-cold-case-56)"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Coma Toast</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Cold Case</h2>
+        <button class="pick" type="button" id="pick-cold-case" aria-pressed="false" aria-label="Shortlist Cold Case">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Coma Toast</span><span class="x">&times;</span><span>Ice bag + heartbeat line</span><span class="style new">New</span></p>
+      <p class="note">A quilted ice bag balanced on its head, with the heartbeat below. "Cold case" works as a detective joke too, a nod to the Inspector.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Cold Case on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Cold Case"><mask id="m-cold-case-57" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g>
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g><path d="M56,46 Q100,34 144,46 M56,58 Q100,48 144,58" fill="none" stroke="#000" stroke-width="3"/><path d="M92,18 L108,18 M92,25 L108,25" stroke="#000" stroke-width="2.5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-cold-case-57)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Cold Case on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Cold Case"><mask id="m-cold-case-58" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g>
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g><path d="M56,46 Q100,34 144,46 M56,58 Q100,48 144,58" fill="none" stroke="#000" stroke-width="3"/><path d="M92,18 L108,18 M92,25 L108,25" stroke="#000" stroke-width="2.5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-cold-case-58)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Cold Case on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Cold Case"><mask id="m-cold-case-59" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M50,106 C26,106 26,68 58,64 C70,50 130,50 142,64 C174,68 174,106 150,106 L150,178 Q150,186 142,186 L58,186 Q50,186 50,178 Z"/></g></g><g transform="translate(100,120) scale(0.72) translate(-100,-118)"><path d="M62,108 C44,106 44,78 66,74 C78,62 122,62 134,74 C156,78 156,106 138,108 L138,174 L62,174 Z" fill="none" stroke="#000" stroke-width="4.5" stroke-linejoin="round"/><path d="M70,118 L86,134 M86,118 L70,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M114,118 L130,134 M130,118 L114,134" stroke="#000" stroke-width="5" stroke-linecap="round"/><path d="M93,152 L107,152" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g>
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="50" rx="52" ry="24"/><rect x="88" y="12" width="24" height="20" rx="4"/></g><path d="M56,46 Q100,34 144,46 M56,58 Q100,48 144,58" fill="none" stroke="#000" stroke-width="3"/><path d="M92,18 L108,18 M92,25 L108,25" stroke="#000" stroke-width="2.5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g>
+    <g fill="#fff" stroke="none"><circle cx="32" cy="186" r="3.25"/><circle cx="70" cy="186" r="3.25"/><rect x="32" y="182.75" width="38.0" height="6.5" transform="rotate(0.0 32 186)"/><circle cx="78" cy="176" r="3.25"/><rect x="70" y="182.75" width="12.8" height="6.5" transform="rotate(-51.3 70 186)"/><circle cx="88" cy="197" r="3.25"/><rect x="78" y="172.75" width="23.3" height="6.5" transform="rotate(64.5 78 176)"/><circle cx="100" cy="166" r="3.25"/><rect x="88" y="193.75" width="33.2" height="6.5" transform="rotate(-68.8 88 197)"/><circle cx="111" cy="186" r="3.25"/><rect x="100" y="162.75" width="22.8" height="6.5" transform="rotate(61.2 100 166)"/><circle cx="120" cy="186" r="3.25"/><rect x="111" y="182.75" width="9.0" height="6.5" transform="rotate(0.0 111 186)"/><circle cx="126" cy="180" r="3.25"/><rect x="120" y="182.75" width="8.5" height="6.5" transform="rotate(-45.0 120 186)"/><circle cx="132" cy="186" r="3.25"/><rect x="126" y="176.75" width="8.5" height="6.5" transform="rotate(45.0 126 180)"/><circle cx="168" cy="186" r="3.25"/><rect x="132" y="182.75" width="36.0" height="6.5" transform="rotate(0.0 132 186)"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-cold-case-59)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article></div>
+    </section>
+  </main>
+
+  <footer>
+    <h3>Next round</h3>
+    <p>Shortlist your favorites and paste the list back to me with any notes (which animal, which twist, simpler or bolder). Next round takes your top picks into color, a proper Daily Bread wordmark, and hoodie and back-print mockups.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var swatches = Array.prototype.slice.call(document.querySelectorAll('.swatch'));
+  function setFabric(btn) {
+    swatches.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+    root.style.setProperty('--stage-fabric', btn.dataset.fabric);
+    root.style.setProperty('--stage-ink', btn.dataset.ink);
+    try { localStorage.setItem('fabric', btn.id); } catch (e) {}
+  }
+  swatches.forEach(function (b) { b.addEventListener('click', function () { setFabric(b); }); });
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var count = document.getElementById('pick-count');
+  var copy = document.getElementById('copy-picks');
+  function picked() { return cards.filter(function (c) { return c.classList.contains('picked'); }); }
+  function refresh() {
+    var p = picked();
+    count.textContent = p.length ? p.map(function (c) { return '#' + c.dataset.n + ' ' + c.dataset.name; }).join(', ') : 'Shortlist up to 5 favorites';
+    copy.disabled = !p.length;
+    try { localStorage.setItem('picks', JSON.stringify(p.map(function (c) { return c.dataset.n; }))); } catch (e) {}
+  }
+  function toggle(card, on) {
+    card.classList.toggle('picked', on);
+    card.querySelector('.pick').setAttribute('aria-pressed', String(on));
+  }
+  cards.forEach(function (card) {
+    card.querySelector('.pick').addEventListener('click', function () {
+      var on = !card.classList.contains('picked');
+      if (on && picked().length >= 5) toggle(picked()[0], false);
+      toggle(card, on);
+      refresh();
+    });
+  });
+  copy.addEventListener('click', function () {
+    var text = 'Logo shortlist: ' + count.textContent;
+    var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy shortlist'; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.getSelection().selectAllChildren(count); });
+    else window.getSelection().selectAllChildren(count);
+  });
+
+  try {
+    var f = document.getElementById(localStorage.getItem('fabric'));
+    if (f) setFabric(f);
+    JSON.parse(localStorage.getItem('picks') || '[]').forEach(function (n) {
+      var c = document.querySelector('.card[data-n="' + n + '"]'); if (c) toggle(c, true);
+    });
+  } catch (e) {}
+  var outlineBox = document.getElementById('outline-test');
+  outlineBox.addEventListener('change', function () { root.classList.toggle('outline-view', outlineBox.checked); });
+  var nameBox = document.getElementById('show-name');
+  function setName(on) { root.classList.toggle('show-name', on); try { localStorage.setItem('showName', on ? '1' : ''); } catch (e) {} }
+  nameBox.addEventListener('change', function () { setName(nameBox.checked); });
+  try { if (localStorage.getItem('showName')) { nameBox.checked = true; setName(true); } } catch (e) {}
+  refresh();
+})();
+</script>
