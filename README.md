@@ -10,3 +10,4 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
   - `logos.js` holds the artwork; `build.js` regenerates the gallery and SVGs (`node logos/round-1/build.js`).
 - `logos/round-2/` keeps four Round 1 marks (Nine Lives, Bamboo Bandit, The Don, Captain Quack) and adds ten new ones aimed at MMA, gaming and hip hop, with a "Daily Bread" name preview. Same layout; rebuild with `node logos/round-2/build.js`.
 - `logos/round-3/` keeps six marks (Nine Lives, Bamboo Bandit, The Don, Captain Quack, Ground & Pound, Toast) and adds eight food characters and six tough cute animals. Rebuild with `node logos/round-3/build.js`.
+- `logos/round-4/` redraws every mark to one formula (distinctive head over two crossed objects) with smug, unimpressed faces, and adds an outline-only test view. Rebuild with `node logos/round-4/build.js`.

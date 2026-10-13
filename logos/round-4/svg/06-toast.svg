@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Toast"><title>Toast</title><mask id="m-toast-5" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,144) rotate(-32) scale(1)"><path d="M-6,-9 L72,-9 Q90,-9 90,0 Q88,8 72,9 L-6,9 Z"/><rect x="-13" y="-8" width="9" height="16" rx="2"/><rect x="-86" y="-8.5" width="76" height="17" rx="8.5"/></g></g><g transform="translate(100,144) rotate(-32) scale(1)"><circle cx="-62" cy="0" r="2.8" fill="#000"/><circle cx="-36" cy="0" r="2.8" fill="#000"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,144) scale(-1,1) rotate(-32) scale(1)"><path d="M-6,-9 L72,-9 Q90,-9 90,0 Q88,8 72,9 L-6,9 Z"/><rect x="-13" y="-8" width="9" height="16" rx="2"/><rect x="-86" y="-8.5" width="76" height="17" rx="8.5"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,144) scale(-1,1) rotate(-32) scale(1)"><path d="M-6,-9 L72,-9 Q90,-9 90,0 Q88,8 72,9 L-6,9 Z"/><rect x="-13" y="-8" width="9" height="16" rx="2"/><rect x="-86" y="-8.5" width="76" height="17" rx="8.5"/></g></g><g transform="translate(100,144) scale(-1,1) rotate(-32) scale(1)"><circle cx="-62" cy="0" r="2.8" fill="#000"/><circle cx="-36" cy="0" r="2.8" fill="#000"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M54,82 C30,82 30,40 64,36 C78,18 122,18 136,36 C170,40 170,82 146,82 L146,132 Q146,140 138,140 L62,140 Q54,140 54,132 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M54,82 C30,82 30,40 64,36 C78,18 122,18 136,36 C170,40 170,82 146,82 L146,132 Q146,140 138,140 L62,140 Q54,140 54,132 Z"/></g><path d="M65,84 C46,82 46,52 70,48 C82,34 118,34 130,48 C154,52 154,82 135,84 L135,130 L65,130 Z" fill="none" stroke="#000" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M69,88 L91,88 A11,11 0 0 1 69,88 Z" fill="#000"/>
+    <circle cx="84.6" cy="92.6" r="4.0" fill="#fff"/><path d="M109,88 L131,88 A11,11 0 0 1 109,88 Z" fill="#000"/>
+    <circle cx="124.6" cy="92.6" r="4.0" fill="#fff"/>
+    <path d="M69,79.2 Q80,67.1 91,77.5" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <rect x="82" y="106" width="36" height="13" rx="4" fill="#000"/>
+          <path d="M91,108 L91,117 M100,108 L100,117 M109,108 L109,117" stroke="#fff" stroke-width="2.5"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-toast-5)"/></svg>

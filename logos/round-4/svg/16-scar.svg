@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Scar"><title>Scar</title><mask id="m-scar-15" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,150) rotate(-30) scale(1)"><rect x="-88" y="-7.5" width="64" height="15" rx="7.5"/><rect x="24" y="-7.5" width="64" height="15" rx="7.5"/>
+      <circle cx="-18" cy="0" r="4"/><circle cx="-10" cy="0" r="4"/><circle cx="10" cy="0" r="4"/><circle cx="18" cy="0" r="4"/></g></g><g transform="translate(100,150) rotate(-30) scale(1)"><path d="M-74,-7.5 L-74,7.5 M74,-7.5 L74,7.5" stroke="#000" stroke-width="3"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,150) scale(-1,1) rotate(-30) scale(1)"><rect x="-88" y="-7.5" width="64" height="15" rx="7.5"/><rect x="24" y="-7.5" width="64" height="15" rx="7.5"/>
+      <circle cx="-18" cy="0" r="4"/><circle cx="-10" cy="0" r="4"/><circle cx="10" cy="0" r="4"/><circle cx="18" cy="0" r="4"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,150) scale(-1,1) rotate(-30) scale(1)"><rect x="-88" y="-7.5" width="64" height="15" rx="7.5"/><rect x="24" y="-7.5" width="64" height="15" rx="7.5"/>
+      <circle cx="-18" cy="0" r="4"/><circle cx="-10" cy="0" r="4"/><circle cx="10" cy="0" r="4"/><circle cx="18" cy="0" r="4"/></g></g><g transform="translate(100,150) scale(-1,1) rotate(-30) scale(1)"><path d="M-74,-7.5 L-74,7.5 M74,-7.5 L74,7.5" stroke="#000" stroke-width="3"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><circle cx="56" cy="36" r="17"/><circle cx="144" cy="36" r="17"/><ellipse cx="100" cy="80" rx="54" ry="48"/>
+          <path d="M50,84 L28,104 L54,108 Z M150,84 L172,104 L146,108 Z"/></g>
+    <g fill="#fff" stroke="none"><circle cx="56" cy="36" r="17"/><circle cx="144" cy="36" r="17"/><ellipse cx="100" cy="80" rx="54" ry="48"/>
+          <path d="M50,84 L28,104 L54,108 Z M150,84 L172,104 L146,108 Z"/></g><circle cx="57" cy="37" r="7.5" fill="#000"/><circle cx="143" cy="37" r="7.5" fill="#000"/>
+          <path d="M86,32 L92,50 L97,32 Z M103,32 L108,50 L114,32 Z M74,38 L82,52 L85,36 Z M126,38 L118,52 L115,36 Z" fill="#000"/>
+          <path d="M46,72 L66,78 L47,86 Z M154,72 L134,78 L153,86 Z" fill="#000"/>
+          <path d="M65,76 L87,76 A11,11 0 0 1 65,76 Z" fill="#000"/>
+    <circle cx="80.6" cy="80.6" r="4.0" fill="#fff"/><path d="M113,76 L135,76 A11,11 0 0 1 113,76 Z" fill="#000"/>
+    <circle cx="128.6" cy="80.6" r="4.0" fill="#fff"/>
+    <path d="M65,67.2 Q76,55.1 87,65.5" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M118,56 L134,94" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="88" cy="106" rx="14" ry="10" fill="#fff" stroke="#000" stroke-width="4" paint-order="stroke" stroke-linejoin="round"/><ellipse cx="112" cy="106" rx="14" ry="10" fill="#fff" stroke="#000" stroke-width="4" paint-order="stroke" stroke-linejoin="round"/>
+          <path d="M93,92 L107,92 L100,99 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M104,115 L110,115 L107,124 Z" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-scar-15)"/></svg>

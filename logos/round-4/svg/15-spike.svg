@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Spike"><title>Spike</title><mask id="m-spike-14" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,152) rotate(-28) scale(1)"><rect x="-88" y="-9" width="176" height="18" rx="9"/><rect x="-60" y="8" width="14" height="6"/><rect x="46" y="8" width="14" height="6"/>
+      <circle cx="-53" cy="17" r="7.5"/><circle cx="53" cy="17" r="7.5"/></g></g><g transform="translate(100,152) rotate(-28) scale(1)"><circle cx="-53" cy="17" r="2.5" fill="#000"/><circle cx="53" cy="17" r="2.5" fill="#000"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,152) scale(-1,1) rotate(-28) scale(1)"><rect x="-88" y="-9" width="176" height="18" rx="9"/><rect x="-60" y="8" width="14" height="6"/><rect x="46" y="8" width="14" height="6"/>
+      <circle cx="-53" cy="17" r="7.5"/><circle cx="53" cy="17" r="7.5"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,152) scale(-1,1) rotate(-28) scale(1)"><rect x="-88" y="-9" width="176" height="18" rx="9"/><rect x="-60" y="8" width="14" height="6"/><rect x="46" y="8" width="14" height="6"/>
+      <circle cx="-53" cy="17" r="7.5"/><circle cx="53" cy="17" r="7.5"/></g></g><g transform="translate(100,152) scale(-1,1) rotate(-28) scale(1)"><circle cx="-53" cy="17" r="2.5" fill="#000"/><circle cx="53" cy="17" r="2.5" fill="#000"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M47.1,108.7 L20.1,102.2 L46.2,92.9 L22.3,78.8 L50.1,77.5 L31.3,57.0 L58.2,63.8 L46.2,38.8 L69.9,53.1 L65.7,25.7 L84.3,46.3 L88.2,18.9 L100.0,44.0 L111.8,18.9 L115.7,46.3 L134.3,25.7 L130.1,53.1 L153.8,38.8 L141.8,63.8 L168.7,57.0 L149.9,77.5 L177.7,78.8 L153.8,92.9 L179.9,102.2 L152.9,108.7 Z" stroke-linejoin="round"/><ellipse cx="100" cy="100" rx="46" ry="40"/></g>
+    <g fill="#fff" stroke="none"><path d="M47.1,108.7 L20.1,102.2 L46.2,92.9 L22.3,78.8 L50.1,77.5 L31.3,57.0 L58.2,63.8 L46.2,38.8 L69.9,53.1 L65.7,25.7 L84.3,46.3 L88.2,18.9 L100.0,44.0 L111.8,18.9 L115.7,46.3 L134.3,25.7 L130.1,53.1 L153.8,38.8 L141.8,63.8 L168.7,57.0 L149.9,77.5 L177.7,78.8 L153.8,92.9 L179.9,102.2 L152.9,108.7 Z" stroke-linejoin="round"/><ellipse cx="100" cy="100" rx="46" ry="40"/></g><ellipse cx="100" cy="100" rx="46" ry="40" fill="#fff" stroke="#000" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
+          <path d="M69,96 L91,96 A11,11 0 0 1 69,96 Z" fill="#000"/>
+    <circle cx="84.6" cy="100.6" r="4.0" fill="#fff"/><path d="M109,96 L131,96 A11,11 0 0 1 109,96 Z" fill="#000"/>
+    <circle cx="124.6" cy="100.6" r="4.0" fill="#fff"/>
+    <path d="M69,87.2 Q80,75.1 91,85.5" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="100" cy="112" r="6" fill="#000"/>
+          <path d="M89,126 Q100,120 112,128" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-spike-14)"/></svg>

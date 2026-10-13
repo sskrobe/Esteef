@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Pug Life"><title>Pug Life</title><mask id="m-pug-life-13" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,150) rotate(-28) scale(1)"><rect x="-72" y="-4.5" width="144" height="9" rx="3"/>
+      <rect x="40" y="-24" width="13" height="48" rx="3"/><rect x="56" y="-17" width="10" height="34" rx="3"/>
+      <rect x="-53" y="-24" width="13" height="48" rx="3"/><rect x="-66" y="-17" width="10" height="34" rx="3"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,150) scale(-1,1) rotate(-28) scale(1)"><rect x="-72" y="-4.5" width="144" height="9" rx="3"/>
+      <rect x="40" y="-24" width="13" height="48" rx="3"/><rect x="56" y="-17" width="10" height="34" rx="3"/>
+      <rect x="-53" y="-24" width="13" height="48" rx="3"/><rect x="-66" y="-17" width="10" height="34" rx="3"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,150) scale(-1,1) rotate(-28) scale(1)"><rect x="-72" y="-4.5" width="144" height="9" rx="3"/>
+      <rect x="40" y="-24" width="13" height="48" rx="3"/><rect x="56" y="-17" width="10" height="34" rx="3"/>
+      <rect x="-53" y="-24" width="13" height="48" rx="3"/><rect x="-66" y="-17" width="10" height="34" rx="3"/></g></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,52 Q44,28 76,36 L60,76 Z M162,52 Q156,28 124,36 L140,76 Z"/><ellipse cx="100" cy="82" rx="56" ry="50"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,52 Q44,28 76,36 L60,76 Z M162,52 Q156,28 124,36 L140,76 Z"/><ellipse cx="100" cy="82" rx="56" ry="50"/></g><path d="M84,44 Q100,38 116,44 M88,53 Q100,48 112,53" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+          <path d="M44,58 L62,74 M156,58 L138,74" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+          <path d="M59,76 L85,76 A13,13 0 0 1 59,76 Z" fill="#000"/>
+    <circle cx="77.5" cy="81.5" r="4.7" fill="#fff"/><path d="M115,76 L141,76 A13,13 0 0 1 115,76 Z" fill="#000"/>
+    <circle cx="133.5" cy="81.5" r="4.7" fill="#fff"/>
+    <path d="M59,65.6 Q72,51.3 85,63.6" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <ellipse cx="100" cy="108" rx="30" ry="22" fill="#000"/>
+          <ellipse cx="100" cy="99" rx="10" ry="6" fill="#fff"/>
+          <path d="M100,105 L100,112 M88,119 Q100,112 112,119" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M104,117 L110,115 L108,124 Z" fill="#fff"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-pug-life-13)"/></svg>
