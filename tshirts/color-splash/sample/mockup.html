@@ -1,0 +1,47 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+body { margin: 0; background: #e9e6ea; font-family: "DejaVu Sans", Arial, sans-serif; color: #18161b; }
+.row { display: flex; gap: 40px; justify-content: center; padding: 30px 30px 10px; }
+svg { width: 720px; height: auto; display: block; }
+p { text-align: center; margin: 0 0 6px; font-size: 18px; }
+.cap { color: #6c6672; font-size: 15px; }
+</style>
+<div class="row">
+  <div>
+    <svg viewBox="0 0 200 200">
+      <defs>
+        <clipPath id="f-all"><path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath>
+        <clipPath id="f-body"><path d="M70,22 Q100,42 130,22 L152,30 L152,190 L48,190 L48,30 Z"/></clipPath>
+      </defs>
+      <g clip-path="url(#f-all)">
+        <image href="img/sleeve-right.jpg" x="0" y="20" width="110" height="73" preserveAspectRatio="xMidYMid slice"/>
+        <image href="img/sleeve-left.jpg" x="100" y="20" width="110" height="73" preserveAspectRatio="xMidYMid slice"/>
+        <path d="M152,30 L152,82 M48,30 L48,82" stroke="rgba(0,0,0,.6)" stroke-width="0.8"/>
+        <image href="img/front.jpg" x="36" y="22" width="128" height="170.67" preserveAspectRatio="none" clip-path="url(#f-body)"/>
+      </g>
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="rgba(24,22,27,.45)" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="#121214" stroke-width="3.5"/>
+      <path d="M48,82 L48,40 M152,82 L152,40" stroke="rgba(255,255,255,.12)" stroke-width="0.6"/>
+    </svg>
+    <p>Front</p>
+  </div>
+  <div>
+    <svg viewBox="0 0 200 200">
+      <defs>
+        <clipPath id="b-all"><path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath>
+        <clipPath id="b-body"><path d="M70,22 Q100,30 130,22 L152,30 L152,190 L48,190 L48,30 Z"/></clipPath>
+      </defs>
+      <g clip-path="url(#b-all)">
+        <image href="img/sleeve-left.jpg" x="0" y="20" width="110" height="73" preserveAspectRatio="xMidYMid slice"/>
+        <image href="img/sleeve-right.jpg" x="100" y="20" width="110" height="73" preserveAspectRatio="xMidYMid slice"/>
+        <image href="img/back.jpg" x="36" y="22" width="128" height="170.67" preserveAspectRatio="none" clip-path="url(#b-body)"/>
+      </g>
+      <path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="rgba(24,22,27,.45)" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,30 130,22" fill="none" stroke="#121214" stroke-width="2.5"/>
+      <path d="M48,82 L48,40 M152,82 L152,40" stroke="rgba(255,255,255,.12)" stroke-width="0.6"/>
+    </svg>
+    <p>Back</p>
+  </div>
+</div>
+<p class="cap">Hot Wire. Whole shirt, front and back, sleeves included. Assumes each print file fills its shirt piece edge to edge.</p>

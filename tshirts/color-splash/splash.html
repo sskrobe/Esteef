@@ -169,6 +169,27 @@ function block(x, y, r, color, alt) {
     ctx.fillRect(dx - dw / 2, top, dw, len);
     ctx.fillRect(dx - dw * 0.8, top + len - dw * 0.4, dw * 1.6, dw * 1.6);
   }
+  return { x, y, w, h, a, r, color };
+}
+
+// Hidden signature: "Esteef" in tiny black type, running vertically near the edge of one ordinary
+// block on the back (off to the side, low, not covered by a later block), so it's hard to spot.
+const SIGNATURE = 'Esteef', SIGNATURE_FONT = 'italic 800 100px "Bodoni Moda"';
+function hideSignature(blocks) {
+  const ok = blocks.filter((b, i) => i >= 2 && b.color !== WHITE && b.r >= 80 && b.r <= 220
+    && Math.abs(b.x - W / 2) > W * 0.16 && Math.abs(b.x - W / 2) < W * 0.35 && b.y > H * 0.35 && b.y < H * 0.88
+    && !blocks.slice(i + 1).some(o => Math.hypot(o.x - b.x, o.y - b.y) < (o.r + b.r) * 1.1));
+  if (!ok.length) return;
+  const b = ok[0], len = b.h * 0.34, size = len / 3.6;
+  ctx.save();
+  ctx.translate(b.x, b.y); ctx.rotate(b.a);
+  // along the block's inner edge (the side facing the middle of the shirt), away from the side seam
+  ctx.translate((b.x < W / 2 ? 1 : -1) * b.w * 0.36, b.h * 0.12); ctx.rotate(-Math.PI / 2);
+  ctx.font = SIGNATURE_FONT.replace('100px', size + 'px'); ctx.fillStyle = '#0b0b0c';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(SIGNATURE, 0, 0);
+  ctx.restore();
+  window.SIGNATURE_AT = { x: Math.round(b.x), y: Math.round(b.y), size: +size.toFixed(1) };
 }
 
 // A trail of shrinking squares, like a dragged brush breaking up.
@@ -284,10 +305,11 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
   if (WM_ZONE) { const z = WM_ZONE, p = 50; ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.rect(z[0] + p, z[1] + p, z[2] - z[0] - 2 * p, z[3] - z[1] - 2 * p); ctx.clip('evenodd'); }
   if (COLLAR) { ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.ellipse(W / 2, 0, COLLAR.rx * 0.85, COLLAR.ry * 0.85, 0, 0, Math.PI * 2); ctx.clip('evenodd'); }
   if (LOGO) { const z = logoRect(LOGO_CLIP); ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.roundRect(z[0], z[1], z[2] - z[0], z[3] - z[1], LOGO_RADIUS); ctx.clip('evenodd'); }
+  const blocks = [];
   plan.forEach(([x, y, r], i) => {
     const color = PAINT[i % PAINT.length], alt = rnd() < 0.45 ? PAINT[(i + 2) % PAINT.length] : null;
     if (rnd() < 0.5) mist(x, y, r * 2.4, color, Math.round(r * 0.9));
-    block(x, y, r, color, alt);
+    blocks.push(block(x, y, r, color, alt));
     if (rnd() < 0.55) trail(x, y, r * R(2.2, 4), R(0, Math.PI * 2), r * R(0.22, 0.34), color);
   });
   // Small chips and pixels sprinkled everywhere else (kept off the logo), so the front carries color all over.
@@ -300,6 +322,7 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
   }
 
   ctx.restore();
+  if (PANEL === 'back') { await document.fonts.load(SIGNATURE_FONT, SIGNATURE); hideSignature(blocks); }
   if (wmLayout) drawWordmark(wmLayout, WM_RIGHT - WM_W, WM_BASE);
   // hide=1 keeps the logo's clear zone but leaves the logo off (for layering a logo PNG in Printful)
   if (LOGO && !Q.get('hide')) drawLogo(img, LOGO[0], LOGO[1], LOGO[2], LOGO[3]);
