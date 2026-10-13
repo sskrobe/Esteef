@@ -243,8 +243,19 @@ const logoRect = m => {
 // neckline dips, and 4 in on the back).
 const COLLAR = (PANEL === 'front' || PANEL === 'back') ? { rx: 950, ry: PANEL === 'front' ? 700 : 500 } : null;
 const inCollar = (x, y, k = 1) => COLLAR && ((x - W / 2) / (COLLAR.rx * k)) ** 2 + ((y - TOP) / (COLLAR.ry * k)) ** 2 < 1;
+// Seams: cut and sew can't line paint up across a seam, so with seam=<units> no block sits on one.
+// Front/back: margin inside the side seams and armholes, and below the shoulder seam (which runs from
+// the neck, 3.5 in either side of center at TOP, down about 0.21 in per inch toward the shoulder).
+// Sleeves: blocks stay in the middle of the sleeve, clear of the cap, underarm seams and cuff hem.
+const SEAM = +(Q.get('seam') || 0);
+const shoulderY = x => TOP + Math.max(0, (Math.abs(x - W / 2) - 437) * 0.211);
+function offSeam(x, y) {
+  if (!SEAM) return true;
+  if (PANEL === 'sleeve') return x > SEAM * 1.5 && x < W - SEAM * 1.5 && y > SEAM * 2 && y < H - SEAM * 1.6;
+  return x > SEAM && x < W - SEAM && y > shoulderY(x) + SEAM;
+}
 function clear(x, y) {
-  if (y < TOP || inCollar(x, y)) return false;
+  if (y < TOP || inCollar(x, y) || !offSeam(x, y)) return false;
   if (WM_ZONE && x > WM_ZONE[0] && x < WM_ZONE[2] && y > WM_ZONE[1] && y < WM_ZONE[3]) return false;
   if (!LOGO) return true;
   const z = logoRect(LOGO_MARGIN);
@@ -305,7 +316,11 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
   } else {
     // 11 splotches on a 3000 x 2000 sleeve; fewer on a smaller one
     const n = Math.round(11 * Math.sqrt(W * H / 6e6));
-    for (let i = 0; i < n; i++) plan.push([R(0, W), R(0, H), R(60, 200)]);
+    if (!SEAM) for (let i = 0; i < n; i++) plan.push([R(0, W), R(0, H), R(60, 200)]);
+    else for (let i = 0; i < 2000 && plan.length < n; i++) {
+      const x = R(0, W), y = R(0, H), r = R(60, 180);
+      if (clearAround(x, y, r * 1.15) && !plan.some(([px, py, pr]) => Math.hypot(px - x, py - y) < (pr + r) * 1.3)) plan.push([x, y, r]);
+    }
   }
 
   // Stray chips and trails never cross the wordmark: clip a slightly smaller box out of the paint.

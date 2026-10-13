@@ -21,7 +21,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 ## Shirts
 | Shirt | Status | Note |
 |---|---|---|
-| PaintShop | v9 files ready for Printful (Hot Wire, Toxic, Riot) | [[PaintShop]] |
+| PaintShop | v10 files ready for Printful (Hot Wire, Toxic, Riot) | [[PaintShop]] |
 | Desk Tee | Rejected | [[Desk Tee]] |
 | S-Chain | Concept only | Cool S doodle as chain links over soda-can stripes (`tshirts/s-chain/`) |
 

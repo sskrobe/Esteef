@@ -18,7 +18,9 @@ const fs = require('fs');
 const path = require('path');
 
 const out = path.join(__dirname, 'printful');
-const PANEL = 'w=3500&h=4500&top=325', SLEEVE = 'w=2500&h=1500';
+// seam=250: every paint block stays whole, about 1.3 in or more clear of every seam (side, armhole,
+// shoulder, sleeve cap, underarm), since cut and sew can't line paint up across a seam.
+const PANEL = 'w=3500&h=4500&top=325&seam=250', SLEEVE = 'w=2500&h=1500&seam=250';
 // The toast is 9 in tall and about 8.7 in wide, centered across the chest, its top edge 10.6 in down,
 // about 2.5 in below the neckline cut, so there's dark space under the collar as in the concept.
 // Printful scales the file down proportionally for smaller sizes, so this layout holds for every size.

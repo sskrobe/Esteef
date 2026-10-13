@@ -1,7 +1,7 @@
 ---
 tags: [coma-toast, shirt, paintshop, printful]
 updated: 2026-10-13
-status: v9 files ready for Printful
+status: v10 files ready for Printful
 colorways: [Hot Wire, Toxic, Riot]
 ---
 # PaintShop
@@ -9,7 +9,7 @@ colorways: [Hot Wire, Toxic, Riot]
 Part of [[Coma Toast]]. All-over print tee on a near-black shirt: a big outline toast framed on the chest, neon square paint blocks everywhere else, and the `$Daily Bread$` wordmark on the back hem.
 
 - **Product:** Printful All-Over Print Men's Crew Neck T-Shirt.
-- **Status:** approved 2026-10-13; v9 files (lossless PNG, sized to Printful's template) for all three colorways, checked on Printful's flat template.
+- **Status:** approved 2026-10-13; v10 files (lossless PNG, sized to Printful's template, paint kept off the seams) for all three colorways, checked on Printful's flat template.
 - **Local folder:** `G:\ComaToast\PaintShop\`
 - **Repo folder:** `tshirts/paintshop/` (finals in `tshirts/paintshop/printful/<colorway>/`)
 - **Preview page:** https://claude.ai/artifact/FEuGNCSemopBZvHJrQkZSL (font study: https://claude.ai/artifact/2c6xb6VoZ6tUteqhruJFmT)
@@ -37,6 +37,8 @@ Each shirt's paint uses only its own two colors plus white (`#f4f4f2`). Shirt ba
 
 ## Paint style
 Chunky, slightly tilted square blocks with rough edges; some have a second color knocked off-register behind them. Square chips thrown around each block, straight drips ending in a small square, trails of shrinking squares, and square "pixel" mist.
+
+**Seams:** cut and sew can't line paint up across a seam (Printful: "It's not possible to perfectly align patterns or images from front to back"). So every block stays whole, at least about 1.3 in clear of the side seams, armholes and shoulder seams on the body, and of the cap, underarm seams and cuff hem on the sleeves (render option `seam=250`). Only fine spray and chips cross the seams.
 
 ## Files (per colorway)
 | File | Size | Use |
@@ -94,9 +96,11 @@ Chosen: **Wet Paint** (Rubik Wet Paint). Also tried: Blackletter (Pirata One), C
 - **v7.1:** print files and logo PNGs re-tagged at 150 dpi (they were 96 dpi or untagged, so Printful could misread the print size). `printful.js` now does this on every render. Printful setup corrected: no collar placement exists on product 257, so set Stitch color to Black. Step-by-step Printful setup added. Zips rebuilt. Artwork unchanged.
 - **v8 (2026-10-13):** re-rendered to Printful's real template, read from the design maker while logged in. The old 24 × 32 in files would have been scaled up about 17% to fill the 28 × 36 in panel, so the toast would have printed about 11.7 in tall and run into the neck opening. Paint would also have covered the top strip, which becomes the collar band. Now: front and back are 4200 × 5400 and sleeves 3000 × 1800; nothing is painted above the shoulder line, so the collar stays plain; the toast top moved to 9.6 in down (top of the safe area, about 1.5 in below the neckline cut); the wordmark sits at the bottom of the safe area. Paint counts scale with the panel area, so the paint pattern is a new roll in the same style.$1
 - **v9 (2026-10-13):** after checking v8 in Printful against the concept. Printful's neckline dips about 5.5 in below the shoulder (the concept drew about 2 in), so the toast looked jammed under the collar. Toast now 9 in tall (from 10) with its top 10.6 in down, about 2.5 in below the neckline. `$Daily Bread$` 7 in wide (from 5.6), moved inside the safe area, with extra space around the dollar signs. Print files switched from JPEG to lossless PNG for sharp edges. Front paint pattern unchanged from v8; the back shifts slightly around the bigger wordmark.
+- **v10 (2026-10-13):** the right sleeve didn't line up with the body in Printful's 3D preview: blocks on the body were sliced by the armhole seam and didn't continue onto the sleeve. Cut and sew can't match paint across seams, so paint blocks now stay whole and clear of every seam (side, armhole, shoulder, sleeve cap, underarm, cuff hem). The paint shifts a little on every panel; the toast, wordmark and colors are unchanged.
 
 ## Open items
 - [ ] Check every placement in Printful's mockup preview (collar, hem, side seams), then order a sample.
 - [x] Printful's exact print-area sizes checked (see Printful template above); files re-rendered to match.
 - [x] v8 checked in Printful (2026-10-13): front sat right on the template, but the 3D preview looked crowded under the collar compared with the concept → v9.
-- [ ] Upload the v9 PNGs, then order a sample.
+- [x] v9 checked in Printful (2026-10-13): the right sleeve didn't line up with the body at the armhole → v10.
+- [ ] Upload the v10 PNGs, then order a sample.
