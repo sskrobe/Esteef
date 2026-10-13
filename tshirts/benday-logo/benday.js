@@ -5,6 +5,9 @@
 const { logos } = require('../../logos/final/logos');
 
 const INK = '#111111', WHITE = '#ffffff', BLUE = '#1e63d6';
+// The accent (dots, swatch, solid parts) defaults to blue; buildSvg({ accent }) or swatch's sw.color
+// swaps it (e.g. pink for the women's tee). Black and white stay.
+let ACCENT = BLUE;
 const OUTLINE = 7;   // black outline stroke, centered on each shape edge (3.5 units shows outside)
 const KEYLINE = 6;   // extra white rim outside the black outline (3 units)
 const PITCH = 4.6;   // dot spacing in drawing units (about 0.23 in on a 10 in mark): big, pop-art dots
@@ -34,7 +37,7 @@ function dots(id, rMin, rMax, box = [0, 0, 200, 200]) {
       out.push(`<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${r.toFixed(2)}"/>`);
     }
   }
-  return `<g fill="${BLUE}" mask="url(#${id})">${out.join('')}</g>`;
+  return `<g fill="${ACCENT}" mask="url(#${id})">${out.join('')}</g>`;
 }
 
 // Masks, not clip paths: the parts are groups with transforms, which clipPath doesn't allow.
@@ -109,11 +112,12 @@ function swatch(seed, id, sw = SW) {
   }
   return {
     def: `<mask id="${id}" maskUnits="userSpaceOnUse" x="-30" y="-30" width="260" height="260"><g fill="#fff">${outline}</g><g fill="#000">${scratches.join('')}</g></mask>`,
-    art: `<g transform="rotate(${sw.tilt} ${(x0 + x1) / 2} ${(y0 + y1) / 2})" fill="${BLUE}"><g mask="url(#${id})">${d.join('')}</g>${extra.join('')}</g>`,
+    art: `<g transform="rotate(${sw.tilt} ${(x0 + x1) / 2} ${(y0 + y1) / 2})" fill="${sw.color || ACCENT}"><g mask="url(#${id})">${d.join('')}</g>${extra.join('')}</g>`,
   };
 }
 
-function buildSvg(logo, { size = 1000, style = 'sticker', seed = 5 } = {}) {
+function buildSvg(logo, { size = 1000, style = 'sticker', seed = 5, accent = BLUE } = {}) {
+  ACCENT = accent;
   const SWATCH = style === 'swatch', FILLS = SWATCH ? FILL_SWATCH : FILL, LINE = SWATCH ? OUTLINE + 1.5 : OUTLINE;
   const defs = [], keyline = [], body = [];
   let backdrop = '';
@@ -122,7 +126,7 @@ function buildSvg(logo, { size = 1000, style = 'sticker', seed = 5 } = {}) {
     const k = kind(p), f = FILLS[k], id = `c-${logo.id}-${i}`;
     if (!SWATCH) keyline.push(`<g fill="${WHITE}" stroke="${WHITE}" stroke-width="${OUTLINE + KEYLINE}" stroke-linejoin="round">${p.shape}</g>`);
     defs.push(area(id, p.shape));
-    let fill = `<g fill="${f.solid ? BLUE : WHITE}" stroke="none">${p.shape}</g>`;
+    let fill = `<g fill="${f.solid ? ACCENT : WHITE}" stroke="none">${p.shape}</g>`;
     if (k === 'toast') {
       defs.push(area(`${id}-face`, FACE));
       fill += dots(id, ...f.crust)

@@ -1,7 +1,7 @@
 ---
 tags: [coma-toast, shirt, benday-logo, printful]
 updated: 2026-10-13
-status: v3 front samples + $Daily Bread$ back, waiting on mark choice
+status: men's (blue) and women's (pink/blush/lilac) samples, waiting on mark and palette choice
 ---
 # Benday Logo
 
@@ -36,6 +36,32 @@ Every design gets this (standing rule). Here it matches the front: white **Rubik
 - **File:** `back-daily-bread.png` is the whole 12 × 16 in back print area (3600 × 4800 px, 300 dpi, transparent) with the wordmark already in the corner. Upload it to **Back print** and let it fill the area, so the position is locked. `daily-bread-benday.png` is the wordmark alone.
 - **Limit:** Printful's back print area on the Bella+Canvas 3001 is 12 × 16 in on every size and starts near the back collar, so its bottom edge ends roughly 11 in above the hem: the wordmark lands on the lower-middle back, not at the hem like PaintShop. To get it down at the hem, the shirt would need a product with a lower back print area, or an all-over print tee.
 
+## Women's version
+The same design for a women's tee, with feminine accent colors in place of the blue. Black outline, black face and white fill stay.
+- **Shirt:** **Women's Relaxed T-Shirt | Bella + Canvas 6400** (Printful product 360), DTG. Front and back print area: **12 × 16 in for L–3XL, 10 × 12 in for S–M**; Printful scales the graphic for each size (from Printful's file guidelines).
+- **Palettes:**
+
+| Palette | Accent | Notes |
+|---|---|---|
+| **Hot Pink** | `#ff2e88` | The brand pink (PaintShop Hot Wire); boldest, most pop-art. |
+| Blush | `#f27ba8` | Softer, pastel. |
+| Lilac | `#9a6ad6` | Purple option. |
+
+- **Front size and placement:** the art fits a **9.5 × 10.8 in box** (sized at the L–3XL area; Printful scales it down for S–M), centered, top **1.5 in below the collar seam**. Same chest proportion as the men's on a narrower body.
+
+| Mark | Printed size (L–3XL) |
+|---|---|
+| Coma Toast | 9.5 × 10.16 in |
+| Saint | 9.5 × 10.16 in |
+| Little Devil | 9.5 × 10.53 in |
+| Heaven Sent | 9.5 × 8.06 in |
+| Raising Hell | 9.5 × 8.58 in |
+
+- **Back:** `$Daily Bread$` in the same style and palette, lettering 6 in wide (about 7.76 × 3.02 in with the swatch), in the bottom-right corner of the 12 × 16 in back area (`back-daily-bread.png`, fill the area).
+- **No inside label:** Printful doesn't offer a printed inside label on the 6400 (only an outside label), so the [[Labels]] inside label can't go on this shirt. To use it, pick a women's tee with a tear-away tag that offers an inside label.
+- **Files:** `tshirts/benday-logo/women/<hot-pink|blush|lilac>/` (`benday-<mark>.png`, `.svg`, `back-daily-bread.png`, `daily-bread-benday.png`); sheets `benday-women-samples.png` and `benday-women-back.png`. Locally in `G:\ComaToast\Benday Logo\Women\`.
+- **Regenerating:** `node tshirts/benday-logo/women.js` (every palette), then `node tshirts/benday-logo/mockup-women.js`. Palettes and the box size are in `women.js`.
+
 ## Files
 | File | What |
 |---|---|
@@ -63,8 +89,10 @@ From the repo root (needs Node and Playwright, or `playwright-core` with `PLAYWR
 - **v2:** size and placement matched to Psycho Bunny chest graphics (about 12 in tall, high on the chest): 10.5 × 12 in box, 1.5 in below the collar. Restyled after a Psycho Bunny reference with a paint block behind the character: the mark now sits on a rough blue Ben-Day stipple swatch with PaintShop-style chips and brush streaks; the mark goes mostly white with a bolder outline; toppers break out of the swatch.
 
 - **v3:** `$Daily Bread$` back print added in the front's style, in the bottom-right corner of the back print area.
+- **Women's:** the same design for the Bella+Canvas 6400 women's tee in Hot Pink, Blush and Lilac, 9.5 × 10.8 in box, with the back print.
 
 ## Open items
 - [ ] Pick the mark.
+- [ ] Pick the women's palette (Hot Pink, Blush or Lilac).
 - [ ] Pick shirt colors.
 - [ ] Confirm placement in Printful's mockup, then order a sample.

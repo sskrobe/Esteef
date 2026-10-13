@@ -1,0 +1,58 @@
+{
+  "plain": {
+    "name": "Coma Toast",
+    "file": "benday-plain.png",
+    "w": 2850,
+    "h": 3048,
+    "wIn": 9.5,
+    "hIn": 10.16,
+    "pxPerUnit": 18.955
+  },
+  "saint": {
+    "name": "Saint",
+    "file": "benday-saint.png",
+    "w": 2850,
+    "h": 3048,
+    "wIn": 9.5,
+    "hIn": 10.16,
+    "pxPerUnit": 18.955
+  },
+  "little-devil": {
+    "name": "Little Devil",
+    "file": "benday-little-devil.png",
+    "w": 2850,
+    "h": 3159,
+    "wIn": 9.5,
+    "hIn": 10.53,
+    "pxPerUnit": 18.955
+  },
+  "heaven-sent": {
+    "name": "Heaven Sent",
+    "file": "benday-heaven-sent.png",
+    "w": 2850,
+    "h": 2419,
+    "wIn": 9.5,
+    "hIn": 8.06,
+    "pxPerUnit": 15.041
+  },
+  "raising-hell": {
+    "name": "Raising Hell",
+    "file": "benday-raising-hell.png",
+    "w": 2850,
+    "h": 2574,
+    "wIn": 9.5,
+    "hIn": 8.58,
+    "pxPerUnit": 15.442
+  },
+  "back": {
+    "file": "back-daily-bread.png",
+    "art": "daily-bread-benday.png",
+    "wIn": 7.76,
+    "hIn": 3.02,
+    "areaIn": [
+      12,
+      16
+    ],
+    "insetIn": 0.1
+  }
+}

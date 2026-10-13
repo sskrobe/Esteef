@@ -13,8 +13,10 @@ const path = require('path');
 const { logos, buildSvg } = require('./benday');
 const { setDpi } = require('../paintshop/printful');
 
-const DPI = 300, BOX_W = DPI * 10.5, BOX_H = DPI * 12, STYLE = 'swatch';
-const out = path.join(__dirname, 'files');
+// Settings (env): ACCENT color, OUT folder, BOX_W_IN x BOX_H_IN box (defaults: the men's tee in blue).
+const DPI = 300, BOX_W = DPI * +(process.env.BOX_W_IN || 10.5), BOX_H = DPI * +(process.env.BOX_H_IN || 12), STYLE = 'swatch';
+const ACCENT = process.env.ACCENT || undefined;
+const out = process.env.OUT || path.join(__dirname, 'files');
 
 (async () => {
   const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
@@ -39,10 +41,10 @@ const out = path.join(__dirname, 'files');
       // redraw from the vector at the final scale for crisp edges
       ox.drawImage(img, -x0 * k, -y0 * k, N * k, N * k);
       return { png: o.toDataURL('image/png'), w: o.width, h: o.height, pxPerUnit: k * N / 240 };
-    }, { svg: buildSvg(l, { size: 4000, style: STYLE }), BOX_W, BOX_H });
+    }, { svg: buildSvg(l, { size: 4000, style: STYLE, accent: ACCENT }), BOX_W, BOX_H });
     const file = `benday-${l.id}.png`;
     fs.writeFileSync(path.join(out, file), setDpi(Buffer.from(res.png.split(',')[1], 'base64'), true));
-    fs.writeFileSync(path.join(out, `benday-${l.id}.svg`), buildSvg(l, { size: 1000, style: STYLE }) + '\n');
+    fs.writeFileSync(path.join(out, `benday-${l.id}.svg`), buildSvg(l, { size: 1000, style: STYLE, accent: ACCENT }) + '\n');
     // pxPerUnit: print pixels per drawing unit, so the back print can match the front's dot size
     sizes[l.id] = { name: l.name, file, w: res.w, h: res.h, wIn: +(res.w / DPI).toFixed(2), hIn: +(res.h / DPI).toFixed(2), pxPerUnit: +res.pxPerUnit.toFixed(3) };
     console.log('wrote', file, `${res.w} x ${res.h} px = ${sizes[l.id].wIn} x ${sizes[l.id].hIn} in`);

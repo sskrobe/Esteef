@@ -14,12 +14,14 @@ const path = require('path');
 const { swatch, COLORS: { INK, WHITE, BLUE } } = require('./benday');
 const { setDpi } = require('../paintshop/printful');
 
-const files = path.join(__dirname, 'files');
+// Settings (env): ACCENT color, OUT folder (with that folder's sizes.json from make.js), TEXT_W_IN.
+const files = process.env.OUT || path.join(__dirname, 'files');
+const ACC = process.env.ACCENT || BLUE;
 const sizes = JSON.parse(fs.readFileSync(path.join(files, 'sizes.json'), 'utf8'));
 const DPI = 300, AREA_W = 12 * DPI, AREA_H = 16 * DPI;
 const INSET = Math.round(0.1 * DPI);   // keep 0.1 in off the very edge of the print area
 const PXU = sizes.plain.pxPerUnit;     // print pixels per drawing unit: same dot size as the front
-const TEXT_W_IN = 7;                   // lettering width (as on PaintShop); the swatch adds a little
+const TEXT_W_IN = +(process.env.TEXT_W_IN || 7);   // lettering width (as on PaintShop); the swatch adds a little
 const FONT = 'file:///' + path.join(__dirname, '..', 'fonts', 'RubikWetPaint-latin.woff2').replace(/\\/g, '/');
 const PIECES = ['$', 'Daily Bread', '$'], GAP = 0.1;   // GAP: space after each $ / before the last, in em
 
@@ -40,11 +42,11 @@ const PIECES = ['$', 'Daily Bread', '$'], GAP = 0.1;   // GAP: space after each 
   // 2. Lay it out in drawing units, sized so the lettering is TEXT_W_IN wide at the front's scale.
   const s = (TEXT_W_IN * DPI / PXU) / b.w, fs_ = 100 * s;
   const tx = -b.x * s, base = -b.y * s, tw = b.w * s, th = b.h * s;
-  const box = { x0: -4, y0: -6, x1: tw + 4, y1: th + 6, tilt: -2.2, pitch: 5.2, n: [26, 7], jx: 2.2, streaks: 5, scratches: 12 };
+  const box = { x0: -4, y0: -6, x1: tw + 4, y1: th + 6, tilt: -2.2, pitch: 5.2, n: [26, 7], jx: 2.2, streaks: 5, scratches: 12, color: ACC };
   const sw = swatch(11, 'sw-back', box);
   const pad = 20, vb = [box.x0 - pad, box.y0 - pad, box.x1 - box.x0 + 2 * pad, box.y1 - box.y0 + 2 * pad];
   const text = `<text x="${tx}" y="${base}" font-family="WP" font-size="${fs_}" stroke="${INK}" stroke-width="${(0.11 * fs_).toFixed(2)}" stroke-linejoin="round" paint-order="stroke">`
-    + PIECES.map((p, i) => `<tspan dx="${i ? GAP * fs_ : 0}" fill="${i === 1 ? WHITE : BLUE}">${p}</tspan>`).join('') + '</text>';
+    + PIECES.map((p, i) => `<tspan dx="${i ? GAP * fs_ : 0}" fill="${i === 1 ? WHITE : ACC}">${p}</tspan>`).join('') + '</text>';
   const W = Math.round(vb[2] * PXU), H = Math.round(vb[3] * PXU);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb.join(' ')}" width="${W}" height="${H}"><defs>${sw.def.replace('x="-30" y="-30" width="260" height="260"', `x="${vb[0]}" y="${vb[1]}" width="${vb[2]}" height="${vb[3]}"`)}</defs>${sw.art}${text}</svg>`;
 
