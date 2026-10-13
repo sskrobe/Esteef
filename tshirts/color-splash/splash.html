@@ -211,7 +211,13 @@ const logoRect = m => {
   const [lx, ly, lw] = LOGO, lh = LOGO[3] || lw * BOX.h / BOX.w;
   return [lx - lw / 2 - m, ly - lh / 2 - m, lx + lw / 2 + m, ly + lh / 2 + m];
 };
+// Collar: a dark oval around the neckline at the top center of the front and back panels, so the
+// print stays light near the collar (about 7.6 in to each side; 5.6 in deep on the front, where the
+// neckline dips, and 4 in on the back).
+const COLLAR = (PANEL === 'front' || PANEL === 'back') ? { rx: 950, ry: PANEL === 'front' ? 700 : 500 } : null;
+const inCollar = (x, y, k = 1) => COLLAR && ((x - W / 2) / (COLLAR.rx * k)) ** 2 + (y / (COLLAR.ry * k)) ** 2 < 1;
 function clear(x, y) {
+  if (inCollar(x, y)) return false;
   if (WM_ZONE && x > WM_ZONE[0] && x < WM_ZONE[2] && y > WM_ZONE[1] && y < WM_ZONE[3]) return false;
   if (!LOGO) return true;
   const z = logoRect(LOGO_MARGIN);
@@ -276,6 +282,7 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
   // Stray chips and trails never cross the wordmark: clip a slightly smaller box out of the paint.
   ctx.save();
   if (WM_ZONE) { const z = WM_ZONE, p = 50; ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.rect(z[0] + p, z[1] + p, z[2] - z[0] - 2 * p, z[3] - z[1] - 2 * p); ctx.clip('evenodd'); }
+  if (COLLAR) { ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.ellipse(W / 2, 0, COLLAR.rx * 0.85, COLLAR.ry * 0.85, 0, 0, Math.PI * 2); ctx.clip('evenodd'); }
   if (LOGO) { const z = logoRect(LOGO_CLIP); ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.roundRect(z[0], z[1], z[2] - z[0], z[3] - z[1], LOGO_RADIUS); ctx.clip('evenodd'); }
   plan.forEach(([x, y, r], i) => {
     const color = PAINT[i % PAINT.length], alt = rnd() < 0.45 ? PAINT[(i + 2) % PAINT.length] : null;
