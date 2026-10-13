@@ -1,6 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <title>Color Splash Tee</title>
+<link rel="stylesheet" href="../fonts/wordmark-fonts.css">
 <script src="logos.js"></script>
 <style>html,body{margin:0;background:#222}canvas{display:block}</style>
 <canvas id="c"></canvas>
@@ -10,14 +11,18 @@
 // Query options, e.g. splash.html?panel=front&seed=3&w=3000&h=4000&s=1.2&cw=hot-wire&logo=1500,1100,1250
 //   panel  front | back | sleeve   (sets how heavy and where the splatter goes)
 //   w, h   layout size in design units; s = pixels per design unit
-//   cw     logo colorway key from logos.js; logo = x,y,width of the mark's visible area (design units)
-//   only=logo  renders just the logo on a transparent background; hide=1 leaves the logo off
+//   cw     logo colorway key from logos.js; logo = x,y,width[,height] of the mark's visible area (design
+//          units); a height stretches the mark lengthwise (with only=logo it just sets the proportions)
+//   cw also sets the paint palette (the colorway's colors plus white), on every panel
+//   wm     wordmark font key (see WORDMARK_FONTS); draws $Daily Bread$ at the bottom right (back)
+//   only=logo | only=wordmark  renders just that on a transparent background; hide=1 leaves the logo off
 const Q = new URLSearchParams(location.search);
 const W = +(Q.get('w') || 3000), H = +(Q.get('h') || 4000), S = +(Q.get('s') || 1);
 const PANEL = Q.get('panel') || 'front';
+const WM = Q.get('wm');
 const CW = window.LOGOS[Q.get('cw') || 'hot-wire'];
 const LOGO = Q.get('logo') ? Q.get('logo').split(',').map(Number) : null;
-const ONLY_LOGO = Q.get('only') === 'logo';
+const ONLY_LOGO = Q.get('only') === 'logo', ONLY_WM = Q.get('only') === 'wordmark';
 const cv = document.getElementById('c'); cv.width = Math.round(W * S); cv.height = Math.round(H * S);
 const ctx = cv.getContext('2d'); ctx.scale(S, S);
 
@@ -27,8 +32,41 @@ const R = (a, b) => a + rnd() * (b - a);
 const pick = a => a[Math.floor(rnd() * a.length)];
 
 const BASE = '#121214';
-// The splash palette: the logo's colorways plus white and orange for extra punch.
-const PAINT = ['#ff2e88', '#c6ff00', '#00e5ff', '#ffe600', '#ff6a00', '#f4f4f2'];
+// The paint palette follows the colorway: its toast color and accent color, plus white.
+const WHITE = '#f4f4f2';
+const PAINT = [CW.primary, CW.accent, CW.primary, CW.accent, WHITE];
+
+// Candidate fonts for the $Daily Bread$ back wordmark (files in ../fonts/wordmark-fonts.css).
+const WORDMARK_FONTS = {
+  blackletter: { name: 'Pirata One', css: '400 100px "Pirata One"' },
+  couture: { name: 'Bodoni Moda Black Italic', css: 'italic 800 100px "Bodoni Moda"' },
+  neon: { name: 'Monoton', css: '400 100px "Monoton"' },
+  pixel: { name: 'Press Start 2P', css: '400 100px "Press Start 2P"' },
+  signature: { name: 'Mr Dafoe', css: '400 100px "Mr Dafoe"', gap: 14 },
+  block: { name: 'Rubik Mono One', css: '400 100px "Rubik Mono One"' },
+};
+const WM_TEXT = ['$', 'Daily Bread', '$'];
+// Back wordmark: right edge and baseline in design units (about 3.8 in in from the right edge of the
+// panel and 3.2 in up from the bottom), 5.6 in wide.
+const WM_RIGHT = 2520, WM_BASE = 3600, WM_W = 700;
+
+// Measure the wordmark at a given width: returns the font string and per-piece widths.
+function wordmarkLayout(key, width) {
+  const f = WORDMARK_FONTS[key];
+  ctx.font = f.css;
+  // gap (at 100px) adds air between the words and the dollar signs, for scripts that run into them
+  const widths = WM_TEXT.map((t, i) => ctx.measureText(t).width + (i < 2 ? f.gap || 0 : 0)), total = widths.reduce((a, b) => a + b, 0);
+  const k = width / total, px = 100 * k;
+  ctx.font = f.css.replace('100px', px + 'px');
+  const m = ctx.measureText(WM_TEXT.join(''));
+  return { font: ctx.font, widths: widths.map(w => w * k), ascent: m.actualBoundingBoxAscent, descent: m.actualBoundingBoxDescent };
+}
+// Draws $Daily Bread$ with its left end at x and baseline at y: the words in the toast color and the
+// dollar signs in the accent color.
+function drawWordmark(L, x, y) {
+  ctx.font = L.font; ctx.textBaseline = 'alphabetic';
+  WM_TEXT.forEach((t, i) => { ctx.fillStyle = i === 1 ? CW.primary : CW.accent; ctx.fillText(t, x, y); x += L.widths[i]; });
+}
 
 // A rough-edged quad: four corners, with small jitter along each edge so it reads as paint, not vector.
 function roughRect(x, y, w, h, a, rough) {
@@ -97,25 +135,43 @@ function loadLogo() {
 }
 // LOGO_BOX is the mark's visible area inside its 200-unit square; w is the visible width on the shirt.
 const BOX = window.LOGO_BOX;
-function drawLogo(img, x, y, w) {
-  const unit = w / BOX.w, size = 200 * unit;
-  ctx.drawImage(img, x - BOX.cx * unit, y - BOX.cy * unit, size, size);
+function drawLogo(img, x, y, w, h) {
+  const ux = w / BOX.w, uy = (h || w * BOX.h / BOX.w) / BOX.h;
+  ctx.drawImage(img, x - BOX.cx * ux, y - BOX.cy * uy, 200 * ux, 200 * uy);
 }
 
-// Keep paint away from the chest logo: an oval clear zone around it.
+// Keep paint away from the chest logo (an oval clear zone) and the back wordmark (a box around it).
+let WM_ZONE = null;
 function clear(x, y) {
+  if (WM_ZONE && x > WM_ZONE[0] && x < WM_ZONE[2] && y > WM_ZONE[1] && y < WM_ZONE[3]) return false;
   if (!LOGO) return true;
-  const [lx, ly, lw] = LOGO, lh = lw * BOX.h / BOX.w, rx = lw * 0.74, ry = lh * 0.66;
+  const [lx, ly, lw] = LOGO, lh = LOGO[3] || lw * BOX.h / BOX.w, rx = lw * 0.74, ry = lh * 0.66;
   return ((x - lx) / rx) ** 2 + ((y - ly) / ry) ** 2 > 1;
 }
+const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, y) && clear(x, y - m) && clear(x, y + m)
+  && clear(x + m, y + m) && clear(x - m, y + m) && clear(x + m, y - m) && clear(x - m, y - m);
 
 (async function compose() {
   const img = (LOGO || ONLY_LOGO) ? await loadLogo() : null;
-  if (ONLY_LOGO) { drawLogo(img, W / 2, H / 2, Math.min(W * 0.86, H * 0.86 * BOX.w / BOX.h)); window.DONE = true; return; }
+  if (ONLY_LOGO) {
+    const aspect = LOGO && LOGO[3] ? LOGO[2] / LOGO[3] : BOX.w / BOX.h, w = Math.min(W * 0.86, H * 0.86 * aspect);
+    drawLogo(img, W / 2, H / 2, w, w / aspect); window.DONE = true; return;
+  }
+  if (WM) await document.fonts.load(WORDMARK_FONTS[WM].css, WM_TEXT.join(''));
+  if (ONLY_WM) {
+    const L = wordmarkLayout(WM, W * 0.92), h = L.ascent + L.descent;
+    drawWordmark(L, W * 0.04, H / 2 + h / 2 - L.descent); window.DONE = true; return;
+  }
+  let wmLayout = null;
+  if (WM) {
+    wmLayout = wordmarkLayout(WM, WM_W);
+    const pad = 110;
+    WM_ZONE = [WM_RIGHT - WM_W - pad, WM_BASE - wmLayout.ascent - pad, WM_RIGHT + pad, WM_BASE + wmLayout.descent + pad];
+  }
 
   ctx.fillStyle = BASE; ctx.fillRect(0, 0, W, H);
 
-  // Where the paint lands. Front: heavy all over, with a dark margin around the chest logo. Back: one big burst plus scatter.
+  // Where the paint lands. Front: heavy all over, with a dark margin around the chest logo. Back: two mid-sized blocks plus scatter, clear of the wordmark.
   // Sleeves: a few splotches from the cuff and the shoulder.
   const plan = [];
   if (PANEL === 'front') {
@@ -124,16 +180,23 @@ function clear(x, y) {
       const x = edge === 'left' ? R(0, W * 0.24) : edge === 'right' ? R(W * 0.76, W) : edge === 'shoulder' ? pick([R(0, W * 0.3), R(W * 0.7, W)]) : R(0, W);
       const y = edge === 'hem' ? R(H * 0.62, H) : edge === 'shoulder' ? R(0, H * 0.2) : edge === 'any' ? R(0, H) : R(H * 0.1, H);
       const r = R(60, 210);
-      const m = r * 1.15;
-      if (clear(x, y) && clear(x + m, y) && clear(x - m, y) && clear(x, y - m) && clear(x, y + m)) plan.push([x, y, r]);
+      if (clearAround(x, y, r * 1.15)) plan.push([x, y, r]);
     }
   } else if (PANEL === 'back') {
-    plan.push([W * R(0.4, 0.6), H * R(0.3, 0.4), R(380, 470)]);
-    for (let i = 0; i < 18; i++) plan.push([R(0, W), R(0, H), R(60, 240)]);
+    // Two mid-sized blocks staggered across the upper middle instead of one big one.
+    plan.push([W * R(0.36, 0.42), H * R(0.26, 0.31), R(210, 250)]);
+    plan.push([W * R(0.58, 0.64), H * R(0.42, 0.47), R(190, 230)]);
+    for (let i = 0; i < 400 && plan.length < 22; i++) {
+      const x = R(0, W), y = R(0, H), r = R(60, 200);
+      if (clearAround(x, y, r * 1.15)) plan.push([x, y, r]);
+    }
   } else {
     for (let i = 0; i < 11; i++) plan.push([R(0, W), R(0, H), R(60, 200)]);
   }
 
+  // Stray chips and trails never cross the wordmark: clip a slightly smaller box out of the paint.
+  ctx.save();
+  if (WM_ZONE) { const z = WM_ZONE, p = 50; ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.rect(z[0] + p, z[1] + p, z[2] - z[0] - 2 * p, z[3] - z[1] - 2 * p); ctx.clip('evenodd'); }
   plan.forEach(([x, y, r], i) => {
     const color = PAINT[i % PAINT.length], alt = rnd() < 0.45 ? PAINT[(i + 2) % PAINT.length] : null;
     if (rnd() < 0.5) mist(x, y, r * 2.4, color, Math.round(r * 0.9));
@@ -149,8 +212,10 @@ function clear(x, y) {
     }
   }
 
+  ctx.restore();
+  if (wmLayout) drawWordmark(wmLayout, WM_RIGHT - WM_W, WM_BASE);
   // hide=1 keeps the logo's clear zone but leaves the logo off (for layering a logo PNG in Printful)
-  if (LOGO && !Q.get('hide')) drawLogo(img, LOGO[0], LOGO[1], LOGO[2]);
+  if (LOGO && !Q.get('hide')) drawLogo(img, LOGO[0], LOGO[1], LOGO[2], LOGO[3]);
   window.DONE = true;
 })();
 </script>

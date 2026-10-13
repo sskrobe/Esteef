@@ -1,0 +1,134 @@
+<!doctype html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Bread Back Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;1,6..96,500&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400&display=swap">
+<style>
+/* Layout: font picker, then the three colorway versions (front + back), then the font study cards. */
+:root {
+  --paper: #f3f1f4; --surface: #ffffff; --ink: #18161b; --muted: #6c6672; --rule: #dcd7df; --accent: #d6336f;
+  --tee-edge: rgba(24, 22, 27, 0.3); --dark: #121214;
+  --font-display: "Bodoni Moda", "Didot", Georgia, serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33; --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.35); color-scheme: dark; }
+}
+:root[data-theme="dark"] { --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33; --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.35); color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 40px 16px 64px; display: grid; gap: 28px; }
+header.top { display: grid; gap: 12px; max-width: 70ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 6vw, 60px); line-height: 1; margin: 0; letter-spacing: -.02em; text-wrap: balance; }
+h1 em { font-weight: 500; color: var(--accent); }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: 28px; margin: 0; }
+.lede, .note { margin: 0; color: var(--muted); }
+.lede { font-size: 16px; }
+.bar { position: sticky; top: 0; z-index: 2; background: var(--paper); padding: 10px 0; border-bottom: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.bar .label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-right: 4px; }
+button { font: inherit; font-size: 13px; padding: 7px 12px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; }
+button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.versions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 14px; display: grid; gap: 10px; min-width: 0; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.pair svg { width: 100%; height: auto; display: block; }
+figcaption { font-size: 14px; color: var(--muted); }
+figcaption strong { color: var(--ink); }
+.flat { width: 100%; height: auto; display: block; border-radius: 4px; }
+.flat[hidden] { display: none; }
+.fonts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+.font { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; display: grid; gap: 10px; align-content: start; }
+.font.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.font header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.font h3 { margin: 0; font-size: 18px; }
+.font header span { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.font p { margin: 0; color: var(--muted); font-size: 14px; }
+.marks { background: var(--dark); border-radius: 4px; padding: 12px; display: grid; gap: 8px; }
+.marks img { width: 100%; height: auto; display: block; }
+.font .use { justify-self: start; }
+ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+</style>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Coma Toast &middot; color-splash tee &middot; review before final files</p>
+    <h1>Three colorways, <em>one back to sign off.</em></h1>
+    <p class="lede">Three versions of the tee, one per colorway. Each one paints its blocks and spatter in its own two colors plus white. The front logo is the plain toast with no halo, slightly bigger and longer, with its top edge where it was. On the back, the big middle block is now two smaller staggered blocks, and $Daily Bread$ sits at the bottom right. Pick a font below to see it on every back.</p>
+  </header>
+
+  <div class="bar" role="group" aria-label="Wordmark font">
+    <span class="label">Back font</span><button type="button" data-font="blackletter" aria-pressed="true">1. Blackletter</button><button type="button" data-font="couture" aria-pressed="false">2. Couture</button><button type="button" data-font="neon" aria-pressed="false">3. Neon</button><button type="button" data-font="pixel" aria-pressed="false">4. Pixel</button><button type="button" data-font="signature" aria-pressed="false">5. Signature</button><button type="button" data-font="block" aria-pressed="false">6. Block</button>
+    <button type="button" id="flat" aria-pressed="false">Flat back panels</button>
+  </div>
+
+  <section class="versions"><figure class="version"><div class="pair"><svg viewBox="0 0 200 200" role="img" aria-label="Front, Hot Wire"><defs><clipPath id="f-hot-wire"><path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
+<g clip-path="url(#f-hot-wire)"><rect width="200" height="200" fill="#121214"/><image class="" href="shirts/front-hot-wire.jpg" x="36" y="22" width="128" height="170.67" preserveAspectRatio="none"/></g>
+<path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/></svg><svg viewBox="0 0 200 200" role="img" aria-label="Back, Hot Wire"><defs><clipPath id="b-hot-wire"><path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
+<g clip-path="url(#b-hot-wire)"><rect width="200" height="200" fill="#121214"/><image class="back" data-cw="hot-wire" href="shirts/back-hot-wire-blackletter.jpg" x="36" y="22" width="128" height="170.67" preserveAspectRatio="none"/></g>
+<path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+<figcaption><strong>Hot Wire</strong> &middot; pink toast, lime accents</figcaption>
+<img class="flat back" data-cw="hot-wire" src="shirts/back-hot-wire-blackletter.jpg" alt="Flat back panel, Hot Wire" hidden></figure><figure class="version"><div class="pair"><svg viewBox="0 0 200 200" role="img" aria-label="Front, Toxic"><defs><clipPath id="f-toxic"><path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
+<g clip-path="url(#f-toxic)"><rect width="200" height="200" fill="#121214"/><image class="" href="shirts/front-toxic.jpg" x="36" y="22" width="128" height="170.67" preserveAspectRatio="none"/></g>
+<path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/></svg><svg viewBox="0 0 200 200" role="img" aria-label="Back, Toxic"><defs><clipPath id="b-toxic"><path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
+<g clip-path="url(#b-toxic)"><rect width="200" height="200" fill="#121214"/><image class="back" data-cw="toxic" href="shirts/back-toxic-blackletter.jpg" x="36" y="22" width="128" height="170.67" preserveAspectRatio="none"/></g>
+<path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+<figcaption><strong>Toxic</strong> &middot; yellow toast, cyan accents</figcaption>
+<img class="flat back" data-cw="toxic" src="shirts/back-toxic-blackletter.jpg" alt="Flat back panel, Toxic" hidden></figure><figure class="version"><div class="pair"><svg viewBox="0 0 200 200" role="img" aria-label="Front, Riot"><defs><clipPath id="f-riot"><path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
+<g clip-path="url(#f-riot)"><rect width="200" height="200" fill="#121214"/><image class="" href="shirts/front-riot.jpg" x="36" y="22" width="128" height="170.67" preserveAspectRatio="none"/></g>
+<path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/></svg><svg viewBox="0 0 200 200" role="img" aria-label="Back, Riot"><defs><clipPath id="b-riot"><path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
+<g clip-path="url(#b-riot)"><rect width="200" height="200" fill="#121214"/><image class="back" data-cw="riot" href="shirts/back-riot-blackletter.jpg" x="36" y="22" width="128" height="170.67" preserveAspectRatio="none"/></g>
+<path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+<figcaption><strong>Riot</strong> &middot; cyan toast, pink accents</figcaption>
+<img class="flat back" data-cw="riot" src="shirts/back-riot-blackletter.jpg" alt="Flat back panel, Riot" hidden></figure></section>
+
+  <section style="display:grid;gap:10px;max-width:72ch">
+    <h2>What changed on the back</h2>
+    <ul>
+      <li>The one big center block is now two mid-sized blocks, staggered across the upper middle.</li>
+      <li>$Daily Bread$ sits at the bottom right, about 5.6 in wide, roughly 3.8 in in from the right edge and 3.2 in up from the bottom of the print file. The words are in the toast color and the dollar signs in the accent color.</li>
+      <li>Paint keeps a dark margin around the wordmark so it reads cleanly.</li>
+    </ul>
+    <p class="note">The shirt mockups assume the print file maps edge to edge onto the shirt piece. Printful's template isn't reachable from here, so turn on "Flat back panels" to see the full file, and I'll confirm placement against Printful's preview in the final step.</p>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Font options for $Daily Bread$</h2>
+    <div class="fonts"><article class="font" data-font="blackletter"><header><h3>1. Blackletter</h3><span>Pirata One</span></header><p>Old English street lettering: the classic hip hop and streetwear move.</p>
+<div class="marks"><img src="fonts/blackletter-hot-wire.png" alt="$Daily Bread$ in Pirata One, Hot Wire"><img src="fonts/blackletter-toxic.png" alt="$Daily Bread$ in Pirata One, Toxic"><img src="fonts/blackletter-riot.png" alt="$Daily Bread$ in Pirata One, Riot"></div>
+<button type="button" class="use" data-font="blackletter">Show on the backs</button></article><article class="font" data-font="couture"><header><h3>2. Couture</h3><span>Bodoni Moda Black Italic</span></header><p>High-contrast fashion-house serif. Reads expensive and a little smug.</p>
+<div class="marks"><img src="fonts/couture-hot-wire.png" alt="$Daily Bread$ in Bodoni Moda Black Italic, Hot Wire"><img src="fonts/couture-toxic.png" alt="$Daily Bread$ in Bodoni Moda Black Italic, Toxic"><img src="fonts/couture-riot.png" alt="$Daily Bread$ in Bodoni Moda Black Italic, Riot"></div>
+<button type="button" class="use" data-font="couture">Show on the backs</button></article><article class="font" data-font="neon"><header><h3>3. Neon</h3><span>Monoton</span></header><p>Multi-line neon tubing. Matches the outline logo on the front most closely.</p>
+<div class="marks"><img src="fonts/neon-hot-wire.png" alt="$Daily Bread$ in Monoton, Hot Wire"><img src="fonts/neon-toxic.png" alt="$Daily Bread$ in Monoton, Toxic"><img src="fonts/neon-riot.png" alt="$Daily Bread$ in Monoton, Riot"></div>
+<button type="button" class="use" data-font="neon">Show on the backs</button></article><article class="font" data-font="pixel"><header><h3>4. Pixel</h3><span>Press Start 2P</span></header><p>8-bit arcade type. Matches the square paint and leans into gaming.</p>
+<div class="marks"><img src="fonts/pixel-hot-wire.png" alt="$Daily Bread$ in Press Start 2P, Hot Wire"><img src="fonts/pixel-toxic.png" alt="$Daily Bread$ in Press Start 2P, Toxic"><img src="fonts/pixel-riot.png" alt="$Daily Bread$ in Press Start 2P, Riot"></div>
+<button type="button" class="use" data-font="pixel">Show on the backs</button></article><article class="font" data-font="signature"><header><h3>5. Signature</h3><span>Mr Dafoe</span></header><p>Fast brush signature, like the shirt was signed. Loose and cocky.</p>
+<div class="marks"><img src="fonts/signature-hot-wire.png" alt="$Daily Bread$ in Mr Dafoe, Hot Wire"><img src="fonts/signature-toxic.png" alt="$Daily Bread$ in Mr Dafoe, Toxic"><img src="fonts/signature-riot.png" alt="$Daily Bread$ in Mr Dafoe, Riot"></div>
+<button type="button" class="use" data-font="signature">Show on the backs</button></article><article class="font" data-font="block"><header><h3>6. Block</h3><span>Rubik Mono One</span></header><p>Wide, heavy all-caps. Athletic, fight-poster energy.</p>
+<div class="marks"><img src="fonts/block-hot-wire.png" alt="$Daily Bread$ in Rubik Mono One, Hot Wire"><img src="fonts/block-toxic.png" alt="$Daily Bread$ in Rubik Mono One, Toxic"><img src="fonts/block-riot.png" alt="$Daily Bread$ in Rubik Mono One, Riot"></div>
+<button type="button" class="use" data-font="block">Show on the backs</button></article></div>
+  </section>
+</div>
+<script>
+// Swaps every back image to the chosen wordmark font and toggles the flat-panel view.
+const setFont = key => {
+  document.querySelectorAll('.back').forEach(el => {
+    const src = `shirts/back-${el.dataset.cw}-${key}.jpg`;
+    el.tagName === 'image' ? el.setAttribute('href', src) : (el.src = src);
+  });
+  document.querySelectorAll('.bar [data-font]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.font === key)));
+  document.querySelectorAll('.font').forEach(c => c.classList.toggle('on', c.dataset.font === key));
+};
+document.querySelectorAll('[data-font]').forEach(b => b.tagName === 'BUTTON' && b.addEventListener('click', () => {
+  setFont(b.dataset.font);
+  if (b.classList.contains('use')) document.querySelector('.versions').scrollIntoView({ behavior: 'smooth' });
+}));
+const flat = document.getElementById('flat');
+flat.addEventListener('click', () => {
+  const on = flat.getAttribute('aria-pressed') !== 'true';
+  flat.setAttribute('aria-pressed', String(on));
+  document.querySelectorAll('img.flat').forEach(i => (i.hidden = !on));
+});
+setFont('blackletter');
+</script>
