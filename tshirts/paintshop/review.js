@@ -1,7 +1,7 @@
 // Renders the review set for the $Daily Bread$ back wordmark and the three colorway versions:
 //   review/fonts/<font>-<colorway>.png   the wordmark on its own (transparent), every font x colorway
 //   review/shirts/<front|back>-<colorway>[-<font>].jpg   small panel previews
-// Run: node tshirts/color-splash/review.js   (needs Playwright)
+// Run: node tshirts/paintshop/review.js   (needs Playwright)
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');

@@ -1,4 +1,4 @@
-COMA TOAST - Color Splash tee, Hot Wire (pink toast, lime accents). Printful all-over print files.
+COMA TOAST - PaintShop tee, Toxic (yellow toast, cyan accents). Printful all-over print files.
 
 front.jpg                 3600 x 4800 (24 x 32 in at 150 dpi)  front: the outline toast, 10 in tall x 9.7 in wide,
                                                                 top edge about 6.1 in down, centered in a clean dark window
@@ -7,8 +7,8 @@ back.jpg                  3600 x 4800                           back: $Daily Bre
                                                                 1.5 in above the bottom edge
 sleeve-left.jpg           3600 x 2400                           left sleeve
 sleeve-right.jpg          3600 x 2400                           right sleeve
-coma-toast-hot-wire.png        3000 x 3000, transparent              the toast alone (place it 10 in tall if you layer it)
-daily-bread-hot-wire.png       3000 x 900, transparent               the $Daily Bread$ wordmark alone (about 5.6 in wide on the back)
+coma-toast-toxic.png        3000 x 3000, transparent              the toast alone (place it 10 in tall if you layer it)
+daily-bread-toxic.png       3000 x 900, transparent               the $Daily Bread$ wordmark alone (about 5.6 in wide on the back)
 
 Setup (All-Over Print Men's Crew Neck T-Shirt, design maker):
 1. Upload front.jpg, back.jpg, sleeve-left.jpg and sleeve-right.jpg to their placements, each set to fill.

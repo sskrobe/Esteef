@@ -1,7 +1,7 @@
-// Builds crisp, multi-color versions of an official Coma Toast mark for the color-splash tee.
+// Builds crisp, multi-color versions of an official Coma Toast mark for the PaintShop tee.
 // Outline style: each part (e.g. toast and halo) is drawn as colored line work only, so the dark
 // shirt fills the mark. Writes logos.js (for splash.html) and svg/<mark>-<colorway>.svg.
-// Run: node tshirts/color-splash/make-logo.js
+// Run: node tshirts/paintshop/make-logo.js
 const fs = require('fs');
 const path = require('path');
 const { logos } = require('../../logos/final/logos');

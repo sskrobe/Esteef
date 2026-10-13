@@ -1,4 +1,4 @@
-// Renders the final color-splash tee files for Printful, one folder per colorway (printful/<colorway>/):
+// Renders the final PaintShop tee files for Printful, one folder per colorway (printful/<colorway>/):
 //   front.jpg           front panel: the 10 in outline toast centered in its clean window
 //   front-no-logo.jpg   the same front without the toast (add the logo PNG as a layer instead)
 //   back.jpg            back panel: square paint, $Daily Bread$ (Wet Paint) at the hem, hidden "Esteef"
@@ -6,7 +6,7 @@
 //   coma-toast-<colorway>.png       the logo alone, transparent, at the shirt's proportions
 //   daily-bread-<colorway>.png      the $Daily Bread$ wordmark alone, transparent
 // Panels are 3000 design units wide at scale 1.2 = 3600 px = 24 in at 150 dpi (125 units = 1 in).
-// Run: node tshirts/color-splash/printful.js   (needs Playwright; run make-logo.js first)
+// Run: node tshirts/paintshop/printful.js   (needs Playwright; run make-logo.js first)
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
