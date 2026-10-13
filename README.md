@@ -15,6 +15,8 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 - `logos/round-6/` keeps all Round 5 marks (Ronin now holds a calligraphy brush, so the set has no weapons) and adds ten more. Rebuild with `node logos/round-6/build.js`.
 - `logos/round-7/` strips the cute out: plain generic heads where the accessory (crown, detective hat, top hat, beret) carries the mark. Rebuild with `node logos/round-7/build.js`.
 
+- `logos/round-8/` keeps Daily Bread, Off Duty and The Inspector, gives every face a tiny straight-line mouth, and adds more guinea pigs and foods. Rebuild with `node logos/round-8/build.js`.
+
 ## T-shirt designs
 
 - `tshirts/index.html` previews the tee concepts on shirt mockups.

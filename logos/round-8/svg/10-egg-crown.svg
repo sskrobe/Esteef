@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Sunny Side"><title>Sunny Side</title><mask id="m-egg-crown-9" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M40,118 C28,88 64,70 92,80 C112,62 156,70 160,100 C184,116 176,158 150,166 C134,190 92,188 76,174 C44,178 24,150 40,118 Z"/></g><circle cx="104" cy="128" r="34" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke"/><circle cx="92" cy="124" r="4" fill="#000"/><circle cx="116" cy="124" r="4" fill="#000"/><path d="M95,136 L105,136" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M62,54 L58,22 L81,35 L100,12 L119,35 L142,22 L138,54 Z"/>
+      <circle cx="58" cy="20" r="6"/><circle cx="100" cy="10" r="6"/><circle cx="142" cy="20" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M62,54 L58,22 L81,35 L100,12 L119,35 L142,22 L138,54 Z"/>
+      <circle cx="58" cy="20" r="6"/><circle cx="100" cy="10" r="6"/><circle cx="142" cy="20" r="6"/></g><rect x="64" y="42" width="72" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-egg-crown-9)"/></svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Butter King"><title>Butter King</title><mask id="m-croissant-crown-7" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M18,156 Q30,100 100,94 Q170,100 182,156 Q166,170 150,154 Q132,132 100,130 Q68,132 50,154 Q34,170 18,156 Z"/></g><path d="M48,108 Q56,130 52,152 M74,98 Q82,118 80,132 M126,98 Q118,118 120,132 M152,108 Q144,130 148,152" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="88" cy="110" r="4" fill="#000"/><circle cx="112" cy="110" r="4" fill="#000"/><path d="M95,121 L105,121" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M62,78 L58,46 L81,59 L100,36 L119,59 L142,46 L138,78 Z"/>
+      <circle cx="58" cy="44" r="6"/><circle cx="100" cy="34" r="6"/><circle cx="142" cy="44" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M62,78 L58,46 L81,59 L100,36 L119,59 L142,46 L138,78 Z"/>
+      <circle cx="58" cy="44" r="6"/><circle cx="100" cy="34" r="6"/><circle cx="142" cy="44" r="6"/></g><rect x="64" y="66" width="72" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-croissant-crown-7)"/></svg>

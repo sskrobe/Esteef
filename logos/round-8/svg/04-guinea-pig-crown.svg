@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Guinea King"><title>Guinea King</title><mask id="m-guinea-pig-crown-3" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="132" rx="70" ry="56"/><ellipse cx="44" cy="96" rx="13" ry="9" transform="rotate(-30 44 96)"/><ellipse cx="156" cy="96" rx="13" ry="9" transform="rotate(30 156 96)"/></g><circle cx="70" cy="124" r="5" fill="#000"/><circle cx="130" cy="124" r="5" fill="#000"/><ellipse cx="100" cy="144" rx="6.5" ry="4.5" fill="#000"/><path d="M94,156 L106,156" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M55,70 L51,32 L77.5,48 L100,22 L122.5,48 L149,32 L145,70 Z"/>
+      <circle cx="51" cy="30" r="6"/><circle cx="100" cy="20" r="6"/><circle cx="149" cy="30" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M55,70 L51,32 L77.5,48 L100,22 L122.5,48 L149,32 L145,70 Z"/>
+      <circle cx="51" cy="30" r="6"/><circle cx="100" cy="20" r="6"/><circle cx="149" cy="30" r="6"/></g><rect x="57" y="58" width="86" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-guinea-pig-crown-3)"/></svg>
