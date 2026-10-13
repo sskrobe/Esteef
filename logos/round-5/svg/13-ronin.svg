@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Ronin"><title>Ronin</title><mask id="m-ronin-12" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="100" cy="98" r="88"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,100) rotate(-40) scale(1.12)"><path d="M-6,-5.5 L76,-5.5 Q88,-4 94,4 L-6,5.5 Z"/><ellipse cx="-11" cy="0" rx="5" ry="14"/><rect x="-82" y="-6.5" width="68" height="13" rx="3"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,100) rotate(-40) scale(1.12)"><path d="M-6,-5.5 L76,-5.5 Q88,-4 94,4 L-6,5.5 Z"/><ellipse cx="-11" cy="0" rx="5" ry="14"/><rect x="-82" y="-6.5" width="68" height="13" rx="3"/></g></g><g transform="translate(100,100) rotate(-40) scale(1.12)"><path d="M-70,-6 L-64,0 L-70,6 L-76,0 Z" fill="#000"/><path d="M-54,-6 L-48,0 L-54,6 L-60,0 Z" fill="#000"/><path d="M-38,-6 L-32,0 L-38,6 L-44,0 Z" fill="#000"/><path d="M4,2 L78,2" stroke="#000" stroke-width="1.8"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,102) scale(0.9) translate(-100,-100)"><path d="M46,64 L54,12 L92,42 Z M154,64 L146,12 L108,42 Z"/><path d="M100,36 C144,36 164,64 162,92 C160,122 132,138 100,138 C68,138 40,122 38,92 C36,64 56,36 100,36 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,102) scale(0.9) translate(-100,-100)"><path d="M46,64 L54,12 L92,42 Z M154,64 L146,12 L108,42 Z"/><path d="M100,36 C144,36 164,64 162,92 C160,122 132,138 100,138 C68,138 40,122 38,92 C36,64 56,36 100,36 Z"/></g></g><g transform="translate(100,102) scale(0.9) translate(-100,-100)"><path d="M56,28 L59,52 L76,41 Z M144,28 L141,52 L124,41 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M65,84 L87,84 A11,11 0 0 1 65,84 Z" fill="#000"/>
+    <circle cx="80.6" cy="88.6" r="4.0" fill="#fff"/><path d="M113,84 L135,84 A11,11 0 0 1 113,84 Z" fill="#000"/>
+    <circle cx="128.6" cy="88.6" r="4.0" fill="#fff"/>
+    <path d="M65,75.2 Q76,63.1 87,73.5" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M60,62 L84,102" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+          <path d="M46,100 Q68,92 86,106 Q100,96 114,106 Q132,92 154,100" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+          <path d="M92,110 Q100,106 108,110 Q104,119 100,119 Q96,119 92,110 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M100,119 L100,124 M91,128 Q100,123 109,128" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#111111" mask="url(#m-ronin-12)"/></svg>

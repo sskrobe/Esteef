@@ -486,4 +486,4 @@ function renderLogo(logo, { color = 'currentColor', size, title = true, place, m
   return `${head}<mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="${K}"/>${layers}</mask><rect width="200" height="200" fill="${color}" mask="url(#${id})"/></svg>`;
 }
 
-module.exports = { logos: marks, kept, fresh, renderLogo };
+module.exports = { logos: marks, kept, fresh, renderLogo, helpers: { W, K, GAP, eyes, gap, obj } };

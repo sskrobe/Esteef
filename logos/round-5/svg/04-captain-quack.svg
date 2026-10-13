@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Captain Quack"><title>Captain Quack</title><mask id="m-captain-quack-3" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><rect x="93" y="40" width="14" height="148" rx="4"/><rect x="62" y="138" width="76" height="11" rx="5.5"/>
+          <path d="M34,146 Q36,194 100,196 Q164,194 166,146 L152,152 Q150,182 100,182 Q50,182 48,152 Z"/>
+          <path d="M34,146 L26,166 L46,160 Z M166,146 L174,166 L154,160 Z"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,94) scale(0.92) translate(-100,-100)"><circle cx="100" cy="92" r="44"/><path d="M48,106 Q100,92 152,106 Q158,126 100,128 Q42,126 48,106 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,94) scale(0.92) translate(-100,-100)"><circle cx="100" cy="92" r="44"/><path d="M48,106 Q100,92 152,106 Q158,126 100,128 Q42,126 48,106 Z"/></g></g><g transform="translate(100,94) scale(0.92) translate(-100,-100)"><path d="M48,104 Q100,90 152,104 Q158,124 100,126 Q42,124 48,104 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+          <path d="M58,114 Q100,120 142,114" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="92" cy="104" rx="2.5" ry="1.8" fill="#000"/><ellipse cx="108" cy="104" rx="2.5" ry="1.8" fill="#000"/>
+          <path d="M62,72 L150,98" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+          <ellipse cx="121" cy="86" rx="13" ry="11" fill="#000"/>
+          <circle cx="80" cy="86" r="10" fill="#000"/><circle cx="83" cy="88" r="5" fill="#fff"/>
+          <path d="M66,74 L92,78" stroke="#000" stroke-width="4.5" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,94) scale(0.92) translate(-100,-100)"><path d="M28,60 C34,32 70,18 100,18 C130,18 166,32 172,60 C146,50 122,54 100,62 C78,54 54,50 28,60 Z"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,94) scale(0.92) translate(-100,-100)"><path d="M28,60 C34,32 70,18 100,18 C130,18 166,32 172,60 C146,50 122,54 100,62 C78,54 54,50 28,60 Z"/></g></g><g transform="translate(100,94) scale(0.92) translate(-100,-100)"><circle cx="100" cy="36" r="7" fill="#000"/><path d="M90,48 L110,54 M110,48 L90,54" stroke="#000" stroke-width="3" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#111111" mask="url(#m-captain-quack-3)"/></svg>

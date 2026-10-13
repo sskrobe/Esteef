@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="The Don"><title>The Don</title><mask id="m-the-don-2" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M14,200 L14,176 Q18,152 58,142 L100,182 L142,142 Q182,152 186,176 L186,200 Z"/></g><path d="M30,160 L30,200" stroke="#000" stroke-width="2.2"/><path d="M44,164.2 L44,200" stroke="#000" stroke-width="2.2"/><path d="M156,164.2 L156,200" stroke="#000" stroke-width="2.2"/><path d="M170,160 L170,200" stroke="#000" stroke-width="2.2"/>
+          <path d="M58,142 L80,190 L66,166 M142,142 L120,190 L134,166" fill="none" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M92,170 L108,170 L113,192 L100,200 L87,192 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M92,170 L108,170 L113,192 L100,200 L87,192 Z"/></g><path d="M94,180 L106,186" stroke="#000" stroke-width="2.5"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,88) scale(0.92) translate(-100,-100)"><circle cx="47" cy="82" r="27"/><circle cx="153" cy="82" r="27"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,88) scale(0.92) translate(-100,-100)"><circle cx="47" cy="82" r="27"/><circle cx="153" cy="82" r="27"/></g></g><g transform="translate(100,88) scale(0.92) translate(-100,-100)"><circle cx="50" cy="86" r="13" fill="#000"/><circle cx="150" cy="86" r="13" fill="#000"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(100,88) scale(0.92) translate(-100,-100)"><ellipse cx="100" cy="98" rx="48" ry="42"/><path d="M64,62 L70,24 Q100,12 130,24 L136,62 Z"/><ellipse cx="100" cy="62" rx="64" ry="11"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(100,88) scale(0.92) translate(-100,-100)"><ellipse cx="100" cy="98" rx="48" ry="42"/><path d="M64,62 L70,24 Q100,12 130,24 L136,62 Z"/><ellipse cx="100" cy="62" rx="64" ry="11"/></g></g><g transform="translate(100,88) scale(0.92) translate(-100,-100)"><rect x="66" y="48" width="68" height="8" fill="#000"/>
+          <path d="M92,20 Q100,30 108,20" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M40,64 Q100,80 160,64" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="80" cy="92" r="8" fill="#000"/><circle cx="120" cy="92" r="8" fill="#000"/>
+          <rect x="70" y="82" width="20" height="10" fill="#fff"/><rect x="110" y="82" width="20" height="10" fill="#fff"/>
+          <path d="M70,92 L90,92 M110,92 L130,92" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <ellipse cx="100" cy="110" rx="14" ry="17" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+          <ellipse cx="95" cy="104" rx="2.6" ry="4.5" fill="#000"/>
+          <path d="M88,131 Q100,135 112,129" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M108,131 L134,124" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#111111" mask="url(#m-the-don-2)"/></svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Bamboo Bandit"><title>Bamboo Bandit</title><mask id="m-bamboo-bandit-1" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><g transform="translate(100,92) scale(1) translate(-100,-100)"><circle cx="56" cy="38" r="19"/><circle cx="144" cy="38" r="19"/><ellipse cx="100" cy="80" rx="55" ry="49"/></g></g><g transform="translate(100,92) scale(1) translate(-100,-100)"><ellipse cx="100" cy="84" rx="47" ry="41" fill="#000"/>
+          <path d="M54,76 Q54,70 62,70 L88,70 Q94,70 94,76 Q94,98 76,100 Q58,100 54,88 Z" fill="#fff"/>
+          <path d="M146,76 Q146,70 138,70 L112,70 Q106,70 106,76 Q106,98 124,100 Q142,100 146,88 Z" fill="#fff"/>
+          <rect x="92" y="72" width="16" height="5" fill="#fff"/>
+          <path d="M62,82 L72,74 M64,92 L80,78 M114,82 L124,74 M116,92 L132,78" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+          <path d="M118,48 L132,64" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <path d="M120,57 L127,51 M125,62 L132,56" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M90,108 Q100,103 110,108 Q105,117 100,117 Q95,117 90,108 Z" fill="#fff"/>
+          <path d="M100,117 L100,121 M86,124 Q100,129 114,120" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></g>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M100,156 L48,130 Q38,156 48,182 Z"/><path d="M100,156 L152,130 Q162,156 152,182 Z"/><rect x="86" y="142" width="28" height="28" rx="7"/></g>
+    <g fill="#fff" stroke="none"><path d="M100,156 L48,130 Q38,156 48,182 Z"/><path d="M100,156 L152,130 Q162,156 152,182 Z"/><rect x="86" y="142" width="28" height="28" rx="7"/></g><rect x="86" y="142" width="28" height="28" rx="7" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/><path d="M60,144 Q72,156 60,168 M140,144 Q128,156 140,168" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-bamboo-bandit-1)"/></svg>
