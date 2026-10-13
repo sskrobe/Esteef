@@ -10,9 +10,9 @@ const path = require('path');
 const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
 
 const out = path.join(__dirname, 'printful');
-// Center chest: on the center line, centered about 9 in below the top of the panel, 8 in wide
+// Center chest: on the center line, centered about 10 in below the top of the panel, 8 in wide
 // (Saint is taller than it is wide, so it stands about 8.7 in tall).
-const CHEST = '1500,1110,1000';
+const CHEST = '1500,1260,1000';
 const JOBS = [
   { file: 'front.jpg', q: `panel=front&seed=3&w=3000&h=4000&s=1.2&cw=hot-wire&logo=${CHEST}` },
   { file: 'front-no-logo.jpg', q: `panel=front&seed=3&w=3000&h=4000&s=1.2&logo=${CHEST}&hide=1` },

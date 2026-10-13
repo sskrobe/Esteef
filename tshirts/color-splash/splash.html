@@ -5,8 +5,8 @@
 <style>html,body{margin:0;background:#222}canvas{display:block}</style>
 <canvas id="c"></canvas>
 <script>
-// All-over print panel for the color-splash tee: a dark shirt with bright paint splatters,
-// droplets and drips, and (on the front) a large, crisp Coma Toast mark centered on the chest.
+// All-over print panel for the color-splash tee: a dark shirt with bright, square paint splotches,
+// chips and drips, and (on the front) a large outline Coma Toast mark centered on the chest.
 // Query options, e.g. splash.html?panel=front&seed=3&w=3000&h=4000&s=1.2&cw=hot-wire&logo=1500,1100,1250
 //   panel  front | back | sleeve   (sets how heavy and where the splatter goes)
 //   w, h   layout size in design units; s = pixels per design unit
@@ -30,58 +30,62 @@ const BASE = '#121214';
 // The splash palette: the logo's colorways plus white and orange for extra punch.
 const PAINT = ['#ff2e88', '#c6ff00', '#00e5ff', '#ffe600', '#ff6a00', '#f4f4f2'];
 
-// Closed smooth shape through a ring of points (curves through midpoints).
-function blob(pts) {
-  const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+// A rough-edged quad: four corners, with small jitter along each edge so it reads as paint, not vector.
+function roughRect(x, y, w, h, a, rough) {
+  const c = Math.cos(a), sn = Math.sin(a), P = (u, v) => [x + u * c - v * sn, y + u * sn + v * c];
+  const corners = [[-w / 2, -h / 2], [w / 2, -h / 2], [w / 2, h / 2], [-w / 2, h / 2]];
   ctx.beginPath();
-  ctx.moveTo(...mid(pts[pts.length - 1], pts[0]));
-  pts.forEach((p, i) => ctx.quadraticCurveTo(p[0], p[1], ...mid(p, pts[(i + 1) % pts.length])));
-  ctx.closePath();
-  ctx.fill();
+  corners.forEach((p, i) => {
+    const q = corners[(i + 1) % 4], steps = 6;
+    for (let k = 0; k < steps; k++) {
+      const t = k / steps, j = k ? R(-rough, rough) : 0;
+      const u = p[0] + (q[0] - p[0]) * t, v = p[1] + (q[1] - p[1]) * t;
+      // push the jitter outward from the edge (perpendicular to it)
+      const nx = (q[1] - p[1]) ? Math.sign(q[1] - p[1]) : 0, ny = (q[0] - p[0]) ? -Math.sign(q[0] - p[0]) : 0;
+      const pt = P(u + nx * j, v + ny * j);
+      k || i ? ctx.lineTo(...pt) : ctx.moveTo(...pt);
+    }
+  });
+  ctx.closePath(); ctx.fill();
 }
 
-// One paint splat: a lumpy core with long thrown spikes, a ring of droplets, and a few drips.
-function splat(x, y, r, color) {
+// One square splotch: a chunky, slightly tilted block of paint, sometimes with a second color
+// knocked off-register behind it, a scatter of little square chips, and a few square-ended drips.
+function block(x, y, r, color, alt) {
+  const a = R(-0.22, 0.22), w = r * R(1.5, 2.1), h = w * R(0.8, 1.15);
+  if (alt) { ctx.fillStyle = alt; roughRect(x + r * R(-0.4, 0.4), y + r * R(-0.4, 0.4), w * R(0.55, 0.85), h * R(0.55, 0.85), a + R(-0.25, 0.25), r * 0.03); }
   ctx.fillStyle = color;
-  const n = 46, pts = [];
-  const spikes = new Set(Array.from({ length: Math.round(R(4, 9)) }, () => Math.floor(R(0, n))));
-  for (let i = 0; i < n; i++) {
-    const t = i / n * Math.PI * 2;
-    let rr = r * (0.78 + 0.22 * Math.sin(t * 3 + seed % 7) + R(-0.08, 0.08));
-    if (spikes.has(i)) rr *= R(1.5, 2.4);
-    pts.push([x + Math.cos(t) * rr, y + Math.sin(t) * rr]);
+  roughRect(x, y, w, h, a, r * 0.035);
+  // chips: small squares thrown off the block, smaller the further out
+  const chips = Math.round(R(10, 22));
+  for (let i = 0; i < chips; i++) {
+    const ang = R(0, Math.PI * 2), d = r * R(1.25, 2.9), s = r * R(0.06, 0.24) * (1.5 - d / (r * 2.9));
+    roughRect(x + Math.cos(ang) * d, y + Math.sin(ang) * d, s, s, a + R(-0.3, 0.3), s * 0.04);
   }
-  blob(pts);
-  // thrown droplets, getting smaller further out
-  const drops = Math.round(R(14, 30));
-  for (let i = 0; i < drops; i++) {
-    const a = R(0, Math.PI * 2), d = r * R(1.2, 3.2), s = r * R(0.03, 0.16) * (1.6 - d / (r * 3.2));
-    ctx.beginPath(); ctx.ellipse(x + Math.cos(a) * d, y + Math.sin(a) * d, s, s * R(0.7, 1.3), a, 0, Math.PI * 2); ctx.fill();
-  }
-  // gravity drips off the bottom edge
-  const drips = Math.round(R(0, 4));
+  // drips: straight runs off the bottom edge, ending in a small square
+  const drips = Math.round(R(0, 3));
   for (let i = 0; i < drips; i++) {
-    const dx = x + R(-0.6, 0.6) * r, top = y + r * 0.55, len = r * R(0.6, 2.2), w = r * R(0.08, 0.18);
-    ctx.beginPath(); ctx.roundRect(dx - w / 2, top, w, len, w / 2); ctx.fill();
-    ctx.beginPath(); ctx.arc(dx, top + len, w * 0.85, 0, Math.PI * 2); ctx.fill();
+    const dx = x + R(-0.42, 0.42) * w, top = y + h * 0.4, len = r * R(0.6, 2.2), dw = r * R(0.09, 0.17);
+    ctx.fillRect(dx - dw / 2, top, dw, len);
+    ctx.fillRect(dx - dw * 0.8, top + len - dw * 0.4, dw * 1.6, dw * 1.6);
   }
 }
 
-// A fast flick of paint: a tapered streak with a fat head.
-function flick(x, y, len, a, w, color) {
+// A trail of shrinking squares, like a dragged brush breaking up.
+function trail(x, y, len, a, s, color) {
   ctx.fillStyle = color;
-  ctx.save(); ctx.translate(x, y); ctx.rotate(a);
-  ctx.beginPath(); ctx.moveTo(0, -w / 2); ctx.quadraticCurveTo(len * 0.6, -w * 0.15, len, 0); ctx.quadraticCurveTo(len * 0.6, w * 0.15, 0, w / 2); ctx.closePath(); ctx.fill();
-  ctx.beginPath(); ctx.arc(0, 0, w * 0.6, 0, Math.PI * 2); ctx.fill();
-  ctx.restore();
+  for (let d = 0, k = s; d < len && k > 4; d += k * R(1.3, 1.9), k *= R(0.8, 0.92)) {
+    const off = R(-0.25, 0.25) * s;
+    roughRect(x + Math.cos(a) * d - Math.sin(a) * off, y + Math.sin(a) * d + Math.cos(a) * off, k, k, a + R(-0.2, 0.2), k * 0.04);
+  }
 }
 
-// Fine spray mist around a point.
+// Fine square "pixel" spray around a point.
 function mist(x, y, r, color, n) {
   ctx.fillStyle = color;
   for (let i = 0; i < n; i++) {
-    const a = R(0, Math.PI * 2), d = r * Math.sqrt(rnd());
-    ctx.beginPath(); ctx.arc(x + Math.cos(a) * d, y + Math.sin(a) * d, R(1.2, 4.5), 0, Math.PI * 2); ctx.fill();
+    const a = R(0, Math.PI * 2), d = r * Math.sqrt(rnd()), s = R(3, 9);
+    ctx.fillRect(x + Math.cos(a) * d - s / 2, y + Math.sin(a) * d - s / 2, s, s);
   }
 }
 
@@ -98,10 +102,10 @@ function drawLogo(img, x, y, w) {
   ctx.drawImage(img, x - BOX.cx * unit, y - BOX.cy * unit, size, size);
 }
 
-// Keep splatter away from the chest logo: an oval clear zone around it.
+// Keep paint away from the chest logo: an oval clear zone around it.
 function clear(x, y) {
   if (!LOGO) return true;
-  const [lx, ly, lw] = LOGO, lh = lw * BOX.h / BOX.w, rx = lw * 0.9, ry = lh * 0.78;
+  const [lx, ly, lw] = LOGO, lh = lw * BOX.h / BOX.w, rx = lw * 0.74, ry = lh * 0.66;
   return ((x - lx) / rx) ** 2 + ((y - ly) / ry) ** 2 > 1;
 }
 
@@ -111,16 +115,17 @@ function clear(x, y) {
 
   ctx.fillStyle = BASE; ctx.fillRect(0, 0, W, H);
 
-  // Where the paint lands. Front: edges and hem, clear chest. Back: one big burst plus scatter.
-  // Sleeves: a few splats from the cuff and the shoulder.
+  // Where the paint lands. Front: heavy all over, with a dark margin around the chest logo. Back: one big burst plus scatter.
+  // Sleeves: a few splotches from the cuff and the shoulder.
   const plan = [];
   if (PANEL === 'front') {
-    for (let i = 0; i < 70 && plan.length < 16; i++) {
-      const edge = pick(['left', 'right', 'hem', 'hem', 'shoulder']);
+    for (let i = 0; i < 600 && plan.length < 46; i++) {
+      const edge = pick(['left', 'right', 'left', 'right', 'hem', 'hem', 'shoulder', 'any', 'any']);
       const x = edge === 'left' ? R(0, W * 0.24) : edge === 'right' ? R(W * 0.76, W) : edge === 'shoulder' ? pick([R(0, W * 0.3), R(W * 0.7, W)]) : R(0, W);
-      const y = edge === 'hem' ? R(H * 0.68, H) : edge === 'shoulder' ? R(0, H * 0.2) : R(H * 0.15, H);
-      const r = R(70, 230);
-      if (clear(x, y) && clear(x + r, y) && clear(x - r, y) && clear(x, y - r) && clear(x, y + r)) plan.push([x, y, r]);
+      const y = edge === 'hem' ? R(H * 0.62, H) : edge === 'shoulder' ? R(0, H * 0.2) : edge === 'any' ? R(0, H) : R(H * 0.1, H);
+      const r = R(60, 210);
+      const m = r * 1.15;
+      if (clear(x, y) && clear(x + m, y) && clear(x - m, y) && clear(x, y - m) && clear(x, y + m)) plan.push([x, y, r]);
     }
   } else if (PANEL === 'back') {
     plan.push([W * R(0.4, 0.6), H * R(0.3, 0.4), R(380, 470)]);
@@ -130,11 +135,19 @@ function clear(x, y) {
   }
 
   plan.forEach(([x, y, r], i) => {
-    const color = PAINT[i % PAINT.length];
-    if (rnd() < 0.5) mist(x, y, r * 2.4, color, Math.round(r * 1.2));
-    splat(x, y, r, color);
-    if (rnd() < 0.6) flick(x, y, r * R(2, 3.6), R(0, Math.PI * 2), r * R(0.18, 0.3), color);
+    const color = PAINT[i % PAINT.length], alt = rnd() < 0.45 ? PAINT[(i + 2) % PAINT.length] : null;
+    if (rnd() < 0.5) mist(x, y, r * 2.4, color, Math.round(r * 0.9));
+    block(x, y, r, color, alt);
+    if (rnd() < 0.55) trail(x, y, r * R(2.2, 4), R(0, Math.PI * 2), r * R(0.22, 0.34), color);
   });
+  // Small chips and pixels sprinkled everywhere else (kept off the logo), so the front carries color all over.
+  if (PANEL === 'front') {
+    for (let i = 0; i < 260; i++) {
+      const x = R(0, W), y = R(0, H), s = R(10, 46);
+      if (!clear(x, y) || !clear(x + s * 2, y) || !clear(x - s * 2, y)) continue;
+      ctx.fillStyle = pick(PAINT); roughRect(x, y, s, s, R(-0.3, 0.3), s * 0.05);
+    }
+  }
 
   // hide=1 keeps the logo's clear zone but leaves the logo off (for layering a logo PNG in Printful)
   if (LOGO && !Q.get('hide')) drawLogo(img, LOGO[0], LOGO[1], LOGO[2]);

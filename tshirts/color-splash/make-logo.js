@@ -1,12 +1,11 @@
 // Builds crisp, multi-color versions of an official Coma Toast mark for the color-splash tee.
-// Each part (e.g. toast and halo) gets its own color; cut-outs and gaps stay transparent so the dark
-// shirt shows through. Writes logos.js (for splash.html) and svg/<mark>-<colorway>.svg.
+// Outline style: each part (e.g. toast and halo) is drawn as colored line work only, so the dark
+// shirt fills the mark. Writes logos.js (for splash.html) and svg/<mark>-<colorway>.svg.
 // Run: node tshirts/color-splash/make-logo.js
 const fs = require('fs');
 const path = require('path');
 const { logos } = require('../../logos/final/logos');
 
-const W = '#fff', K = '#000', GAP = 14;
 const MARK = process.env.MARK || 'saint';
 const mark = logos.find(l => l.id === MARK);
 // Visible area of each mark inside its 200-unit square (center and size), used to place it on the shirt.
@@ -29,21 +28,21 @@ const COLORWAYS = {
   },
 }[MARK];
 
+// Inverse (outline) style: the dark shirt fills the mark and the color is only the line work.
+// Each part's silhouette becomes a colored band of width EDGE drawn just inside its edge (so the
+// outline and the gap between halo and crust match the official mark), and the face, which is cut
+// out of the solid mark, is drawn in the same color instead.
+const EDGE = 4.6; // page units (the face lines are about 3.5)
+const scaleOf = shape => +((shape.match(/scale\(([\d.]+)\)/) || [])[1] || 1);
 function render(colors, id, size) {
-  // Full one-color mask, built exactly like the official renderer (gaps + face cut-outs).
-  const full = mark.parts.map((p, i) => `
-    ${i && !p.noGap ? `<g fill="${K}" stroke="${K}" stroke-width="${GAP}" stroke-linejoin="round">${p.shape}</g>` : ''}
-    <g fill="${W}" stroke="none">${p.shape}</g>${p.detail || ''}`).join('');
-  // One mask per part: its own silhouette minus every part drawn in front of it.
-  const partMasks = mark.parts.map((p, i) => `<mask id="${id}-p${i}" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200">
-    <rect width="200" height="200" fill="${K}"/><g fill="${W}">${p.shape}</g>
-    ${mark.parts.slice(i + 1).map(q => `<g fill="${K}">${q.shape}</g>`).join('')}</mask>`).join('');
+  const body = mark.parts.map((p, i) => {
+    const c = colors[i], sw = (2 * EDGE / scaleOf(p.shape)).toFixed(2);
+    return `<mask id="${id}-c${i}" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><g fill="#fff">${p.shape}</g></mask>
+<g mask="url(#${id}-c${i})" fill="none" stroke="${c}" stroke-width="${sw}" stroke-linejoin="round">${p.shape}</g>
+${(p.detail || '').replace(/stroke="#000"/g, `stroke="${c}"`)}`;
+  }).join('\n');
   const dims = size ? ` width="${size}" height="${size}"` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"${dims}>
-<mask id="${id}-full" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="${K}"/>${full}</mask>
-${partMasks}
-<g mask="url(#${id}-full)">${colors.map((c, i) => `<rect width="200" height="200" fill="${c}" mask="url(#${id}-p${i})"/>`).join('')}</g>
-</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"${dims}>\n${body}\n</svg>`;
 }
 
 fs.mkdirSync(path.join(__dirname, 'svg'), { recursive: true });
