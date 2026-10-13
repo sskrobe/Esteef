@@ -33,6 +33,7 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `logos/final/files/svg/`: one-color SVGs in black and white (cut-outs are transparent).
 - `logos/final/files/png/`: 3000 x 3000 transparent PNGs in black and white.
+- `logos/final/coma-toast-logos.zip`: everything in one download, with 6000 x 6000 transparent PNGs tagged at 300 dpi plus the SVGs.
 - `logos/final/index.html`: gallery with shirt-color previews. Rebuild with `node logos/final/build.js`; re-export files with `node logos/final/export.js` (needs Playwright).
 
 ## T-shirt designs

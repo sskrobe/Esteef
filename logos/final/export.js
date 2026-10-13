@@ -2,14 +2,15 @@
 //   files/svg/<name>-black.svg, files/svg/<name>-white.svg  (one color, cut-outs transparent)
 //   files/png/<name>-black.png, files/png/<name>-white.png  (3000 x 3000, transparent background)
 // Run: node logos/final/export.js   (needs Playwright for the PNGs)
+// SIZE=6000 OUT=/some/dir node logos/final/export.js renders larger PNGs into another folder.
 const fs = require('fs');
 const path = require('path');
 const { logos, renderLogo } = require('./logos');
 const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
 
-const out = path.join(__dirname, 'files');
 const COLORS = { black: '#111111', white: '#ffffff' };
-const SIZE = 3000;
+const SIZE = +(process.env.SIZE || 3000);
+const out = process.env.OUT || path.join(__dirname, 'files');
 
 (async () => {
   fs.mkdirSync(path.join(out, 'svg'), { recursive: true });
