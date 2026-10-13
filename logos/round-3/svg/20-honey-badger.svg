@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="No Fear"><title>No Fear</title><mask id="m-honey-badger-17" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="No Fear"><title>No Fear</title><mask id="m-honey-badger-19" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
       <circle cx="44" cy="96" r="12" fill="#fff"/><circle cx="156" cy="96" r="12" fill="#fff"/>
       <ellipse cx="100" cy="108" rx="58" ry="54" fill="#fff"/>
       <path d="M42,102 C46,52 154,52 158,102 L144,104 C138,72 62,72 56,104 Z" fill="#000"/>
@@ -7,4 +7,4 @@
       <ellipse cx="100" cy="132" rx="13" ry="8.5" fill="#000"/>
       <ellipse cx="96" cy="129" rx="4" ry="2.5" fill="#fff"/>
       <path d="M74,148 Q100,136 126,148 Q100,166 74,148 Z" fill="#000"/>
-      <path d="M82,146 L88,145 L85,155 Z M118,146 L112,145 L115,155 Z" fill="#fff"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-honey-badger-17)"/></svg>
+      <path d="M82,146 L88,145 L85,155 Z M118,146 L112,145 L115,155 Z" fill="#fff"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-honey-badger-19)"/></svg>

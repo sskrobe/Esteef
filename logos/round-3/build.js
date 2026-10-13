@@ -155,9 +155,9 @@ footer p { margin: 0; }
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">Brand identity &middot; Round 3 &middot; 6 kept + 12 new</p>
+    <p class="eyebrow">Brand identity &middot; Round 3 &middot; 6 kept + 14 new</p>
     <h1>Cute face, bad intentions.</h1>
-    <p class="lede">Your six keepers, plus two new directions. <strong>Food with attitude</strong>: pizza, nuggets, fried chicken, cheese, ramen and dumplings, the foods kids and grown men both love. <strong>Tough cute animals</strong>: small and adorable, but you wouldn’t mess with them. All are drawn with heavy shapes and clear outlines so they read well on a chest.</p>
+    <p class="lede">Your six keepers, plus two new directions. <strong>Food with attitude</strong>: pizza, nuggets, fried chicken, cheese, ramen, dumplings, fries and burgers, the foods kids and grown men both love. <strong>Tough cute animals</strong>: small and adorable, but you wouldn’t mess with them. All are drawn with heavy shapes and clear outlines so they read well on a chest.</p>
   </header>
 
   <div class="toolbar">

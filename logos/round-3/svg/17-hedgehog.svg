@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Spike"><title>Spike</title><mask id="m-hedgehog-14" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Spike"><title>Spike</title><mask id="m-hedgehog-16" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
       <path d="M39.0,129.1 L10.1,122.1 L38.2,112.5 L12.2,98.0 L41.9,96.2 L20.7,75.4 L49.8,81.6 L34.9,55.8 L61.3,69.5 L53.8,40.7 L75.6,61.0 L76.1,31.2 L91.7,56.6 L100.0,28.0 L108.3,56.6 L123.9,31.2 L124.4,61.0 L146.2,40.7 L138.7,69.5 L165.1,55.8 L150.2,81.6 L179.3,75.4 L158.1,96.2 L187.8,98.0 L161.8,112.5 L189.9,122.1 L161.0,129.1 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
       <ellipse cx="100" cy="122" rx="52" ry="48" fill="#fff" stroke="#000" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
       <path d="M66.6,110 L89.4,118 A12,12 0 0 1 66.6,110 Z" fill="#000"/><path d="M110.6,118 L133.4,110 A12,12 0 0 1 110.6,118 Z" fill="#000"/>
     <circle cx="81" cy="120" r="3.2" fill="#fff"/><circle cx="119" cy="120" r="3.2" fill="#fff"/>
       <circle cx="100" cy="138" r="7" fill="#000"/>
       <path d="M88,154 Q100,148 114,156" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round"/>
-      <path d="M74,94 L92,102 M126,94 L108,102" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-hedgehog-14)"/></svg>
+      <path d="M74,94 L92,102 M126,94 L108,102" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-hedgehog-16)"/></svg>

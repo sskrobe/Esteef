@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Hiss"><title>Hiss</title><mask id="m-cobra-15" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Hiss"><title>Hiss</title><mask id="m-cobra-17" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
       <path d="M100,26 C152,26 176,78 164,120 C156,146 128,152 116,162 L116,192 L84,192 L84,162 C72,152 44,146 36,120 C24,78 48,26 100,26 Z" fill="#fff"/>
       <circle cx="58" cy="110" r="11" fill="#000"/><circle cx="142" cy="110" r="11" fill="#000"/>
       <circle cx="58" cy="110" r="4.5" fill="#fff"/><circle cx="142" cy="110" r="4.5" fill="#fff"/>
@@ -8,4 +8,4 @@
       <path d="M76.45,76 L93.55,84 A9,9 0 0 1 76.45,76 Z" fill="#000"/><path d="M106.45,84 L123.55,76 A9,9 0 0 1 106.45,84 Z" fill="#000"/>
     <circle cx="88" cy="86" r="2.4" fill="#fff"/><circle cx="112" cy="86" r="2.4" fill="#fff"/>
       <path d="M84,98 Q100,106 116,98" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
-      <path d="M89,101 L95,103 L92,116 Z M111,101 L105,103 L108,116 Z" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-cobra-15)"/></svg>
+      <path d="M89,101 L95,103 L92,116 Z M111,101 L105,103 L108,116 Z" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-cobra-17)"/></svg>

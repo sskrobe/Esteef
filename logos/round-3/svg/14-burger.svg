@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Beef"><title>Beef</title><mask id="m-burger-13" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M28,100 C28,36 172,36 172,100 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+      <ellipse cx="78" cy="50" rx="5" ry="2.6" transform="rotate(-20 78 50)" fill="#000"/><ellipse cx="100" cy="46" rx="5" ry="2.6" transform="rotate(0 100 46)" fill="#000"/><ellipse cx="122" cy="50" rx="5" ry="2.6" transform="rotate(20 122 50)" fill="#000"/><ellipse cx="62" cy="64" rx="5" ry="2.6" transform="rotate(-30 62 64)" fill="#000"/><ellipse cx="138" cy="64" rx="5" ry="2.6" transform="rotate(30 138 64)" fill="#000"/>
+      <path d="M62.6,76 L85.4,84 A12,12 0 0 1 62.6,76 Z" fill="#000"/><path d="M114.6,84 L137.4,76 A12,12 0 0 1 114.6,84 Z" fill="#000"/>
+    <circle cx="77" cy="86" r="3.2" fill="#fff"/><circle cx="123" cy="86" r="3.2" fill="#fff"/>
+      <path d="M26,106 L174,106 L162,120 L146,110 L130,124 L114,110 L100,124 L86,110 L70,124 L54,110 L38,120 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+      <rect x="22" y="128" width="156" height="24" rx="12" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M34,136 q8,-5 16,0 M70,144 q8,-5 16,0 M118,136 q8,-5 16,0 M150,144 q8,-5 16,0" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M30,160 L170,160 Q170,180 150,180 L50,180 Q30,180 30,160 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-burger-13)"/></svg>

@@ -151,6 +151,38 @@ const food = [
       <path d="M90,154 Q100,146 110,154" fill="none" stroke="${K}" stroke-width="5" stroke-linecap="round"/>
       <path d="M140,100 q7,0 7,-7 M156,100 q-7,0 -7,-7 M140,108 q7,0 7,7 M156,108 q-7,0 -7,7" fill="none" stroke="${K}" stroke-width="4" stroke-linecap="round"/>`,
   },
+  {
+    id: 'fries',
+    name: 'Small Fry',
+    animal: 'French fries',
+    edge: 'Tough guy',
+    style: 'Emblem',
+    group: 'food',
+    note: 'A fry carton with a scowl and fries sticking up like a mohawk. "Small fry" means a nobody, which makes it funny on a guy who acts tough.',
+    art: `
+      ${[[62, -14, 40], [78, -6, 26], [94, -2, 18], [110, 4, 22], [126, 10, 30], [142, 16, 44], [86, -10, 34], [118, 8, 38]]
+        .map(([x, a, top]) => `<rect x="${x - 6}" y="${top}" width="12" height="${96 - top}" rx="2" transform="rotate(${a} ${x} 96)" fill="${W}" ${gap(5)}/>`).join('')}
+      <path d="M40,84 Q70,100 100,84 Q130,100 160,84 L142,186 L58,186 Z" fill="${W}" ${gap(8)}/>
+      ${eyes(124, 22, 12)}
+      <path d="M86,160 Q100,148 114,160" fill="none" stroke="${K}" stroke-width="6" stroke-linecap="round"/>`,
+  },
+  {
+    id: 'burger',
+    name: 'Beef',
+    animal: 'Hamburger',
+    edge: 'Feud',
+    style: 'Graphic',
+    group: 'food',
+    note: '"Beef" is slang for a feud. A stacked burger glaring at you, with the cheese layer as gritted teeth. It’s the most hip hop pun in the set.',
+    art: `
+      <path d="M28,100 C28,36 172,36 172,100 Z" fill="${W}" ${gap(6)}/>
+      ${[[78, 50, -20], [100, 46, 0], [122, 50, 20], [62, 64, -30], [138, 64, 30]].map(([x, y, a]) => `<ellipse cx="${x}" cy="${y}" rx="5" ry="2.6" transform="rotate(${a} ${x} ${y})" fill="${K}"/>`).join('')}
+      ${eyes(80, 26, 12)}
+      <path d="M26,106 L174,106 L162,120 L146,110 L130,124 L114,110 L100,124 L86,110 L70,124 L54,110 L38,120 Z" fill="${W}" ${gap(5)}/>
+      <rect x="22" y="128" width="156" height="24" rx="12" fill="${W}" ${gap(6)}/>
+      <path d="M34,136 q8,-5 16,0 M70,144 q8,-5 16,0 M118,136 q8,-5 16,0 M150,144 q8,-5 16,0" fill="none" stroke="${K}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M30,160 L170,160 Q170,180 150,180 L50,180 Q30,180 30,160 Z" fill="${W}" ${gap(6)}/>`,
+  },
 ];
 
 const animals = [
