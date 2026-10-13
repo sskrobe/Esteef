@@ -1,0 +1,218 @@
+{
+  "daily-bread-plain-black": {
+    "logo": "Daily Bread",
+    "style": "plain-black",
+    "inside": [
+      2.5,
+      0.45
+    ],
+    "outside": [
+      2,
+      0.36
+    ]
+  },
+  "daily-bread-plain-white": {
+    "logo": "Daily Bread",
+    "style": "plain-white",
+    "inside": [
+      2.5,
+      0.45
+    ],
+    "outside": [
+      2,
+      0.36
+    ]
+  },
+  "daily-bread-benday": {
+    "logo": "Daily Bread",
+    "style": "benday",
+    "inside": [
+      2.5,
+      0.67
+    ],
+    "outside": [
+      2,
+      0.53
+    ]
+  },
+  "dollar-daily-bread-plain-black": {
+    "logo": "$Daily Bread$",
+    "style": "plain-black",
+    "inside": [
+      2.5,
+      0.37
+    ],
+    "outside": [
+      2,
+      0.29
+    ]
+  },
+  "dollar-daily-bread-plain-white": {
+    "logo": "$Daily Bread$",
+    "style": "plain-white",
+    "inside": [
+      2.5,
+      0.37
+    ],
+    "outside": [
+      2,
+      0.29
+    ]
+  },
+  "dollar-daily-bread-benday": {
+    "logo": "$Daily Bread$",
+    "style": "benday",
+    "inside": [
+      2.5,
+      0.55
+    ],
+    "outside": [
+      2,
+      0.44
+    ]
+  },
+  "db-plain-black": {
+    "logo": "DB",
+    "style": "plain-black",
+    "inside": [
+      1.71,
+      1.2
+    ],
+    "outside": [
+      1.42,
+      1
+    ]
+  },
+  "db-plain-white": {
+    "logo": "DB",
+    "style": "plain-white",
+    "inside": [
+      1.71,
+      1.2
+    ],
+    "outside": [
+      1.42,
+      1
+    ]
+  },
+  "db-benday": {
+    "logo": "DB",
+    "style": "benday",
+    "inside": [
+      1.45,
+      1.2
+    ],
+    "outside": [
+      1.21,
+      1
+    ]
+  },
+  "dollar-db-plain-black": {
+    "logo": "$DB$",
+    "style": "plain-black",
+    "inside": [
+      2.5,
+      0.9
+    ],
+    "outside": [
+      2,
+      0.72
+    ]
+  },
+  "dollar-db-plain-white": {
+    "logo": "$DB$",
+    "style": "plain-white",
+    "inside": [
+      2.5,
+      0.9
+    ],
+    "outside": [
+      2,
+      0.72
+    ]
+  },
+  "dollar-db-benday": {
+    "logo": "$DB$",
+    "style": "benday",
+    "inside": [
+      2.5,
+      1.14
+    ],
+    "outside": [
+      2,
+      0.91
+    ]
+  },
+  "reversed-db-plain-black": {
+    "logo": "Reversed DB",
+    "style": "plain-black",
+    "inside": [
+      1.78,
+      1.2
+    ],
+    "outside": [
+      1.48,
+      1
+    ]
+  },
+  "reversed-db-plain-white": {
+    "logo": "Reversed DB",
+    "style": "plain-white",
+    "inside": [
+      1.78,
+      1.2
+    ],
+    "outside": [
+      1.48,
+      1
+    ]
+  },
+  "reversed-db-benday": {
+    "logo": "Reversed DB",
+    "style": "benday",
+    "inside": [
+      1.51,
+      1.2
+    ],
+    "outside": [
+      1.25,
+      1
+    ]
+  },
+  "halo-db-plain-black": {
+    "logo": "Reversed DB + halo",
+    "style": "plain-black",
+    "inside": [
+      1.1,
+      1.2
+    ],
+    "outside": [
+      0.91,
+      1
+    ]
+  },
+  "halo-db-plain-white": {
+    "logo": "Reversed DB + halo",
+    "style": "plain-white",
+    "inside": [
+      1.1,
+      1.2
+    ],
+    "outside": [
+      0.91,
+      1
+    ]
+  },
+  "halo-db-benday": {
+    "logo": "Reversed DB + halo",
+    "style": "benday",
+    "inside": [
+      1.21,
+      1.2
+    ],
+    "outside": [
+      1.01,
+      1
+    ]
+  }
+}

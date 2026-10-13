@@ -24,6 +24,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | PaintShop | v10 files ready for Printful (Hot Wire, Toxic, Riot) | [[PaintShop]] |
 | Benday Logo | v2 samples (Ben-Day stipple swatch) of all five marks; waiting on pick | [[Benday Logo]] |
 | Desk Tee | Rejected | [[Desk Tee]] |
+| Labels (inside + outside) | v1 options: six Daily Bread / DB logos in plain and Benday styles; waiting on pick | [[Labels]] |
 | S-Chain | Concept only | Cool S doodle as chain links over soda-can stripes (`tshirts/s-chain/`) |
 
 ## Where things live

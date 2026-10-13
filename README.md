@@ -47,6 +47,8 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `tshirts/benday-logo/` is the Benday Logo tee: a single chest graphic, the official mark in bold comic inking on a rough blue Ben-Day stipple paint swatch (black, white, blue), on a transparent background. `files/` has a 300 dpi PNG and an SVG per mark (sized to a 10.5 x 12 in box, placed 1.5 in below the collar) and `benday-logo-samples.png` shows all five at true scale. `files/back-daily-bread.png` is the 12 x 16 in back print with ` Bread$` in the bottom-right corner in the same style. Re-render with `node tshirts/benday-logo/make.js`, `back.js`, then `mockup.js` (needs Playwright).
 
+- `tshirts/labels/` holds the inside and outside neck label options (3 x 3 in each): Daily Bread, ` Bread$`, DB, `$`, a reversed DB and a reversed DB with a halo, each in plain black, plain white and the Benday style. Re-render with `node tshirts/labels/labels.js` (needs Playwright).
+
 ## Notes and local copies
 
 - `obsidian/Coma Toast/` holds the Obsidian notes: the project hub (`Coma Toast.md`), `Logo Marks.md`, and one note per shirt in `Shirts/` (`PaintShop.md` has every spec and the change log).
