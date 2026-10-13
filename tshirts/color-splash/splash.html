@@ -55,9 +55,11 @@ const WORDMARK_FONTS = {
   'pixel-throw': { name: 'Bangers, pixelated, 3D', css: '400 100px "Bangers"', gap: 8, pixel: 18, shadow: true, track: 0.07 },
 };
 const WM_TEXT = ['$', 'Daily Bread', '$'];
-// Back wordmark: right edge and baseline in design units (about 3.8 in in from the right edge of the
-// panel and 3.2 in up from the bottom), 5.6 in wide.
-const WM_RIGHT = 2520, WM_BASE = 3600, WM_W = 700;
+// Back wordmark: right edge in design units (about 3.8 in in from the right edge of the panel), 5.6 in
+// wide, set as low as it can go: its lowest point (drips included) sits WM_HEM_CLEAR above the bottom
+// of the panel, which is 1.5 in of clearance for the hem fold and print trim (125 units = 1 in).
+const WM_RIGHT = 2520, WM_W = 700, WM_HEM_CLEAR = 190;
+let WM_BASE = 3600;
 
 // Measure the wordmark at a given width: returns the font string and per-piece widths.
 function wordmarkLayout(key, width) {
@@ -232,6 +234,7 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
   let wmLayout = null;
   if (WM) {
     wmLayout = wordmarkLayout(WM, WM_W);
+    WM_BASE = H - WM_HEM_CLEAR - wmLayout.descent;
     const pad = 110;
     WM_ZONE = [WM_RIGHT - WM_W - pad, WM_BASE - wmLayout.ascent - pad, WM_RIGHT + pad, WM_BASE + wmLayout.descent + pad];
   }
@@ -243,9 +246,9 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
   const plan = [];
   if (PANEL === 'front') {
     let ring = 0;
-    for (let i = 0; i < 1200 && plan.length < 50; i++) {
+    for (let i = 0; i < 1200 && plan.length < 38; i++) {
       // left/right alternate so both sides of the chest get the same amount of paint
-      const edge = pick(['side', 'hem', 'shoulder', 'any', 'frame', 'frame', 'frame']);
+      const edge = pick(['side', 'hem', 'shoulder', 'any', 'frame', 'frame']);
       let x = edge === 'side' ? (i % 2 ? R(W * 0.07, W * 0.26) : R(W * 0.74, W * 0.93)) : edge === 'shoulder' ? pick([R(0, W * 0.3), R(W * 0.7, W)]) : R(0, W);
       let y = edge === 'hem' ? R(H * 0.62, H) : edge === 'shoulder' ? R(0, H * 0.2) : edge === 'any' ? R(0, H) : R(H * 0.1, H);
       const r = R(60, 210);
@@ -262,7 +265,7 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
     // Two mid-sized blocks staggered across the upper middle instead of one big one.
     plan.push([W * R(0.36, 0.42), H * R(0.26, 0.31), R(210, 250)]);
     plan.push([W * R(0.58, 0.64), H * R(0.42, 0.47), R(190, 230)]);
-    for (let i = 0; i < 400 && plan.length < 22; i++) {
+    for (let i = 0; i < 600 && plan.length < 34; i++) {
       const x = R(0, W), y = R(0, H), r = R(60, 200);
       if (clearAround(x, y, r * 1.15)) plan.push([x, y, r]);
     }
