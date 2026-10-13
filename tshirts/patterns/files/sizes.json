@@ -1,0 +1,42 @@
+{
+  "argyle-classic": {
+    "front": {
+      "wIn": 10.08,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 6.86,
+      "hIn": 1.36
+    }
+  },
+  "argyle-brand": {
+    "front": {
+      "wIn": 10.08,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 6.86,
+      "hIn": 1.36
+    }
+  },
+  "houndstooth-classic": {
+    "front": {
+      "wIn": 10.08,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 6.86,
+      "hIn": 1.36
+    }
+  },
+  "houndstooth-brand": {
+    "front": {
+      "wIn": 10.08,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 6.86,
+      "hIn": 1.36
+    }
+  }
+}

@@ -1,13 +1,13 @@
 ---
 tags: [coma-toast, shirt, looney, printful]
 updated: 2026-10-13
-status: v1 samples (3 colorways), waiting on colorway pick
+status: rejected
 ---
 # Looney
 
 Part of [[Coma Toast]]. The **Saint** mark (toast + halo, see [[Logo Marks]]) as a flat cartoon character over a classic cartoon **bullseye of concentric rings**, inspired by old cartoon end cards and a Psycho Bunny ring tee. Only the ring motif is borrowed, no cartoon text or characters.
 
-- **Status:** v1 samples made 2026-10-13; waiting on the colorway pick.
+- **Status:** **rejected** 2026-10-13 (the user didn't like it). Replaced by [[Argyle and Houndstooth]]. Files kept for reference.
 - **Local folder:** `G:\ComaToast\Looney\`
 - **Repo folder:** `tshirts/looney/`
 
