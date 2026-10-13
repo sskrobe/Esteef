@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Off Duty"><title>Off Duty</title><mask id="m-bear-bucket-hat-6" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="100" cy="118" r="62"/></g><circle cx="74" cy="118" r="5" fill="#000"/><circle cx="126" cy="118" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="22" ry="16" fill="#000"/><ellipse cx="100" cy="140" rx="8" ry="5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g><path d="M60,74 Q100,66 140,74" fill="none" stroke="#000" stroke-width="3" stroke-dasharray="5 4"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-bear-bucket-hat-6)"/></svg>

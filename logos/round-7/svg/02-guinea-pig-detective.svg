@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="The Inspector"><title>The Inspector</title><mask id="m-guinea-pig-detective-1" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="132" rx="70" ry="56"/><ellipse cx="44" cy="96" rx="13" ry="9" transform="rotate(-30 44 96)"/><ellipse cx="156" cy="96" rx="13" ry="9" transform="rotate(30 156 96)"/></g><circle cx="70" cy="124" r="5" fill="#000"/><circle cx="130" cy="124" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="7" ry="5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g><path d="M100,30 L100,80 M74,38 Q80,60 78,80 M126,38 Q120,60 122,80" fill="none" stroke="#000" stroke-width="3"/>
+          <path d="M54,40 L146,40" stroke="#000" stroke-width="2.5"/><path d="M54,52 L146,52" stroke="#000" stroke-width="2.5"/><path d="M54,64 L146,64" stroke="#000" stroke-width="2.5"/>
+          <path d="M62,36 L62,80" stroke="#000" stroke-width="2.5"/><path d="M88,36 L88,80" stroke="#000" stroke-width="2.5"/><path d="M112,36 L112,80" stroke="#000" stroke-width="2.5"/><path d="M138,36 L138,80" stroke="#000" stroke-width="2.5"/>
+          <path d="M60,36 Q80,26 100,26 Q120,26 140,36" fill="none" stroke="#000" stroke-width="3"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-guinea-pig-detective-1)"/></svg>

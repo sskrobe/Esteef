@@ -1,0 +1,909 @@
+<title>Mascot Logos Round 7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lookbook wall. Short intro, a sticky fabric picker, then a two-up grid of concept cards. */
+:root {
+  --paper: #f3f1f4;
+  --surface: #ffffff;
+  --ink: #18161b;
+  --muted: #6c6672;
+  --rule: #dcd7df;
+  --accent: #d6336f;
+  --tee-edge: rgba(24, 22, 27, 0.22);
+  --stage-fabric: #f7f7f5;
+  --stage-ink: #141414;
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33;
+    --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.25); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33;
+  --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.25); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 28px; }
+header { display: grid; gap: 14px; max-width: 68ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 7vw, 76px); line-height: .95; margin: 0; text-wrap: balance; letter-spacing: -.02em; }
+h1 em { font-weight: 500; color: var(--accent); }
+.lede { margin: 0; color: var(--muted); font-size: 16px; }
+.lede strong { color: var(--ink); font-weight: 600; }
+
+.toolbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--paper); padding-block: 12px; border-bottom: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; }
+.fabric { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.swatch { display: inline-flex; align-items: center; gap: 7px; font: 500 13px var(--font-body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 5px 12px 5px 6px; cursor: pointer; }
+.swatch .chip { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--tee-edge); }
+.swatch[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.picks { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); min-width: 0; }
+.picks button { font: 600 13px var(--font-body); color: var(--paper); background: var(--ink); border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer; white-space: nowrap; }
+.picks button:disabled { opacity: .4; cursor: default; }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.sections { display: grid; gap: 36px; }
+.section-title { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 12px; color: var(--ink); }
+.namer { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; cursor: pointer; }
+.namer input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.wordmark { display: none; margin: 0; font-family: var(--font-display); font-weight: 500; font-size: clamp(18px, 3vw, 26px); letter-spacing: .2em; text-transform: uppercase; line-height: 1; }
+.show-name .wordmark { display: block; }
+.mark.outline { display: none; }
+.outline-view .mark.outline { display: block; }
+.outline-view .mark.solid { display: none; }
+.show-name .stage { grid-template-rows: auto auto; align-content: center; gap: 6px; }
+.show-name .mark { width: 50%; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 18px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.card.picked { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.stage { position: relative; background: var(--stage-fabric); color: var(--stage-ink); aspect-ratio: 4 / 3; max-width: 100%; display: grid; place-items: center; transition: background .25s, color .25s; }
+.mark { width: 62%; max-width: 260px; }
+.mark svg { display: block; width: 100%; height: auto; }
+.num { position: absolute; top: 12px; left: 14px; font-family: var(--font-mono); font-size: 12px; opacity: .55; }
+.body { padding: 16px 18px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.title-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: 25px; line-height: 1.1; margin: 0; letter-spacing: .005em; }
+.pick { display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--font-body); color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.pick svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+.pick[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+.pick[aria-pressed="true"] svg { fill: currentColor; }
+.tags { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.tags .x { color: var(--accent); }
+.tags .style { margin-left: auto; border: 1px solid var(--rule); border-radius: 3px; padding: 1px 6px; color: var(--muted); }
+.note { margin: 0; color: var(--muted); font-size: 14px; }
+.tees { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--rule); }
+.tee { margin: 0; display: grid; gap: 2px; justify-items: center; }
+.tee > svg { width: 100%; max-width: 110px; height: auto; display: block; }
+.tee figcaption { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+
+footer { color: var(--muted); font-size: 13px; max-width: 68ch; display: grid; gap: 6px; }
+footer h3 { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin: 0; font-weight: 500; }
+footer p { margin: 0; }
+@media (prefers-reduced-motion: reduce) { .stage { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Brand identity &middot; Round 7 &middot; 10 new, less cute</p>
+    <h1>Plain animal. <em>Loud accessory.</em></h1>
+    <p class="lede">Taking the cute out. Like the Psycho Bunny rabbit, each head is now a <strong>plain, generic silhouette</strong>: dot eyes, no expressions. The <strong>accessory carries the identity</strong>: a crown, a detective’s hat, a top hat, a beret. Rounds 1 to 6 are still saved. Use <strong>Outline test</strong> to check the shapes.</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="fabric" role="group" aria-label="Shirt color">
+      <span class="label">Shirt color</span>
+  <button type="button" class="swatch" id="fabric-0" data-fabric="#f7f7f5" data-ink="#141414" aria-pressed="true">
+    <span class="chip" style="background:#f7f7f5"></span>White
+  </button>
+  <button type="button" class="swatch" id="fabric-1" data-fabric="#1b1b1d" data-ink="#f4f4f2" aria-pressed="false">
+    <span class="chip" style="background:#1b1b1d"></span>Black
+  </button>
+  <button type="button" class="swatch" id="fabric-2" data-fabric="#b9b8b5" data-ink="#1c1c1e" aria-pressed="false">
+    <span class="chip" style="background:#b9b8b5"></span>Heather grey
+  </button>
+  <button type="button" class="swatch" id="fabric-3" data-fabric="#1f2a44" data-ink="#f1efe8" aria-pressed="false">
+    <span class="chip" style="background:#1f2a44"></span>Navy
+  </button>
+  <button type="button" class="swatch" id="fabric-4" data-fabric="#e9b9c4" data-ink="#2a1a20" aria-pressed="false">
+    <span class="chip" style="background:#e9b9c4"></span>Washed pink
+  </button>
+    </div>
+    <label class="namer"><input type="checkbox" id="outline-test"> Outline test</label>
+    <label class="namer"><input type="checkbox" id="show-name"> Show the &ldquo;Daily Bread&rdquo; name</label>
+    <div class="picks">
+      <span id="pick-count">Shortlist up to 5 favorites</span>
+      <button type="button" id="copy-picks" disabled>Copy shortlist</button>
+    </div>
+  </div>
+
+  <main class="sections">
+    <section>
+      <h3 class="section-title">Round 7</h3>
+      <div class="grid">
+  <article class="card" data-n="1" data-name="King Capy">
+    <div class="stage">
+      <span class="num">01</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="King Capy"><title>King Capy</title><mask id="m-capybara-crown-10" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="60" cy="76" r="9"/><circle cx="140" cy="76" r="9"/><path d="M50,96 Q50,72 76,70 L124,70 Q150,72 150,96 L150,154 Q150,186 118,186 L82,186 Q50,186 50,154 Z"/></g><circle cx="68" cy="102" r="5" fill="#000"/><circle cx="132" cy="102" r="5" fill="#000"/><ellipse cx="88" cy="164" rx="3.5" ry="7" transform="rotate(20 88 164)" fill="#000"/><ellipse cx="112" cy="164" rx="3.5" ry="7" transform="rotate(-20 112 164)" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g><rect x="57" y="44" width="86" height="5" fill="#000"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-capybara-crown-10)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="King Capy"><filter id="m-capybara-crown-11" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><circle cx="60" cy="76" r="9"/><circle cx="140" cy="76" r="9"/><path d="M50,96 Q50,72 76,70 L124,70 Q150,72 150,96 L150,154 Q150,186 118,186 L82,186 Q50,186 50,154 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-capybara-crown-11)"><circle cx="60" cy="76" r="9"/><circle cx="140" cy="76" r="9"/><path d="M50,96 Q50,72 76,70 L124,70 Q150,72 150,96 L150,154 Q150,186 118,186 L82,186 Q50,186 50,154 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-capybara-crown-11)"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>King Capy</h2>
+        <button class="pick" type="button" id="pick-capybara-crown" aria-pressed="false" aria-label="Shortlist King Capy">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Capybara</span><span class="x">&times;</span><span>Crown</span><span class="style new">New</span></p>
+      <p class="note">A flat, boxy capybara head, as plain as possible, wearing a crown. The capybara is the calmest animal alive, so here it’s the calmest king alive.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="King Capy on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="King Capy"><mask id="m-capybara-crown-12" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="60" cy="76" r="9"/><circle cx="140" cy="76" r="9"/><path d="M50,96 Q50,72 76,70 L124,70 Q150,72 150,96 L150,154 Q150,186 118,186 L82,186 Q50,186 50,154 Z"/></g><circle cx="68" cy="102" r="5" fill="#000"/><circle cx="132" cy="102" r="5" fill="#000"/><ellipse cx="88" cy="164" rx="3.5" ry="7" transform="rotate(20 88 164)" fill="#000"/><ellipse cx="112" cy="164" rx="3.5" ry="7" transform="rotate(-20 112 164)" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g><rect x="57" y="44" width="86" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-capybara-crown-12)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="King Capy on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="King Capy"><mask id="m-capybara-crown-13" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="60" cy="76" r="9"/><circle cx="140" cy="76" r="9"/><path d="M50,96 Q50,72 76,70 L124,70 Q150,72 150,96 L150,154 Q150,186 118,186 L82,186 Q50,186 50,154 Z"/></g><circle cx="68" cy="102" r="5" fill="#000"/><circle cx="132" cy="102" r="5" fill="#000"/><ellipse cx="88" cy="164" rx="3.5" ry="7" transform="rotate(20 88 164)" fill="#000"/><ellipse cx="112" cy="164" rx="3.5" ry="7" transform="rotate(-20 112 164)" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g><rect x="57" y="44" width="86" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-capybara-crown-13)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="King Capy on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="King Capy"><mask id="m-capybara-crown-14" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="60" cy="76" r="9"/><circle cx="140" cy="76" r="9"/><path d="M50,96 Q50,72 76,70 L124,70 Q150,72 150,96 L150,154 Q150,186 118,186 L82,186 Q50,186 50,154 Z"/></g><circle cx="68" cy="102" r="5" fill="#000"/><circle cx="132" cy="102" r="5" fill="#000"/><ellipse cx="88" cy="164" rx="3.5" ry="7" transform="rotate(20 88 164)" fill="#000"/><ellipse cx="112" cy="164" rx="3.5" ry="7" transform="rotate(-20 112 164)" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M55,56 L51,20 L77.5,35 L100,10 L122.5,35 L149,20 L145,56 Z"/>
+      <circle cx="51" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="149" cy="18" r="6"/></g><rect x="57" y="44" width="86" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-capybara-crown-14)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="2" data-name="The Inspector">
+    <div class="stage">
+      <span class="num">02</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="The Inspector"><title>The Inspector</title><mask id="m-guinea-pig-detective-15" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="132" rx="70" ry="56"/><ellipse cx="44" cy="96" rx="13" ry="9" transform="rotate(-30 44 96)"/><ellipse cx="156" cy="96" rx="13" ry="9" transform="rotate(30 156 96)"/></g><circle cx="70" cy="124" r="5" fill="#000"/><circle cx="130" cy="124" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="7" ry="5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g><path d="M100,30 L100,80 M74,38 Q80,60 78,80 M126,38 Q120,60 122,80" fill="none" stroke="#000" stroke-width="3"/>
+          <path d="M54,40 L146,40" stroke="#000" stroke-width="2.5"/><path d="M54,52 L146,52" stroke="#000" stroke-width="2.5"/><path d="M54,64 L146,64" stroke="#000" stroke-width="2.5"/>
+          <path d="M62,36 L62,80" stroke="#000" stroke-width="2.5"/><path d="M88,36 L88,80" stroke="#000" stroke-width="2.5"/><path d="M112,36 L112,80" stroke="#000" stroke-width="2.5"/><path d="M138,36 L138,80" stroke="#000" stroke-width="2.5"/>
+          <path d="M60,36 Q80,26 100,26 Q120,26 140,36" fill="none" stroke="#000" stroke-width="3"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-guinea-pig-detective-15)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="The Inspector"><filter id="m-guinea-pig-detective-16" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><ellipse cx="100" cy="132" rx="70" ry="56"/><ellipse cx="44" cy="96" rx="13" ry="9" transform="rotate(-30 44 96)"/><ellipse cx="156" cy="96" rx="13" ry="9" transform="rotate(30 156 96)"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-guinea-pig-detective-16)"><ellipse cx="100" cy="132" rx="70" ry="56"/><ellipse cx="44" cy="96" rx="13" ry="9" transform="rotate(-30 44 96)"/><ellipse cx="156" cy="96" rx="13" ry="9" transform="rotate(30 156 96)"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-guinea-pig-detective-16)"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>The Inspector</h2>
+        <button class="pick" type="button" id="pick-guinea-pig-detective" aria-pressed="false" aria-label="Shortlist The Inspector">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Guinea pig</span><span class="x">&times;</span><span>Detective hat</span><span class="style new">New</span></p>
+      <p class="note">A plain guinea pig blob in a deerstalker detective hat, the kind with front and back brims and ear flaps. The hat alone tells the whole story.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="The Inspector on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="The Inspector"><mask id="m-guinea-pig-detective-17" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="132" rx="70" ry="56"/><ellipse cx="44" cy="96" rx="13" ry="9" transform="rotate(-30 44 96)"/><ellipse cx="156" cy="96" rx="13" ry="9" transform="rotate(30 156 96)"/></g><circle cx="70" cy="124" r="5" fill="#000"/><circle cx="130" cy="124" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="7" ry="5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g><path d="M100,30 L100,80 M74,38 Q80,60 78,80 M126,38 Q120,60 122,80" fill="none" stroke="#000" stroke-width="3"/>
+          <path d="M54,40 L146,40" stroke="#000" stroke-width="2.5"/><path d="M54,52 L146,52" stroke="#000" stroke-width="2.5"/><path d="M54,64 L146,64" stroke="#000" stroke-width="2.5"/>
+          <path d="M62,36 L62,80" stroke="#000" stroke-width="2.5"/><path d="M88,36 L88,80" stroke="#000" stroke-width="2.5"/><path d="M112,36 L112,80" stroke="#000" stroke-width="2.5"/><path d="M138,36 L138,80" stroke="#000" stroke-width="2.5"/>
+          <path d="M60,36 Q80,26 100,26 Q120,26 140,36" fill="none" stroke="#000" stroke-width="3"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-guinea-pig-detective-17)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="The Inspector on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="The Inspector"><mask id="m-guinea-pig-detective-18" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="132" rx="70" ry="56"/><ellipse cx="44" cy="96" rx="13" ry="9" transform="rotate(-30 44 96)"/><ellipse cx="156" cy="96" rx="13" ry="9" transform="rotate(30 156 96)"/></g><circle cx="70" cy="124" r="5" fill="#000"/><circle cx="130" cy="124" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="7" ry="5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g><path d="M100,30 L100,80 M74,38 Q80,60 78,80 M126,38 Q120,60 122,80" fill="none" stroke="#000" stroke-width="3"/>
+          <path d="M54,40 L146,40" stroke="#000" stroke-width="2.5"/><path d="M54,52 L146,52" stroke="#000" stroke-width="2.5"/><path d="M54,64 L146,64" stroke="#000" stroke-width="2.5"/>
+          <path d="M62,36 L62,80" stroke="#000" stroke-width="2.5"/><path d="M88,36 L88,80" stroke="#000" stroke-width="2.5"/><path d="M112,36 L112,80" stroke="#000" stroke-width="2.5"/><path d="M138,36 L138,80" stroke="#000" stroke-width="2.5"/>
+          <path d="M60,36 Q80,26 100,26 Q120,26 140,36" fill="none" stroke="#000" stroke-width="3"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-guinea-pig-detective-18)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="The Inspector on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="The Inspector"><mask id="m-guinea-pig-detective-19" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="132" rx="70" ry="56"/><ellipse cx="44" cy="96" rx="13" ry="9" transform="rotate(-30 44 96)"/><ellipse cx="156" cy="96" rx="13" ry="9" transform="rotate(30 156 96)"/></g><circle cx="70" cy="124" r="5" fill="#000"/><circle cx="130" cy="124" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="7" ry="5" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M50,82 Q50,30 100,28 Q150,30 150,82 Z"/><path d="M40,82 Q60,70 100,72 Q140,70 160,82 Q170,92 186,94 Q160,100 100,96 Q40,100 14,94 Q30,92 40,82 Z"/>
+          <circle cx="100" cy="24" r="7"/><path d="M52,58 Q44,40 60,36 L70,64 Z M148,58 Q156,40 140,36 L130,64 Z"/></g><path d="M100,30 L100,80 M74,38 Q80,60 78,80 M126,38 Q120,60 122,80" fill="none" stroke="#000" stroke-width="3"/>
+          <path d="M54,40 L146,40" stroke="#000" stroke-width="2.5"/><path d="M54,52 L146,52" stroke="#000" stroke-width="2.5"/><path d="M54,64 L146,64" stroke="#000" stroke-width="2.5"/>
+          <path d="M62,36 L62,80" stroke="#000" stroke-width="2.5"/><path d="M88,36 L88,80" stroke="#000" stroke-width="2.5"/><path d="M112,36 L112,80" stroke="#000" stroke-width="2.5"/><path d="M138,36 L138,80" stroke="#000" stroke-width="2.5"/>
+          <path d="M60,36 Q80,26 100,26 Q120,26 140,36" fill="none" stroke="#000" stroke-width="3"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-guinea-pig-detective-19)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="3" data-name="Daily Bread">
+    <div class="stage">
+      <span class="num">03</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Daily Bread"><title>Daily Bread</title><mask id="m-bagel-crown-20" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M34,128 A66,58 0 1 0 166,128 A66,58 0 1 0 34,128 Z M84,128 A16,13 0 1 0 116,128 A16,13 0 1 0 84,128 Z"/></g><ellipse cx="62" cy="100" rx="4" ry="2" transform="rotate(-30 62 100)" fill="#000"/><ellipse cx="92" cy="86" rx="4" ry="2" transform="rotate(-6 92 86)" fill="#000"/><ellipse cx="126" cy="92" rx="4" ry="2" transform="rotate(20 126 92)" fill="#000"/><ellipse cx="146" cy="120" rx="4" ry="2" transform="rotate(60 146 120)" fill="#000"/><ellipse cx="56" cy="140" rx="4" ry="2" transform="rotate(-70 56 140)" fill="#000"/><ellipse cx="134" cy="156" rx="4" ry="2" transform="rotate(30 134 156)" fill="#000"/><ellipse cx="84" cy="162" rx="4" ry="2" transform="rotate(-14 84 162)" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g><rect x="54" y="46" width="92" height="5" fill="#000"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-bagel-crown-20)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Daily Bread"><filter id="m-bagel-crown-21" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><path fill-rule="evenodd" d="M34,128 A66,58 0 1 0 166,128 A66,58 0 1 0 34,128 Z M84,128 A16,13 0 1 0 116,128 A16,13 0 1 0 84,128 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bagel-crown-21)"><path fill-rule="evenodd" d="M34,128 A66,58 0 1 0 166,128 A66,58 0 1 0 34,128 Z M84,128 A16,13 0 1 0 116,128 A16,13 0 1 0 84,128 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bagel-crown-21)"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Daily Bread</h2>
+        <button class="pick" type="button" id="pick-bagel-crown" aria-pressed="false" aria-label="Shortlist Daily Bread">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Bagel</span><span class="x">&times;</span><span>Crown</span><span class="style new">New</span></p>
+      <p class="note">The one you liked: a crown over something round. A plain bagel ring with a crown floating above it, a direct mark for the Daily Bread name. No face at all.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Daily Bread on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Daily Bread"><mask id="m-bagel-crown-22" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M34,128 A66,58 0 1 0 166,128 A66,58 0 1 0 34,128 Z M84,128 A16,13 0 1 0 116,128 A16,13 0 1 0 84,128 Z"/></g><ellipse cx="62" cy="100" rx="4" ry="2" transform="rotate(-30 62 100)" fill="#000"/><ellipse cx="92" cy="86" rx="4" ry="2" transform="rotate(-6 92 86)" fill="#000"/><ellipse cx="126" cy="92" rx="4" ry="2" transform="rotate(20 126 92)" fill="#000"/><ellipse cx="146" cy="120" rx="4" ry="2" transform="rotate(60 146 120)" fill="#000"/><ellipse cx="56" cy="140" rx="4" ry="2" transform="rotate(-70 56 140)" fill="#000"/><ellipse cx="134" cy="156" rx="4" ry="2" transform="rotate(30 134 156)" fill="#000"/><ellipse cx="84" cy="162" rx="4" ry="2" transform="rotate(-14 84 162)" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g><rect x="54" y="46" width="92" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-bagel-crown-22)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Daily Bread on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Daily Bread"><mask id="m-bagel-crown-23" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M34,128 A66,58 0 1 0 166,128 A66,58 0 1 0 34,128 Z M84,128 A16,13 0 1 0 116,128 A16,13 0 1 0 84,128 Z"/></g><ellipse cx="62" cy="100" rx="4" ry="2" transform="rotate(-30 62 100)" fill="#000"/><ellipse cx="92" cy="86" rx="4" ry="2" transform="rotate(-6 92 86)" fill="#000"/><ellipse cx="126" cy="92" rx="4" ry="2" transform="rotate(20 126 92)" fill="#000"/><ellipse cx="146" cy="120" rx="4" ry="2" transform="rotate(60 146 120)" fill="#000"/><ellipse cx="56" cy="140" rx="4" ry="2" transform="rotate(-70 56 140)" fill="#000"/><ellipse cx="134" cy="156" rx="4" ry="2" transform="rotate(30 134 156)" fill="#000"/><ellipse cx="84" cy="162" rx="4" ry="2" transform="rotate(-14 84 162)" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g><rect x="54" y="46" width="92" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-bagel-crown-23)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Daily Bread on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Daily Bread"><mask id="m-bagel-crown-24" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path fill-rule="evenodd" d="M34,128 A66,58 0 1 0 166,128 A66,58 0 1 0 34,128 Z M84,128 A16,13 0 1 0 116,128 A16,13 0 1 0 84,128 Z"/></g><ellipse cx="62" cy="100" rx="4" ry="2" transform="rotate(-30 62 100)" fill="#000"/><ellipse cx="92" cy="86" rx="4" ry="2" transform="rotate(-6 92 86)" fill="#000"/><ellipse cx="126" cy="92" rx="4" ry="2" transform="rotate(20 126 92)" fill="#000"/><ellipse cx="146" cy="120" rx="4" ry="2" transform="rotate(60 146 120)" fill="#000"/><ellipse cx="56" cy="140" rx="4" ry="2" transform="rotate(-70 56 140)" fill="#000"/><ellipse cx="134" cy="156" rx="4" ry="2" transform="rotate(30 134 156)" fill="#000"/><ellipse cx="84" cy="162" rx="4" ry="2" transform="rotate(-14 84 162)" fill="#000"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M52,58 L48,24 L76,38 L100,14 L124,38 L152,24 L148,58 Z"/>
+      <circle cx="48" cy="22" r="6"/><circle cx="100" cy="12" r="6"/><circle cx="152" cy="22" r="6"/></g><rect x="54" y="46" width="92" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-bagel-crown-24)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="4" data-name="Bread Winner">
+    <div class="stage">
+      <span class="num">04</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Bread Winner"><title>Bread Winner</title><mask id="m-loaf-crown-25" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M24,150 C24,98 60,80 100,80 C140,80 176,98 176,150 L176,170 Q176,184 162,184 L38,184 Q24,184 24,170 Z"/></g><path d="M58,104 L74,128 M88,96 L104,122 M118,98 L134,124" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g><rect x="56" y="48" width="88" height="5" fill="#000"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-loaf-crown-25)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Bread Winner"><filter id="m-loaf-crown-26" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><path d="M24,150 C24,98 60,80 100,80 C140,80 176,98 176,150 L176,170 Q176,184 162,184 L38,184 Q24,184 24,170 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-loaf-crown-26)"><path d="M24,150 C24,98 60,80 100,80 C140,80 176,98 176,150 L176,170 Q176,184 162,184 L38,184 Q24,184 24,170 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-loaf-crown-26)"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Bread Winner</h2>
+        <button class="pick" type="button" id="pick-loaf-crown" aria-pressed="false" aria-label="Shortlist Bread Winner">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Loaf of bread</span><span class="x">&times;</span><span>Crown</span><span class="style new">New</span></p>
+      <p class="note">A plain, scored loaf of bread under a crown. It’s about as basic as an object gets, and the crown makes it royalty. "Bread winner" fits the money joke too.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bread Winner on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bread Winner"><mask id="m-loaf-crown-27" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M24,150 C24,98 60,80 100,80 C140,80 176,98 176,150 L176,170 Q176,184 162,184 L38,184 Q24,184 24,170 Z"/></g><path d="M58,104 L74,128 M88,96 L104,122 M118,98 L134,124" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g><rect x="56" y="48" width="88" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-loaf-crown-27)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bread Winner on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bread Winner"><mask id="m-loaf-crown-28" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M24,150 C24,98 60,80 100,80 C140,80 176,98 176,150 L176,170 Q176,184 162,184 L38,184 Q24,184 24,170 Z"/></g><path d="M58,104 L74,128 M88,96 L104,122 M118,98 L134,124" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g><rect x="56" y="48" width="88" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-loaf-crown-28)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bread Winner on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bread Winner"><mask id="m-loaf-crown-29" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M24,150 C24,98 60,80 100,80 C140,80 176,98 176,150 L176,170 Q176,184 162,184 L38,184 Q24,184 24,170 Z"/></g><path d="M58,104 L74,128 M88,96 L104,122 M118,98 L134,124" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M54,60 L50,20 L77,37 L100,10 L123,37 L150,20 L146,60 Z"/>
+      <circle cx="50" cy="18" r="6"/><circle cx="100" cy="8" r="6"/><circle cx="150" cy="18" r="6"/></g><rect x="56" y="48" width="88" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-loaf-crown-29)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="5" data-name="House Cat">
+    <div class="stage">
+      <span class="num">05</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="House Cat"><title>House Cat</title><mask id="m-cat-crown-30" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M44,108 L40,62 L74,82 Q100,76 126,82 L160,62 L156,108 Q160,176 100,180 Q40,176 44,108 Z"/></g><circle cx="74" cy="126" r="5.5" fill="#000"/><circle cx="126" cy="126" r="5.5" fill="#000"/><path d="M94,144 L106,144 L100,150 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g><rect x="62" y="38" width="76" height="5" fill="#000"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-cat-crown-30)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="House Cat"><filter id="m-cat-crown-31" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><path d="M44,108 L40,62 L74,82 Q100,76 126,82 L160,62 L156,108 Q160,176 100,180 Q40,176 44,108 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-cat-crown-31)"><path d="M44,108 L40,62 L74,82 Q100,76 126,82 L160,62 L156,108 Q160,176 100,180 Q40,176 44,108 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-cat-crown-31)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>House Cat</h2>
+        <button class="pick" type="button" id="pick-cat-crown" aria-pressed="false" aria-label="Shortlist House Cat">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Cat</span><span class="x">&times;</span><span>Crown</span><span class="style new">New</span></p>
+      <p class="note">The plainest cat head possible (two triangle ears, two dots) wearing a crown. A cat already thinks it owns the house, so the crown just confirms it.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="House Cat on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="House Cat"><mask id="m-cat-crown-32" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M44,108 L40,62 L74,82 Q100,76 126,82 L160,62 L156,108 Q160,176 100,180 Q40,176 44,108 Z"/></g><circle cx="74" cy="126" r="5.5" fill="#000"/><circle cx="126" cy="126" r="5.5" fill="#000"/><path d="M94,144 L106,144 L100,150 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g><rect x="62" y="38" width="76" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-cat-crown-32)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="House Cat on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="House Cat"><mask id="m-cat-crown-33" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M44,108 L40,62 L74,82 Q100,76 126,82 L160,62 L156,108 Q160,176 100,180 Q40,176 44,108 Z"/></g><circle cx="74" cy="126" r="5.5" fill="#000"/><circle cx="126" cy="126" r="5.5" fill="#000"/><path d="M94,144 L106,144 L100,150 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g><rect x="62" y="38" width="76" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-cat-crown-33)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="House Cat on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="House Cat"><mask id="m-cat-crown-34" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M44,108 L40,62 L74,82 Q100,76 126,82 L160,62 L156,108 Q160,176 100,180 Q40,176 44,108 Z"/></g><circle cx="74" cy="126" r="5.5" fill="#000"/><circle cx="126" cy="126" r="5.5" fill="#000"/><path d="M94,144 L106,144 L100,150 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g>
+    <g fill="#fff" stroke="none"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g><rect x="62" y="38" width="76" height="5" fill="#000"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-cat-crown-34)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="6" data-name="Old Money">
+    <div class="stage">
+      <span class="num">06</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Old Money"><title>Old Money</title><mask id="m-bulldog-top-hat-35" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M30,116 Q30,82 60,80 L140,80 Q170,82 170,116 L170,150 Q170,186 132,188 L68,188 Q30,186 30,150 Z"/><path d="M34,88 L22,74 L50,80 Z M166,88 L178,74 L150,80 Z"/></g><circle cx="70" cy="120" r="5" fill="#000"/><circle cx="130" cy="120" r="5" fill="#000"/><ellipse cx="100" cy="142" rx="16" ry="9" fill="#000"/><path d="M60,166 Q100,180 140,166" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g>
+    <g fill="#fff" stroke="none"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g><rect x="66" y="44" width="68" height="8" fill="#000"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-bulldog-top-hat-35)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Old Money"><filter id="m-bulldog-top-hat-36" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><path d="M30,116 Q30,82 60,80 L140,80 Q170,82 170,116 L170,150 Q170,186 132,188 L68,188 Q30,186 30,150 Z"/><path d="M34,88 L22,74 L50,80 Z M166,88 L178,74 L150,80 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bulldog-top-hat-36)"><path d="M30,116 Q30,82 60,80 L140,80 Q170,82 170,116 L170,150 Q170,186 132,188 L68,188 Q30,186 30,150 Z"/><path d="M34,88 L22,74 L50,80 Z M166,88 L178,74 L150,80 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bulldog-top-hat-36)"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Old Money</h2>
+        <button class="pick" type="button" id="pick-bulldog-top-hat" aria-pressed="false" aria-label="Shortlist Old Money">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Bulldog</span><span class="x">&times;</span><span>Top hat</span><span class="style new">New</span></p>
+      <p class="note">Redrawn as a flat, wide bulldog head with no expression, under a tall top hat. The contrast is the joke: a tough dog with a gentleman’s hat.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Old Money on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Old Money"><mask id="m-bulldog-top-hat-37" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M30,116 Q30,82 60,80 L140,80 Q170,82 170,116 L170,150 Q170,186 132,188 L68,188 Q30,186 30,150 Z"/><path d="M34,88 L22,74 L50,80 Z M166,88 L178,74 L150,80 Z"/></g><circle cx="70" cy="120" r="5" fill="#000"/><circle cx="130" cy="120" r="5" fill="#000"/><ellipse cx="100" cy="142" rx="16" ry="9" fill="#000"/><path d="M60,166 Q100,180 140,166" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g>
+    <g fill="#fff" stroke="none"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g><rect x="66" y="44" width="68" height="8" fill="#000"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-bulldog-top-hat-37)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Old Money on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Old Money"><mask id="m-bulldog-top-hat-38" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M30,116 Q30,82 60,80 L140,80 Q170,82 170,116 L170,150 Q170,186 132,188 L68,188 Q30,186 30,150 Z"/><path d="M34,88 L22,74 L50,80 Z M166,88 L178,74 L150,80 Z"/></g><circle cx="70" cy="120" r="5" fill="#000"/><circle cx="130" cy="120" r="5" fill="#000"/><ellipse cx="100" cy="142" rx="16" ry="9" fill="#000"/><path d="M60,166 Q100,180 140,166" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g>
+    <g fill="#fff" stroke="none"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g><rect x="66" y="44" width="68" height="8" fill="#000"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-bulldog-top-hat-38)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Old Money on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Old Money"><mask id="m-bulldog-top-hat-39" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><path d="M30,116 Q30,82 60,80 L140,80 Q170,82 170,116 L170,150 Q170,186 132,188 L68,188 Q30,186 30,150 Z"/><path d="M34,88 L22,74 L50,80 Z M166,88 L178,74 L150,80 Z"/></g><circle cx="70" cy="120" r="5" fill="#000"/><circle cx="130" cy="120" r="5" fill="#000"/><ellipse cx="100" cy="142" rx="16" ry="9" fill="#000"/><path d="M60,166 Q100,180 140,166" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g>
+    <g fill="#fff" stroke="none"><rect x="66" y="0" width="68" height="58" rx="3"/><ellipse cx="100" cy="62" rx="60" ry="9"/></g><rect x="66" y="44" width="68" height="8" fill="#000"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-bulldog-top-hat-39)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="7" data-name="Off Duty">
+    <div class="stage">
+      <span class="num">07</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Off Duty"><title>Off Duty</title><mask id="m-bear-bucket-hat-40" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="100" cy="118" r="62"/></g><circle cx="74" cy="118" r="5" fill="#000"/><circle cx="126" cy="118" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="22" ry="16" fill="#000"/><ellipse cx="100" cy="140" rx="8" ry="5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g><path d="M60,74 Q100,66 140,74" fill="none" stroke="#000" stroke-width="3" stroke-dasharray="5 4"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-bear-bucket-hat-40)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Off Duty"><filter id="m-bear-bucket-hat-41" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><circle cx="100" cy="118" r="62"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bear-bucket-hat-41)"><circle cx="100" cy="118" r="62"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-bear-bucket-hat-41)"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Off Duty</h2>
+        <button class="pick" type="button" id="pick-bear-bucket-hat" aria-pressed="false" aria-label="Shortlist Off Duty">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Bear</span><span class="x">&times;</span><span>Bucket hat</span><span class="style new">New</span></p>
+      <p class="note">A generic round bear head in a bucket hat pulled low, so you can barely see its eyes. Streetwear’s favorite hat on the most basic animal.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Off Duty on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Off Duty"><mask id="m-bear-bucket-hat-42" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="100" cy="118" r="62"/></g><circle cx="74" cy="118" r="5" fill="#000"/><circle cx="126" cy="118" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="22" ry="16" fill="#000"/><ellipse cx="100" cy="140" rx="8" ry="5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g><path d="M60,74 Q100,66 140,74" fill="none" stroke="#000" stroke-width="3" stroke-dasharray="5 4"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-bear-bucket-hat-42)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Off Duty on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Off Duty"><mask id="m-bear-bucket-hat-43" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="100" cy="118" r="62"/></g><circle cx="74" cy="118" r="5" fill="#000"/><circle cx="126" cy="118" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="22" ry="16" fill="#000"/><ellipse cx="100" cy="140" rx="8" ry="5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g><path d="M60,74 Q100,66 140,74" fill="none" stroke="#000" stroke-width="3" stroke-dasharray="5 4"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-bear-bucket-hat-43)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Off Duty on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Off Duty"><mask id="m-bear-bucket-hat-44" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="100" cy="118" r="62"/></g><circle cx="74" cy="118" r="5" fill="#000"/><circle cx="126" cy="118" r="5" fill="#000"/><ellipse cx="100" cy="146" rx="22" ry="16" fill="#000"/><ellipse cx="100" cy="140" rx="8" ry="5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M56,90 L64,40 Q100,28 136,40 L144,90 Z"/><path d="M28,98 Q40,82 60,84 L140,84 Q160,82 172,98 Q100,112 28,98 Z"/></g><path d="M60,74 Q100,66 140,74" fill="none" stroke="#000" stroke-width="3" stroke-dasharray="5 4"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-bear-bucket-hat-44)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="8" data-name="Captain">
+    <div class="stage">
+      <span class="num">08</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Captain"><title>Captain</title><mask id="m-duck-captain-45" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="96" cy="112" r="52"/><path d="M140,112 Q178,108 190,124 Q178,138 140,134 Z"/></g><circle cx="116" cy="104" r="6" fill="#000"/><path d="M144,124 L186,124" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g><path d="M50,64 L146,66" stroke="#000" stroke-width="5"/><path d="M90,42 L94,52 L104,52 L96,58 L99,68 L90,62 L81,68 L84,58 L76,52 L86,52 Z" fill="#000" transform="translate(4,-6) scale(0.9) translate(10,6)"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-duck-captain-45)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Captain"><filter id="m-duck-captain-46" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><circle cx="96" cy="112" r="52"/><path d="M140,112 Q178,108 190,124 Q178,138 140,134 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-duck-captain-46)"><circle cx="96" cy="112" r="52"/><path d="M140,112 Q178,108 190,124 Q178,138 140,134 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-duck-captain-46)"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Captain</h2>
+        <button class="pick" type="button" id="pick-duck-captain" aria-pressed="false" aria-label="Shortlist Captain">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Duck</span><span class="x">&times;</span><span>Captain’s cap</span><span class="style new">New</span></p>
+      <p class="note">A plain duck head in profile wearing a yacht captain’s cap. A profile view gives a very different silhouette from the rest of the set.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Captain on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Captain"><mask id="m-duck-captain-47" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="96" cy="112" r="52"/><path d="M140,112 Q178,108 190,124 Q178,138 140,134 Z"/></g><circle cx="116" cy="104" r="6" fill="#000"/><path d="M144,124 L186,124" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g><path d="M50,64 L146,66" stroke="#000" stroke-width="5"/><path d="M90,42 L94,52 L104,52 L96,58 L99,68 L90,62 L81,68 L84,58 L76,52 L86,52 Z" fill="#000" transform="translate(4,-6) scale(0.9) translate(10,6)"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-duck-captain-47)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Captain on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Captain"><mask id="m-duck-captain-48" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="96" cy="112" r="52"/><path d="M140,112 Q178,108 190,124 Q178,138 140,134 Z"/></g><circle cx="116" cy="104" r="6" fill="#000"/><path d="M144,124 L186,124" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g><path d="M50,64 L146,66" stroke="#000" stroke-width="5"/><path d="M90,42 L94,52 L104,52 L96,58 L99,68 L90,62 L81,68 L84,58 L76,52 L86,52 Z" fill="#000" transform="translate(4,-6) scale(0.9) translate(10,6)"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-duck-captain-48)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Captain on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Captain"><mask id="m-duck-captain-49" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="96" cy="112" r="52"/><path d="M140,112 Q178,108 190,124 Q178,138 140,134 Z"/></g><circle cx="116" cy="104" r="6" fill="#000"/><path d="M144,124 L186,124" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g>
+    <g fill="#fff" stroke="none"><path d="M44,74 Q46,34 96,30 Q146,34 150,66 L144,76 Z"/><path d="M136,68 Q160,66 176,80 Q160,86 132,80 Z"/></g><path d="M50,64 L146,66" stroke="#000" stroke-width="5"/><path d="M90,42 L94,52 L104,52 L96,58 L99,68 L90,62 L81,68 L84,58 L76,52 L86,52 Z" fill="#000" transform="translate(4,-6) scale(0.9) translate(10,6)"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-duck-captain-49)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="9" data-name="Le Pug">
+    <div class="stage">
+      <span class="num">09</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Le Pug"><title>Le Pug</title><mask id="m-pug-beret-50" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="124" rx="62" ry="56"/><path d="M42,98 Q40,76 62,80 L60,118 Z M158,98 Q160,76 138,80 L140,118 Z"/></g><circle cx="72" cy="116" r="6" fill="#000"/><circle cx="128" cy="116" r="6" fill="#000"/><ellipse cx="100" cy="148" rx="26" ry="18" fill="#000"/><ellipse cx="100" cy="142" rx="9" ry="5.5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-pug-beret-50)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Le Pug"><filter id="m-pug-beret-51" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><ellipse cx="100" cy="124" rx="62" ry="56"/><path d="M42,98 Q40,76 62,80 L60,118 Z M158,98 Q160,76 138,80 L140,118 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-pug-beret-51)"><ellipse cx="100" cy="124" rx="62" ry="56"/><path d="M42,98 Q40,76 62,80 L60,118 Z M158,98 Q160,76 138,80 L140,118 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-pug-beret-51)"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Le Pug</h2>
+        <button class="pick" type="button" id="pick-pug-beret" aria-pressed="false" aria-label="Shortlist Le Pug">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Pug</span><span class="x">&times;</span><span>Beret</span><span class="style new">New</span></p>
+      <p class="note">A flat pug face under a tilted French beret: the fashion-house snob joke in its simplest form.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Le Pug on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Le Pug"><mask id="m-pug-beret-52" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="124" rx="62" ry="56"/><path d="M42,98 Q40,76 62,80 L60,118 Z M158,98 Q160,76 138,80 L140,118 Z"/></g><circle cx="72" cy="116" r="6" fill="#000"/><circle cx="128" cy="116" r="6" fill="#000"/><ellipse cx="100" cy="148" rx="26" ry="18" fill="#000"/><ellipse cx="100" cy="142" rx="9" ry="5.5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-pug-beret-52)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Le Pug on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Le Pug"><mask id="m-pug-beret-53" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="124" rx="62" ry="56"/><path d="M42,98 Q40,76 62,80 L60,118 Z M158,98 Q160,76 138,80 L140,118 Z"/></g><circle cx="72" cy="116" r="6" fill="#000"/><circle cx="128" cy="116" r="6" fill="#000"/><ellipse cx="100" cy="148" rx="26" ry="18" fill="#000"/><ellipse cx="100" cy="142" rx="9" ry="5.5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-pug-beret-53)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Le Pug on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Le Pug"><mask id="m-pug-beret-54" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><ellipse cx="100" cy="124" rx="62" ry="56"/><path d="M42,98 Q40,76 62,80 L60,118 Z M158,98 Q160,76 138,80 L140,118 Z"/></g><circle cx="72" cy="116" r="6" fill="#000"/><circle cx="128" cy="116" r="6" fill="#000"/><ellipse cx="100" cy="148" rx="26" ry="18" fill="#000"/><ellipse cx="100" cy="142" rx="9" ry="5.5" fill="#fff"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g>
+    <g fill="#fff" stroke="none"><path d="M38,66 Q42,34 96,30 Q156,28 168,58 Q160,78 100,78 Q50,80 38,66 Z" transform="rotate(-8 100 56)"/><rect x="96" y="14" width="8" height="16" rx="3" transform="rotate(-8 100 56)"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-pug-beret-54)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="10" data-name="City King">
+    <div class="stage">
+      <span class="num">10</span>
+      <div class="mark solid"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="City King"><title>City King</title><mask id="m-pigeon-crown-55" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="104" cy="96" r="38"/><path d="M138,92 L168,100 L138,108 Z"/><path d="M70,110 Q44,130 46,170 Q48,190 80,190 L150,190 Q168,170 150,140 Q140,120 132,118 Z"/></g><circle cx="118" cy="90" r="5.5" fill="#000"/><path d="M76,126 Q104,138 134,128" fill="none" stroke="#000" stroke-width="4"/><path d="M64,160 Q98,150 140,166" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g><g transform="translate(4,-6) scale(0.8) translate(25,20)"><rect x="62" y="38" width="76" height="5" fill="#000"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-pigeon-crown-55)"/></svg></div>
+      <div class="mark outline"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="City King"><filter id="m-pigeon-crown-56" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="0" stroke-linejoin="round"><circle cx="104" cy="96" r="38"/><path d="M138,92 L168,100 L138,108 Z"/><path d="M70,110 Q44,130 46,170 Q48,190 80,190 L150,190 Q168,170 150,140 Q140,120 132,118 Z"/></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-pigeon-crown-56)"><circle cx="104" cy="96" r="38"/><path d="M138,92 L168,100 L138,108 Z"/><path d="M70,110 Q44,130 46,170 Q48,190 80,190 L150,190 Q168,170 150,140 Q140,120 132,118 Z"/></g>
+      <g style="fill:var(--stage-fabric);stroke:var(--stage-fabric)" stroke-width="14" stroke-linejoin="round"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g>
+      <g style="fill:currentColor" stroke="none" filter="url(#m-pigeon-crown-56)"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>City King</h2>
+        <button class="pick" type="button" id="pick-pigeon-crown" aria-pressed="false" aria-label="Shortlist City King">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Pigeon</span><span class="x">&times;</span><span>Crown</span><span class="style new">New</span></p>
+      <p class="note">A plain pigeon in profile with a crown: king of the block. The most ordinary city bird, made royal.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="City King on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="City King"><mask id="m-pigeon-crown-57" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="104" cy="96" r="38"/><path d="M138,92 L168,100 L138,108 Z"/><path d="M70,110 Q44,130 46,170 Q48,190 80,190 L150,190 Q168,170 150,140 Q140,120 132,118 Z"/></g><circle cx="118" cy="90" r="5.5" fill="#000"/><path d="M76,126 Q104,138 134,128" fill="none" stroke="#000" stroke-width="4"/><path d="M64,160 Q98,150 140,166" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g><g transform="translate(4,-6) scale(0.8) translate(25,20)"><rect x="62" y="38" width="76" height="5" fill="#000"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-pigeon-crown-57)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="City King on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="City King"><mask id="m-pigeon-crown-58" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="104" cy="96" r="38"/><path d="M138,92 L168,100 L138,108 Z"/><path d="M70,110 Q44,130 46,170 Q48,190 80,190 L150,190 Q168,170 150,140 Q140,120 132,118 Z"/></g><circle cx="118" cy="90" r="5.5" fill="#000"/><path d="M76,126 Q104,138 134,128" fill="none" stroke="#000" stroke-width="4"/><path d="M64,160 Q98,150 140,166" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g><g transform="translate(4,-6) scale(0.8) translate(25,20)"><rect x="62" y="38" width="76" height="5" fill="#000"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-pigeon-crown-58)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="City King on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="City King"><mask id="m-pigeon-crown-59" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+    
+    <g fill="#fff" stroke="none"><circle cx="104" cy="96" r="38"/><path d="M138,92 L168,100 L138,108 Z"/><path d="M70,110 Q44,130 46,170 Q48,190 80,190 L150,190 Q168,170 150,140 Q140,120 132,118 Z"/></g><circle cx="118" cy="90" r="5.5" fill="#000"/><path d="M76,126 Q104,138 134,128" fill="none" stroke="#000" stroke-width="4"/><path d="M64,160 Q98,150 140,166" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+    <g fill="#000" stroke="#000" stroke-width="14" stroke-linejoin="round"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g>
+    <g fill="#fff" stroke="none"><g transform="translate(4,-6) scale(0.8) translate(25,20)"><path d="M60,50 L56,16 L80,30 L100,6 L120,30 L144,16 L140,50 Z"/>
+      <circle cx="56" cy="14" r="6"/><circle cx="100" cy="4" r="6"/><circle cx="144" cy="14" r="6"/></g></g><g transform="translate(4,-6) scale(0.8) translate(25,20)"><rect x="62" y="38" width="76" height="5" fill="#000"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-pigeon-crown-59)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article></div>
+    </section>
+  </main>
+
+  <footer>
+    <h3>Next round</h3>
+    <p>Shortlist your favorites and paste the list back to me with any notes (which animal, which twist, simpler or bolder). Next round takes your top picks into color, a proper Daily Bread wordmark, and hoodie and back-print mockups.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var swatches = Array.prototype.slice.call(document.querySelectorAll('.swatch'));
+  function setFabric(btn) {
+    swatches.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+    root.style.setProperty('--stage-fabric', btn.dataset.fabric);
+    root.style.setProperty('--stage-ink', btn.dataset.ink);
+    try { localStorage.setItem('fabric', btn.id); } catch (e) {}
+  }
+  swatches.forEach(function (b) { b.addEventListener('click', function () { setFabric(b); }); });
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var count = document.getElementById('pick-count');
+  var copy = document.getElementById('copy-picks');
+  function picked() { return cards.filter(function (c) { return c.classList.contains('picked'); }); }
+  function refresh() {
+    var p = picked();
+    count.textContent = p.length ? p.map(function (c) { return '#' + c.dataset.n + ' ' + c.dataset.name; }).join(', ') : 'Shortlist up to 5 favorites';
+    copy.disabled = !p.length;
+    try { localStorage.setItem('picks', JSON.stringify(p.map(function (c) { return c.dataset.n; }))); } catch (e) {}
+  }
+  function toggle(card, on) {
+    card.classList.toggle('picked', on);
+    card.querySelector('.pick').setAttribute('aria-pressed', String(on));
+  }
+  cards.forEach(function (card) {
+    card.querySelector('.pick').addEventListener('click', function () {
+      var on = !card.classList.contains('picked');
+      if (on && picked().length >= 5) toggle(picked()[0], false);
+      toggle(card, on);
+      refresh();
+    });
+  });
+  copy.addEventListener('click', function () {
+    var text = 'Logo shortlist: ' + count.textContent;
+    var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy shortlist'; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.getSelection().selectAllChildren(count); });
+    else window.getSelection().selectAllChildren(count);
+  });
+
+  try {
+    var f = document.getElementById(localStorage.getItem('fabric'));
+    if (f) setFabric(f);
+    JSON.parse(localStorage.getItem('picks') || '[]').forEach(function (n) {
+      var c = document.querySelector('.card[data-n="' + n + '"]'); if (c) toggle(c, true);
+    });
+  } catch (e) {}
+  var outlineBox = document.getElementById('outline-test');
+  outlineBox.addEventListener('change', function () { root.classList.toggle('outline-view', outlineBox.checked); });
+  var nameBox = document.getElementById('show-name');
+  function setName(on) { root.classList.toggle('show-name', on); try { localStorage.setItem('showName', on ? '1' : ''); } catch (e) {} }
+  nameBox.addEventListener('change', function () { setName(nameBox.checked); });
+  try { if (localStorage.getItem('showName')) { nameBox.checked = true; setName(true); } } catch (e) {}
+  refresh();
+})();
+</script>

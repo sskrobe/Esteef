@@ -1,0 +1,227 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>School Desk All-Over Print</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>html,body{margin:0;background:#222}canvas{display:block}</style>
+<canvas id="c"></canvas>
+<script>
+// All-over print: the whole shirt is the top of an old school desk.
+// Wood grain + worn varnish, carved letters with depth, ballpoint in several colors,
+// pencil, white-out patches and classic notebook doodles. Seeded, so every render matches.
+const W = 3000, H = 4000; // 20 x 26.7 in at 150 dpi (all-over front panel)
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+const ctx = cv.getContext('2d');
+
+let seed = 19970914;
+const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+const R = (a, b) => a + rnd() * (b - a);
+const pick = a => a[Math.floor(rnd() * a.length)];
+
+const PENS = {
+  blue: '#1d3c8f', black: '#1a1716', red: '#a8231d', green: '#1f6236', purple: '#4b2d7a', pencil: '#4b4a48',
+};
+
+// ---------- wood ----------
+function wood() {
+  const g = ctx.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0, '#c99a62'); g.addColorStop(0.5, '#d2a56d'); g.addColorStop(1, '#bf8f58');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  // long vertical grain
+  for (let i = 0; i < 1400; i++) {
+    const x0 = R(-100, W + 100), amp = R(4, 40), freq = R(0.0006, 0.003), ph = R(0, 6.28);
+    ctx.beginPath();
+    for (let y = -20; y <= H + 20; y += 20) {
+      const x = x0 + Math.sin(y * freq + ph) * amp + Math.sin(y * freq * 3.1 + ph) * amp * 0.25;
+      y === -20 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    const dark = rnd() < 0.75;
+    ctx.strokeStyle = dark ? `rgba(110,62,26,${R(0.03, 0.16)})` : `rgba(240,200,140,${R(0.03, 0.12)})`;
+    ctx.lineWidth = R(1, 9); ctx.stroke();
+  }
+  // a few knots
+  for (let k = 0; k < 4; k++) {
+    const cx = R(200, W - 200), cy = R(200, H - 200), rx = R(18, 40), ry = rx * R(2.5, 4);
+    for (let r = 0; r < 14; r++) {
+      ctx.beginPath(); ctx.ellipse(cx, cy, rx + r * 9, ry + r * 16, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(100,55,20,${0.22 - r * 0.014})`; ctx.lineWidth = R(2, 6); ctx.stroke();
+    }
+    ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.fillStyle = 'rgba(80,40,14,0.45)'; ctx.fill();
+  }
+}
+
+// ---------- wear: grime, sun fade, handled edges ----------
+function wear() {
+  for (let i = 0; i < 70; i++) {
+    const x = R(0, W), y = R(0, H), r = R(120, 700);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    const dark = rnd() < 0.6;
+    g.addColorStop(0, dark ? `rgba(70,40,15,${R(0.05, 0.16)})` : `rgba(255,236,200,${R(0.05, 0.14)})`);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  const v = ctx.createRadialGradient(W / 2, H / 2, W * 0.3, W / 2, H / 2, H * 0.75);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(60,30,10,0.32)');
+  ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+}
+
+function scratches(n, light) {
+  for (let i = 0; i < n; i++) {
+    const x = R(0, W), y = R(0, H), a = R(0, Math.PI * 2), l = R(15, light ? 260 : 120);
+    ctx.beginPath(); ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + Math.cos(a) * l * 0.5 + R(-8, 8), y + Math.sin(a) * l * 0.5 + R(-8, 8), x + Math.cos(a) * l, y + Math.sin(a) * l);
+    ctx.strokeStyle = light ? `rgba(255,238,205,${R(0.12, 0.42)})` : `rgba(55,28,10,${R(0.1, 0.35)})`;
+    ctx.lineWidth = R(0.8, light ? 2.6 : 2); ctx.stroke();
+  }
+}
+
+function noise() {
+  const img = ctx.getImageData(0, 0, W, H), d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const n = (rnd() - 0.5) * 18;
+    d[i] += n; d[i + 1] += n; d[i + 2] += n;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+// ---------- helpers ----------
+function at(x, y, a, fn) { ctx.save(); ctx.translate(x, y); ctx.rotate(a); fn(); ctx.restore(); }
+// Shaky hand line through points.
+function hand(pts, color, w, alpha = 1) {
+  ctx.beginPath();
+  pts.forEach(([x, y], i) => { const jx = x + R(-1.5, 1.5), jy = y + R(-1.5, 1.5); i ? ctx.lineTo(jx, jy) : ctx.moveTo(jx, jy); });
+  ctx.strokeStyle = color; ctx.globalAlpha = alpha; ctx.lineWidth = w; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke(); ctx.globalAlpha = 1;
+}
+const circlePts = (r, n = 40, sx = 1) => Array.from({ length: n + 1 }, (_, i) => [Math.cos(i / n * 6.283) * r * sx, Math.sin(i / n * 6.283) * r]);
+
+// Carved into the wood: dark groove, lighter lip on the lower-right edge, darker floor.
+function carveText(text, x, y, size, a, font) {
+  at(x, y, a, () => {
+    ctx.font = `${size}px ${font}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    // light lip where the knife lifted the varnish, then the dark groove, then a lit groove floor
+    ctx.fillStyle = 'rgba(255,230,190,0.6)'; ctx.fillText(text, size * 0.022, size * 0.026);
+    ctx.fillStyle = 'rgba(48,22,6,0.88)'; ctx.fillText(text, 0, 0);
+    ctx.save(); ctx.globalCompositeOperation = 'source-atop';
+    ctx.fillStyle = 'rgba(150,92,45,0.55)'; ctx.fillText(text, size * 0.018, size * 0.022);
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(30,12,3,0.55)'; ctx.lineWidth = Math.max(1.5, size * 0.008); ctx.strokeText(text, 0, 0);
+  });
+}
+function carvePath(pts, w) {
+  ctx.save(); ctx.translate(w * 0.3, w * 0.35); hand(pts, 'rgba(255,228,185,0.55)', w * 0.9); ctx.restore();
+  hand(pts, 'rgba(62,30,10,0.85)', w); hand(pts, 'rgba(28,12,4,0.9)', w * 0.4);
+}
+
+function ink(text, x, y, size, a, font, color, alpha = 0.92) {
+  at(x, y, a, () => {
+    ctx.font = `${size}px ${font}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = color; ctx.globalAlpha = alpha; ctx.fillText(text, 0, 0);
+    ctx.globalAlpha = alpha * 0.35; ctx.fillText(text, 1.4, 0.8); // pressure doubling
+    ctx.globalAlpha = 1;
+  });
+}
+
+function whiteout(x, y, w, h, a) {
+  at(x, y, a, () => {
+    ctx.beginPath();
+    for (let i = 0; i <= 24; i++) {
+      const t = i / 24 * 6.283, rr = 1 + R(-0.08, 0.08);
+      const px = Math.cos(t) * w / 2 * rr, py = Math.sin(t) * h / 2 * rr;
+      i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
+    }
+    ctx.closePath(); ctx.fillStyle = 'rgba(246,242,230,0.93)'; ctx.fill();
+    ctx.strokeStyle = 'rgba(120,110,90,0.25)'; ctx.lineWidth = 3; ctx.stroke();
+  });
+}
+
+// ---------- doodles (drawn around 0,0, roughly 100 units) ----------
+const D = {
+  heart(c, w) { const p = []; for (let i = 0; i <= 50; i++) { const t = i / 50 * 6.283; p.push([16 * Math.sin(t) ** 3 * 3.2, -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * 3.2]); } hand(p, c, w); },
+  star(c, w) { const p = []; for (let i = 0; i <= 10; i++) { const r = i % 2 ? 22 : 55, t = i / 10 * 6.283 - 1.5708; p.push([Math.cos(t) * r, Math.sin(t) * r]); } hand(p, c, w); },
+  smiley(c, w) { hand(circlePts(52), c, w); hand([[-18, -14], [-18, -2]], c, w); hand([[18, -14], [18, -2]], c, w); const p = []; for (let i = 0; i <= 12; i++) { const t = 0.5 + i / 12 * 2.14; p.push([Math.cos(t) * 32, Math.sin(t) * 28]); } hand(p, c, w); },
+  cube(c, w) { const s = 44, o = 22; hand([[-s, -s], [s, -s], [s, s], [-s, s], [-s, -s]], c, w); hand([[-s + o, -s - o], [s + o, -s - o], [s + o, s - o], [s, s]], c, w); hand([[-s, -s], [-s + o, -s - o]], c, w); hand([[s, -s], [s + o, -s - o]], c, w); },
+  coolS(c, w) { const u = 22, P = ([x, y]) => [(x - 1) * u * 1.4, (y - 2.5) * u * 1.4];
+    hand([[1, 0], [2, 1], [2, 2], [1.5, 2.5], [2, 3], [2, 4], [1, 5], [0, 4], [0, 3], [0.5, 2.5], [0, 2], [0, 1], [1, 0]].map(P), c, w);
+    [[[1, 1], [1, 2], [1.5, 2.5]], [[0.5, 2.5], [1, 3], [1, 4]]].forEach(l => hand(l.map(P), c, w)); },
+  ttt(c, w) { hand([[-20, -60], [-20, 60]], c, w); hand([[20, -60], [20, 60]], c, w); hand([[-60, -20], [60, -20]], c, w); hand([[-60, 20], [60, 20]], c, w);
+    hand([[-52, -52], [-30, -30]], c, w); hand([[-30, -52], [-52, -30]], c, w); hand(circlePts(12).map(([x, y]) => [x, y]), c, w); hand([[30, 30], [52, 52]], c, w); hand([[52, 30], [30, 52]], c, w); },
+  spiral(c, w) { const p = []; for (let i = 0; i < 160; i++) { const t = i / 10, r = 3 + t * 5.5; p.push([Math.cos(t) * r, Math.sin(t) * r]); } hand(p, c, w); },
+  bolt(c, w) { hand([[10, -60], [-24, 4], [4, 4], [-12, 60], [26, -10], [-2, -10], [10, -60]], c, w); },
+  tally(c, w) { for (let g = 0; g < 3; g++) { for (let i = 0; i < 4; i++) hand([[g * 70 + i * 13 - 90, -30], [g * 70 + i * 13 - 90, 30]], c, w); hand([[g * 70 - 98, 22], [g * 70 - 40, -22]], c, w); } },
+  peace(c, w) { hand(circlePts(50), c, w); hand([[0, -50], [0, 50]], c, w); hand([[0, 4], [-35, 36]], c, w); hand([[0, 4], [35, 36]], c, w); },
+  flower(c, w) { for (let k = 0; k < 6; k++) { const t = k / 6 * 6.283; at(Math.cos(t) * 30, Math.sin(t) * 30, t, () => hand(circlePts(18, 24, 1.5), c, w)); } hand(circlePts(14), c, w); hand([[0, 50], [6, 110]], c, w); },
+  eye(c, w) { const p = [], q = []; for (let i = 0; i <= 20; i++) { const x = -60 + i * 6; p.push([x, -Math.sqrt(Math.max(0, 1 - (x / 60) ** 2)) * 28]); q.push([x, Math.sqrt(Math.max(0, 1 - (x / 60) ** 2)) * 28]); } hand(p, c, w); hand(q, c, w); hand(circlePts(16), c, w); ctx.beginPath(); ctx.arc(0, 0, 7, 0, 6.283); ctx.fillStyle = c; ctx.fill(); },
+  arrow(c, w) { hand([[-70, 20], [-20, -20], [40, -10], [70, -30]], c, w); hand([[52, -40], [70, -30], [56, -12]], c, w); },
+  shaded(c, w) { for (let i = 0; i < 18; i++) hand([[-50 + i * 6, 40], [-30 + i * 6, -40]], c, w * 0.6); hand([[-50, -40], [80, -40], [80, 40], [-50, 40], [-50, -40]], c, w); },
+};
+
+// ---------- compose ----------
+async function compose() {
+wood(); wear(); scratches(1600, true); scratches(500, false);
+
+const CARVED = ["CLASS OF '98", 'TJ WAS HERE', 'J.R. + K.M.', 'D.B.', 'SCHOOL SUX', "'97", 'HELP', 'BORED', '4EVER', 'R + L', 'ROOM 214', 'XOXO', '1999', 'WHY?', 'DAILY BREAD', 'NO', 'MIKEY', 'B-BOY', 'OUT'];
+const CARVE_FONTS = ['"Special Elite"', '"Permanent Marker"', '"Rock Salt"', 'Bangers'];
+const WORDS = ['is it 3:00 yet??', 'Mr. Hendricks is a robot', 'I was here - Danny', 'who is reading this?', 'carpe diem lol', 'Kevin <3 Ashley', 'Ashley <3 nobody', 'pop quiz = pain',
+  'NAP TIME', 'algebra was a mistake', 'skip 6th period?', 'free period club', 'save me', 'my desk now', 'this desk is haunted', "peace out '99", '2 cool 4 school', 'C U @ the mall',
+  'x + y = why', "don't tell mom", 'get this bread', 'bread > school', 'tag ur it', 'brb', 'stay fly', 'smile :)', 'detention AGAIN', 'lunch?', 'Mrs. P runs on coffee', 'snack time',
+  'i <3 recess', 'HOMEWORK??', 'zzzzz', 'call me (jk)', 'best friends 4 ever', 'kick it', 'B+ is fine', 'no talking', 'what u lookin at', 'Daily Bread', 'L8R', 'boy bands r dumb',
+  'GO TIGERS', 'yo', 'chill', 'Tuesday = worst', 'this class is 1000 yrs long'];
+const INK_FONTS = ['Caveat', '"Gloria Hallelujah"', '"Reenie Beanie"', '"Nanum Pen Script"', '"Covered By Your Grace"', '"Shadows Into Light"', '"Permanent Marker"'];
+const PEN_LIST = ['blue', 'blue', 'blue', 'black', 'black', 'red', 'green', 'purple', 'pencil'];
+
+// Lay items out on a jittered grid so the whole panel is covered without big holes.
+const cells = [];
+const cols = 7, rows = 10;
+for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) cells.push([(c + 0.5) * W / cols, (r + 0.5) * H / rows]);
+cells.sort(() => rnd() - 0.5);
+
+// carvings first (they are in the wood), ink on top
+cells.slice(0, 20).forEach(([cx, cy], i) => {
+  const x = cx + R(-140, 140), y = cy + R(-120, 120), a = R(-0.5, 0.5);
+  if (i % 4 === 3) {
+    // carved heart with initials or a carved arrow
+    at(x, y, a, () => {
+      if (rnd() < 0.6) {
+        const p = []; for (let k = 0; k <= 50; k++) { const t = k / 50 * 6.283; p.push([16 * Math.sin(t) ** 3 * 7, -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * 7]); }
+        carvePath(p, 14); carveText(pick(['J+K', 'A+M', 'R+L', 'D+B']), 0, -10, 90, 0, '"Special Elite"');
+      } else { carvePath([[-160, 0], [140, 0]], 14); carvePath([[100, -40], [150, 0], [100, 40]], 14); }
+    });
+  } else {
+    carveText(CARVED[i % CARVED.length], x, y, R(100, 210), a, pick(CARVE_FONTS));
+  }
+});
+// compass-point holes
+for (let i = 0; i < 40; i++) { const x = R(0, W), y = R(0, H); ctx.beginPath(); ctx.arc(x, y, R(3, 7), 0, 6.283); ctx.fillStyle = 'rgba(30,14,4,0.8)'; ctx.fill(); }
+
+// white-out patches with writing over them
+for (let i = 0; i < 6; i++) {
+  const x = R(200, W - 200), y = R(200, H - 200), a = R(-0.3, 0.3), w = R(260, 420);
+  whiteout(x, y, w, w * 0.32, a);
+  ink(pick(['sorry', 'oops', 'NOT ME', 'erased', 'never mind', 'shhh']), x, y, 70, a, pick(INK_FONTS), PENS[pick(['black', 'blue', 'red'])]);
+}
+
+// pen and pencil writing
+cells.forEach(([cx, cy], i) => {
+  for (let k = 0; k < (i % 3 === 0 ? 2 : 1); k++) {
+    const x = cx + R(-190, 190), y = cy + R(-160, 160), a = R(-0.45, 0.45);
+    const pen = pick(PEN_LIST), font = pick(INK_FONTS);
+    ink(WORDS[(i * 2 + k) % WORDS.length], x, y, R(56, 120), a, font, PENS[pen], pen === 'pencil' ? 0.55 : R(0.75, 0.95));
+  }
+});
+
+// doodles
+const names = Object.keys(D);
+for (let i = 0; i < 56; i++) {
+  const x = R(60, W - 60), y = R(60, H - 60), a = R(-0.6, 0.6), s = R(0.8, 1.9);
+  const pen = pick(PEN_LIST), c = PENS[pen];
+  at(x, y, a, () => { ctx.scale(s, s); ctx.globalAlpha = pen === 'pencil' ? 0.55 : 0.9; D[names[i % names.length]](c, 4.2 / s * 1.4); ctx.globalAlpha = 1; });
+}
+
+// a final pass of fine scratches over everything, then grain noise
+scratches(700, true);
+noise();
+window.DONE = true;
+}
+// Canvas text only uses a web font once it has loaded, so load every face first.
+Promise.all(['Caveat', 'Gloria Hallelujah', 'Reenie Beanie', 'Nanum Pen Script', 'Covered By Your Grace', 'Shadows Into Light', 'Permanent Marker', 'Rock Salt', 'Special Elite', 'Bangers']
+  .map(f => document.fonts.load(`60px "${f}"`))).then(compose);
+</script>
