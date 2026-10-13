@@ -8,3 +8,4 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
   - `index.html` is the gallery page with shirt-color previews.
   - `svg/` has one standalone 1000px SVG per concept.
   - `logos.js` holds the artwork; `build.js` regenerates the gallery and SVGs (`node logos/round-1/build.js`).
+- `logos/round-2/` keeps four Round 1 marks (Nine Lives, Bamboo Bandit, The Don, Captain Quack) and adds ten new ones aimed at MMA, gaming and hip hop, with a "Daily Bread" name preview. Same layout; rebuild with `node logos/round-2/build.js`.

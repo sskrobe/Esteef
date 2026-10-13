@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Respawn"><title>Respawn</title><mask id="m-reaper-10" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M154,192 L172,30" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M172,28 C146,6 96,8 62,32 C102,26 138,32 166,52 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100,32 C142,32 160,70 160,110 L168,178 L32,178 L40,110 C40,70 58,32 100,32 Z" fill="#fff" stroke="#000" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M100,62 C126,62 138,86 136,108 C134,130 118,142 100,142 C82,142 66,130 64,108 C62,86 74,62 100,62 Z" fill="#000"/>
+      <circle cx="86" cy="102" r="9" fill="#fff"/><circle cx="114" cy="102" r="9" fill="#fff"/>
+      <circle cx="89" cy="99" r="3.2" fill="#000"/><circle cx="117" cy="99" r="3.2" fill="#000"/>
+      <path d="M92,122 Q100,128 108,122" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M70,150 L66,178 M100,150 L100,178 M130,150 L134,178" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-reaper-10)"/></svg>

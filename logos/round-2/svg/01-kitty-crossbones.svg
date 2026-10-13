@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Nine Lives"><title>Nine Lives</title><mask id="m-kitty-crossbones-0" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,160) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <g transform="translate(100,160) scale(-1,1) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <path d="M48,96 L44,38 L80,62 Q100,56 120,62 L156,38 L152,96 Q154,128 128,138 L128,154 Q100,162 72,154 L72,138 Q46,128 48,96 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M54,52 L56,78 L74,64 Z M146,52 L144,78 L126,64 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="78" cy="98" r="15" fill="#000"/><circle cx="122" cy="98" r="15" fill="#000"/>
+      <circle cx="84" cy="92" r="4.5" fill="#fff"/><circle cx="128" cy="92" r="4.5" fill="#fff"/>
+      <circle cx="74" cy="104" r="2" fill="#fff"/><circle cx="118" cy="104" r="2" fill="#fff"/>
+      <path d="M94,117 L106,117 L100,125 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M76,144 L124,144" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M86,139 L86,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M94,139 L94,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M100,139 L100,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M106,139 L106,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M114,139 L114,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M48,114 L22,108 M48,122 L24,126 M152,114 L178,108 M152,122 L176,126" stroke="#fff" stroke-width="3" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-kitty-crossbones-0)"/></svg>

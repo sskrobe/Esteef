@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Abducted"><title>Abducted</title><mask id="m-ufo-bread-12" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M78,92 L44,184 M122,92 L156,184" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <path d="M70,114 L130,114 M62,136 L138,136" stroke="#fff" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="54" rx="30" ry="28" fill="#fff"/>
+      <ellipse cx="100" cy="56" rx="24" ry="22" fill="#000"/>
+      <path d="M100,40 C114,40 120,50 118,60 C116,70 106,76 100,76 C94,76 84,70 82,60 C80,50 86,40 100,40 Z" fill="#fff"/>
+      <path d="M86,56 C90,50 96,52 98,60 C93,63 88,62 86,56 Z M114,56 C110,50 104,52 102,60 C107,63 112,62 114,56 Z" fill="#000"/>
+      <ellipse cx="100" cy="80" rx="72" ry="17" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <circle cx="56" cy="83" r="4.5" fill="#000"/><circle cx="78" cy="83" r="4.5" fill="#000"/><circle cx="100" cy="83" r="4.5" fill="#000"/><circle cx="122" cy="83" r="4.5" fill="#000"/><circle cx="144" cy="83" r="4.5" fill="#000"/>
+      <path d="M68,166 C68,138 132,138 132,166 L132,180 Q132,186 126,186 L74,186 Q68,186 68,180 Z" fill="#fff"/>
+      <path d="M84,150 L92,164 M98,146 L106,160 M112,148 L120,162" stroke="#000" stroke-width="4.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-ufo-bread-12)"/></svg>

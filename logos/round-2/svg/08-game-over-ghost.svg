@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Game Over"><title>Game Over</title><mask id="m-game-over-ghost-7" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,118) rotate(-48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <g transform="translate(100,118) rotate(48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <path d="M52,170 L52,96 C52,58 76,40 100,40 C124,40 148,58 148,96 L148,170 L132,156 L116,170 L100,156 L84,170 L68,156 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,92 L94,104 A16,16 0 0 1 64,92 Z" fill="#000"/>
+      <path d="M106,104 L136,92 A16,16 0 0 1 106,104 Z" fill="#000"/>
+      <circle cx="83" cy="108" r="4.5" fill="#fff"/><circle cx="117" cy="108" r="4.5" fill="#fff"/>
+      <path d="M78,130 Q100,150 122,130 Q100,140 78,130 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-game-over-ghost-7)"/></svg>

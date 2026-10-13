@@ -1,0 +1,1560 @@
+<title>Mascot Logos Round 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lookbook wall. Short intro, a sticky fabric picker, then a two-up grid of concept cards. */
+:root {
+  --paper: #f3f1f4;
+  --surface: #ffffff;
+  --ink: #18161b;
+  --muted: #6c6672;
+  --rule: #dcd7df;
+  --accent: #d6336f;
+  --tee-edge: rgba(24, 22, 27, 0.22);
+  --stage-fabric: #f7f7f5;
+  --stage-ink: #141414;
+  --font-display: "Bowlby One", "Arial Black", Impact, sans-serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33;
+    --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.25); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33;
+  --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.25); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 28px; }
+header { display: grid; gap: 14px; max-width: 68ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 6vw, 60px); line-height: .98; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.lede { margin: 0; color: var(--muted); font-size: 16px; }
+.lede strong { color: var(--ink); font-weight: 600; }
+
+.toolbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--paper); padding-block: 12px; border-bottom: 1px solid var(--rule);
+  display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; }
+.fabric { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.swatch { display: inline-flex; align-items: center; gap: 7px; font: 500 13px var(--font-body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 5px 12px 5px 6px; cursor: pointer; }
+.swatch .chip { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--tee-edge); }
+.swatch[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.picks { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); min-width: 0; }
+.picks button { font: 600 13px var(--font-body); color: var(--paper); background: var(--ink); border: 0; border-radius: 999px; padding: 7px 14px; cursor: pointer; white-space: nowrap; }
+.picks button:disabled { opacity: .4; cursor: default; }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.sections { display: grid; gap: 36px; }
+.section-title { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 12px; color: var(--ink); }
+.namer { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; cursor: pointer; }
+.namer input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.wordmark { display: none; margin: 0; font-family: var(--font-display); font-size: clamp(20px, 3.4vw, 30px); letter-spacing: .06em; text-transform: uppercase; line-height: 1; }
+.show-name .wordmark { display: block; }
+.show-name .stage { grid-template-rows: auto auto; align-content: center; gap: 6px; }
+.show-name .mark { width: 50%; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 18px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.card.picked { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.stage { position: relative; background: var(--stage-fabric); color: var(--stage-ink); aspect-ratio: 4 / 3; max-width: 100%; display: grid; place-items: center; transition: background .25s, color .25s; }
+.mark { width: 62%; max-width: 260px; }
+.mark svg { display: block; width: 100%; height: auto; }
+.num { position: absolute; top: 12px; left: 14px; font-family: var(--font-mono); font-size: 12px; opacity: .55; }
+.body { padding: 16px 18px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.title-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; line-height: 1.1; margin: 0; letter-spacing: .005em; }
+.pick { display: inline-flex; align-items: center; gap: 6px; font: 500 12px var(--font-body); color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.pick svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+.pick[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+.pick[aria-pressed="true"] svg { fill: currentColor; }
+.tags { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+.tags .x { color: var(--accent); }
+.tags .style { margin-left: auto; border: 1px solid var(--rule); border-radius: 3px; padding: 1px 6px; color: var(--muted); }
+.note { margin: 0; color: var(--muted); font-size: 14px; }
+.tees { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--rule); }
+.tee { margin: 0; display: grid; gap: 2px; justify-items: center; }
+.tee > svg { width: 100%; max-width: 110px; height: auto; display: block; }
+.tee figcaption { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+
+footer { color: var(--muted); font-size: 13px; max-width: 68ch; display: grid; gap: 6px; }
+footer h3 { font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin: 0; font-weight: 500; }
+footer p { margin: 0; }
+@media (prefers-reduced-motion: reduce) { .stage { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Brand identity &middot; Round 2 &middot; 4 kept + 10 new</p>
+    <h1>Cute face, bad intentions.</h1>
+    <p class="lede">Your four keepers from Round 1, plus ten new marks aimed at guys 20 to 40 into <strong>MMA, gaming and hip hop</strong>. The cast now includes characters that aren’t animals (an alien, a ghost, a reaper, a slice of toast, a money bag). Several play on <strong>Daily Bread</strong>, with bread as money. The new marks use heavier shapes and wider cut-outs so they read clearly from a distance, like Nine Lives.</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="fabric" role="group" aria-label="Shirt color">
+      <span class="label">Shirt color</span>
+  <button type="button" class="swatch" id="fabric-0" data-fabric="#f7f7f5" data-ink="#141414" aria-pressed="true">
+    <span class="chip" style="background:#f7f7f5"></span>White
+  </button>
+  <button type="button" class="swatch" id="fabric-1" data-fabric="#1b1b1d" data-ink="#f4f4f2" aria-pressed="false">
+    <span class="chip" style="background:#1b1b1d"></span>Black
+  </button>
+  <button type="button" class="swatch" id="fabric-2" data-fabric="#b9b8b5" data-ink="#1c1c1e" aria-pressed="false">
+    <span class="chip" style="background:#b9b8b5"></span>Heather grey
+  </button>
+  <button type="button" class="swatch" id="fabric-3" data-fabric="#1f2a44" data-ink="#f1efe8" aria-pressed="false">
+    <span class="chip" style="background:#1f2a44"></span>Navy
+  </button>
+  <button type="button" class="swatch" id="fabric-4" data-fabric="#e9b9c4" data-ink="#2a1a20" aria-pressed="false">
+    <span class="chip" style="background:#e9b9c4"></span>Washed pink
+  </button>
+    </div>
+    <label class="namer"><input type="checkbox" id="show-name"> Show the &ldquo;Daily Bread&rdquo; name</label>
+    <div class="picks">
+      <span id="pick-count">Shortlist up to 5 favorites</span>
+      <button type="button" id="copy-picks" disabled>Copy shortlist</button>
+    </div>
+  </div>
+
+  <main class="sections">
+    <section>
+      <h3 class="section-title">Kept from Round 1</h3>
+      <div class="grid">
+  <article class="card" data-n="1" data-name="Nine Lives">
+    <div class="stage">
+      <span class="num">01 &middot; kept</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Nine Lives"><title>Nine Lives</title><mask id="m-kitty-crossbones-14" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,160) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <g transform="translate(100,160) scale(-1,1) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <path d="M48,96 L44,38 L80,62 Q100,56 120,62 L156,38 L152,96 Q154,128 128,138 L128,154 Q100,162 72,154 L72,138 Q46,128 48,96 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M54,52 L56,78 L74,64 Z M146,52 L144,78 L126,64 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="78" cy="98" r="15" fill="#000"/><circle cx="122" cy="98" r="15" fill="#000"/>
+      <circle cx="84" cy="92" r="4.5" fill="#fff"/><circle cx="128" cy="92" r="4.5" fill="#fff"/>
+      <circle cx="74" cy="104" r="2" fill="#fff"/><circle cx="118" cy="104" r="2" fill="#fff"/>
+      <path d="M94,117 L106,117 L100,125 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M76,144 L124,144" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M86,139 L86,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M94,139 L94,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M100,139 L100,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M106,139 L106,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M114,139 L114,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M48,114 L22,108 M48,122 L24,126 M152,114 L178,108 M152,122 L176,126" stroke="#fff" stroke-width="3" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-kitty-crossbones-14)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Nine Lives</h2>
+        <button class="pick" type="button" id="pick-kitty-crossbones" aria-pressed="false" aria-label="Shortlist Nine Lives">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Kitten</span><span class="x">&times;</span><span>Pirate</span><span class="style emblem">Emblem</span></p>
+      <p class="note">A kitten skull over crossed fish skeletons. It’s the easiest to recognize as a skull-and-crossbones mark, and the big-eye glints keep it cute.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Nine Lives on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Nine Lives"><mask id="m-kitty-crossbones-15" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,160) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <g transform="translate(100,160) scale(-1,1) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <path d="M48,96 L44,38 L80,62 Q100,56 120,62 L156,38 L152,96 Q154,128 128,138 L128,154 Q100,162 72,154 L72,138 Q46,128 48,96 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M54,52 L56,78 L74,64 Z M146,52 L144,78 L126,64 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="78" cy="98" r="15" fill="#000"/><circle cx="122" cy="98" r="15" fill="#000"/>
+      <circle cx="84" cy="92" r="4.5" fill="#fff"/><circle cx="128" cy="92" r="4.5" fill="#fff"/>
+      <circle cx="74" cy="104" r="2" fill="#fff"/><circle cx="118" cy="104" r="2" fill="#fff"/>
+      <path d="M94,117 L106,117 L100,125 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M76,144 L124,144" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M86,139 L86,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M94,139 L94,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M100,139 L100,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M106,139 L106,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M114,139 L114,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M48,114 L22,108 M48,122 L24,126 M152,114 L178,108 M152,122 L176,126" stroke="#fff" stroke-width="3" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-kitty-crossbones-15)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Nine Lives on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Nine Lives"><mask id="m-kitty-crossbones-16" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,160) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <g transform="translate(100,160) scale(-1,1) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <path d="M48,96 L44,38 L80,62 Q100,56 120,62 L156,38 L152,96 Q154,128 128,138 L128,154 Q100,162 72,154 L72,138 Q46,128 48,96 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M54,52 L56,78 L74,64 Z M146,52 L144,78 L126,64 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="78" cy="98" r="15" fill="#000"/><circle cx="122" cy="98" r="15" fill="#000"/>
+      <circle cx="84" cy="92" r="4.5" fill="#fff"/><circle cx="128" cy="92" r="4.5" fill="#fff"/>
+      <circle cx="74" cy="104" r="2" fill="#fff"/><circle cx="118" cy="104" r="2" fill="#fff"/>
+      <path d="M94,117 L106,117 L100,125 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M76,144 L124,144" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M86,139 L86,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M94,139 L94,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M100,139 L100,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M106,139 L106,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M114,139 L114,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M48,114 L22,108 M48,122 L24,126 M152,114 L178,108 M152,122 L176,126" stroke="#fff" stroke-width="3" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-kitty-crossbones-16)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Nine Lives on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Nine Lives"><mask id="m-kitty-crossbones-17" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,160) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <g transform="translate(100,160) scale(-1,1) rotate(-22) scale(0.8)">
+  <rect x="-58" y="-3.5" width="108" height="7" rx="3.5" fill="#fff"/>
+  <path d="M46,-15 Q72,-15 78,0 Q72,15 46,15 Z" fill="#fff"/>
+  <circle cx="62" cy="-4" r="3.5" fill="#000"/>
+  <path d="M-56,0 L-80,-18 L-72,0 L-80,18 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M-42,-16 Q-35,0 -42,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-26,-16 Q-19,0 -26,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M-10,-16 Q-3,0 -10,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M6,-16 Q13,0 6,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/><path d="M22,-16 Q29,0 22,16" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/></g>
+      <path d="M48,96 L44,38 L80,62 Q100,56 120,62 L156,38 L152,96 Q154,128 128,138 L128,154 Q100,162 72,154 L72,138 Q46,128 48,96 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M54,52 L56,78 L74,64 Z M146,52 L144,78 L126,64 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="78" cy="98" r="15" fill="#000"/><circle cx="122" cy="98" r="15" fill="#000"/>
+      <circle cx="84" cy="92" r="4.5" fill="#fff"/><circle cx="128" cy="92" r="4.5" fill="#fff"/>
+      <circle cx="74" cy="104" r="2" fill="#fff"/><circle cx="118" cy="104" r="2" fill="#fff"/>
+      <path d="M94,117 L106,117 L100,125 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M76,144 L124,144" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M86,139 L86,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M94,139 L94,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M100,139 L100,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M106,139 L106,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M114,139 L114,151" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M48,114 L22,108 M48,122 L24,126 M152,114 L178,108 M152,122 L176,126" stroke="#fff" stroke-width="3" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-kitty-crossbones-17)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="2" data-name="Bamboo Bandit">
+    <div class="stage">
+      <span class="num">02 &middot; kept</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Bamboo Bandit"><title>Bamboo Bandit</title><mask id="m-bad-panda-18" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="52" cy="58" r="23" fill="#fff"/><circle cx="148" cy="58" r="23" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="67" ry="61" fill="#fff"/>
+      <ellipse cx="100" cy="114" rx="58" ry="52" fill="#000"/>
+      <path d="M48,98 Q48,90 58,90 L88,90 Q96,90 96,98 Q96,126 76,128 Q54,128 48,112 Z" fill="#fff"/>
+      <path d="M152,98 Q152,90 142,90 L112,90 Q104,90 104,98 Q104,126 124,128 Q146,128 152,112 Z" fill="#fff"/>
+      <rect x="94" y="92" width="12" height="5" fill="#fff"/>
+      <rect x="38" y="92" width="12" height="5" fill="#fff"/><rect x="150" y="92" width="12" height="5" fill="#fff"/>
+      <path d="M58,104 L70,94 M60,114 L78,98 M118,104 L130,94 M120,114 L138,98" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M118,64 L136,86" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M121,74 L129,68 M126,80 L134,74" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M88,138 Q100,132 112,138 Q106,150 100,150 Q94,150 88,138 Z" fill="#fff"/>
+      <path d="M100,150 L100,156 M84,158 Q98,164 116,154" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-bad-panda-18)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Bamboo Bandit</h2>
+        <button class="pick" type="button" id="pick-bad-panda" aria-pressed="false" aria-label="Shortlist Bamboo Bandit">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Panda</span><span class="x">&times;</span><span>Outlaw</span><span class="style graphic">Graphic</span></p>
+      <p class="note">The panda’s eye patches become aviator shades, with a stitched scar and a smirk. A strong pick for big back prints.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bamboo Bandit on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bamboo Bandit"><mask id="m-bad-panda-19" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="52" cy="58" r="23" fill="#fff"/><circle cx="148" cy="58" r="23" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="67" ry="61" fill="#fff"/>
+      <ellipse cx="100" cy="114" rx="58" ry="52" fill="#000"/>
+      <path d="M48,98 Q48,90 58,90 L88,90 Q96,90 96,98 Q96,126 76,128 Q54,128 48,112 Z" fill="#fff"/>
+      <path d="M152,98 Q152,90 142,90 L112,90 Q104,90 104,98 Q104,126 124,128 Q146,128 152,112 Z" fill="#fff"/>
+      <rect x="94" y="92" width="12" height="5" fill="#fff"/>
+      <rect x="38" y="92" width="12" height="5" fill="#fff"/><rect x="150" y="92" width="12" height="5" fill="#fff"/>
+      <path d="M58,104 L70,94 M60,114 L78,98 M118,104 L130,94 M120,114 L138,98" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M118,64 L136,86" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M121,74 L129,68 M126,80 L134,74" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M88,138 Q100,132 112,138 Q106,150 100,150 Q94,150 88,138 Z" fill="#fff"/>
+      <path d="M100,150 L100,156 M84,158 Q98,164 116,154" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-bad-panda-19)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bamboo Bandit on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bamboo Bandit"><mask id="m-bad-panda-20" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="52" cy="58" r="23" fill="#fff"/><circle cx="148" cy="58" r="23" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="67" ry="61" fill="#fff"/>
+      <ellipse cx="100" cy="114" rx="58" ry="52" fill="#000"/>
+      <path d="M48,98 Q48,90 58,90 L88,90 Q96,90 96,98 Q96,126 76,128 Q54,128 48,112 Z" fill="#fff"/>
+      <path d="M152,98 Q152,90 142,90 L112,90 Q104,90 104,98 Q104,126 124,128 Q146,128 152,112 Z" fill="#fff"/>
+      <rect x="94" y="92" width="12" height="5" fill="#fff"/>
+      <rect x="38" y="92" width="12" height="5" fill="#fff"/><rect x="150" y="92" width="12" height="5" fill="#fff"/>
+      <path d="M58,104 L70,94 M60,114 L78,98 M118,104 L130,94 M120,114 L138,98" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M118,64 L136,86" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M121,74 L129,68 M126,80 L134,74" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M88,138 Q100,132 112,138 Q106,150 100,150 Q94,150 88,138 Z" fill="#fff"/>
+      <path d="M100,150 L100,156 M84,158 Q98,164 116,154" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-bad-panda-20)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bamboo Bandit on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bamboo Bandit"><mask id="m-bad-panda-21" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="52" cy="58" r="23" fill="#fff"/><circle cx="148" cy="58" r="23" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="67" ry="61" fill="#fff"/>
+      <ellipse cx="100" cy="114" rx="58" ry="52" fill="#000"/>
+      <path d="M48,98 Q48,90 58,90 L88,90 Q96,90 96,98 Q96,126 76,128 Q54,128 48,112 Z" fill="#fff"/>
+      <path d="M152,98 Q152,90 142,90 L112,90 Q104,90 104,98 Q104,126 124,128 Q146,128 152,112 Z" fill="#fff"/>
+      <rect x="94" y="92" width="12" height="5" fill="#fff"/>
+      <rect x="38" y="92" width="12" height="5" fill="#fff"/><rect x="150" y="92" width="12" height="5" fill="#fff"/>
+      <path d="M58,104 L70,94 M60,114 L78,98 M118,104 L130,94 M120,114 L138,98" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M118,64 L136,86" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M121,74 L129,68 M126,80 L134,74" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M88,138 Q100,132 112,138 Q106,150 100,150 Q94,150 88,138 Z" fill="#fff"/>
+      <path d="M100,150 L100,156 M84,158 Q98,164 116,154" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-bad-panda-21)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="3" data-name="The Don">
+    <div class="stage">
+      <span class="num">03 &middot; kept</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="The Don"><title>The Don</title><mask id="m-mob-koala-22" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="44" cy="96" r="31" fill="#fff"/><circle cx="156" cy="96" r="31" fill="#fff"/>
+      <circle cx="47" cy="100" r="15" fill="#000"/><circle cx="153" cy="100" r="15" fill="#000"/>
+      <ellipse cx="100" cy="118" rx="61" ry="55" fill="#000"/>
+      <ellipse cx="100" cy="118" rx="56" ry="50" fill="#fff"/>
+      <path d="M60,76 L66,34 Q100,20 134,34 L140,76 Z" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M90,30 Q100,42 110,30" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <rect x="58" y="60" width="84" height="10" fill="#000"/>
+      <ellipse cx="100" cy="78" rx="70" ry="13" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke"/>
+      <circle cx="77" cy="110" r="9" fill="#000"/><circle cx="123" cy="110" r="9" fill="#000"/>
+      <rect x="66" y="98" width="22" height="11" fill="#fff"/><rect x="112" y="98" width="22" height="11" fill="#fff"/>
+      <path d="M66,109 L89,109 M111,109 L134,109" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="79" cy="114" r="2.4" fill="#fff"/><circle cx="125" cy="114" r="2.4" fill="#fff"/>
+      <ellipse cx="100" cy="130" rx="15" ry="19" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <ellipse cx="95" cy="123" rx="3" ry="5" fill="#000"/>
+      <path d="M86,160 Q100,166 114,158" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M111,160 L146,150" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-mob-koala-22)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>The Don</h2>
+        <button class="pick" type="button" id="pick-mob-koala" aria-pressed="false" aria-label="Shortlist The Don">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Koala</span><span class="x">&times;</span><span>Mobster</span><span class="style graphic">Graphic</span></p>
+      <p class="note">You liked it in light ink on a dark shirt more than dark ink on a light one. Round 3 can open up more cut-outs so it works on both.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="The Don on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="The Don"><mask id="m-mob-koala-23" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="44" cy="96" r="31" fill="#fff"/><circle cx="156" cy="96" r="31" fill="#fff"/>
+      <circle cx="47" cy="100" r="15" fill="#000"/><circle cx="153" cy="100" r="15" fill="#000"/>
+      <ellipse cx="100" cy="118" rx="61" ry="55" fill="#000"/>
+      <ellipse cx="100" cy="118" rx="56" ry="50" fill="#fff"/>
+      <path d="M60,76 L66,34 Q100,20 134,34 L140,76 Z" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M90,30 Q100,42 110,30" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <rect x="58" y="60" width="84" height="10" fill="#000"/>
+      <ellipse cx="100" cy="78" rx="70" ry="13" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke"/>
+      <circle cx="77" cy="110" r="9" fill="#000"/><circle cx="123" cy="110" r="9" fill="#000"/>
+      <rect x="66" y="98" width="22" height="11" fill="#fff"/><rect x="112" y="98" width="22" height="11" fill="#fff"/>
+      <path d="M66,109 L89,109 M111,109 L134,109" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="79" cy="114" r="2.4" fill="#fff"/><circle cx="125" cy="114" r="2.4" fill="#fff"/>
+      <ellipse cx="100" cy="130" rx="15" ry="19" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <ellipse cx="95" cy="123" rx="3" ry="5" fill="#000"/>
+      <path d="M86,160 Q100,166 114,158" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M111,160 L146,150" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-mob-koala-23)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="The Don on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="The Don"><mask id="m-mob-koala-24" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="44" cy="96" r="31" fill="#fff"/><circle cx="156" cy="96" r="31" fill="#fff"/>
+      <circle cx="47" cy="100" r="15" fill="#000"/><circle cx="153" cy="100" r="15" fill="#000"/>
+      <ellipse cx="100" cy="118" rx="61" ry="55" fill="#000"/>
+      <ellipse cx="100" cy="118" rx="56" ry="50" fill="#fff"/>
+      <path d="M60,76 L66,34 Q100,20 134,34 L140,76 Z" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M90,30 Q100,42 110,30" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <rect x="58" y="60" width="84" height="10" fill="#000"/>
+      <ellipse cx="100" cy="78" rx="70" ry="13" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke"/>
+      <circle cx="77" cy="110" r="9" fill="#000"/><circle cx="123" cy="110" r="9" fill="#000"/>
+      <rect x="66" y="98" width="22" height="11" fill="#fff"/><rect x="112" y="98" width="22" height="11" fill="#fff"/>
+      <path d="M66,109 L89,109 M111,109 L134,109" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="79" cy="114" r="2.4" fill="#fff"/><circle cx="125" cy="114" r="2.4" fill="#fff"/>
+      <ellipse cx="100" cy="130" rx="15" ry="19" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <ellipse cx="95" cy="123" rx="3" ry="5" fill="#000"/>
+      <path d="M86,160 Q100,166 114,158" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M111,160 L146,150" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-mob-koala-24)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="The Don on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="The Don"><mask id="m-mob-koala-25" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="44" cy="96" r="31" fill="#fff"/><circle cx="156" cy="96" r="31" fill="#fff"/>
+      <circle cx="47" cy="100" r="15" fill="#000"/><circle cx="153" cy="100" r="15" fill="#000"/>
+      <ellipse cx="100" cy="118" rx="61" ry="55" fill="#000"/>
+      <ellipse cx="100" cy="118" rx="56" ry="50" fill="#fff"/>
+      <path d="M60,76 L66,34 Q100,20 134,34 L140,76 Z" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M90,30 Q100,42 110,30" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <rect x="58" y="60" width="84" height="10" fill="#000"/>
+      <ellipse cx="100" cy="78" rx="70" ry="13" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke"/>
+      <circle cx="77" cy="110" r="9" fill="#000"/><circle cx="123" cy="110" r="9" fill="#000"/>
+      <rect x="66" y="98" width="22" height="11" fill="#fff"/><rect x="112" y="98" width="22" height="11" fill="#fff"/>
+      <path d="M66,109 L89,109 M111,109 L134,109" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="79" cy="114" r="2.4" fill="#fff"/><circle cx="125" cy="114" r="2.4" fill="#fff"/>
+      <ellipse cx="100" cy="130" rx="15" ry="19" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <ellipse cx="95" cy="123" rx="3" ry="5" fill="#000"/>
+      <path d="M86,160 Q100,166 114,158" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M111,160 L146,150" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-mob-koala-25)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="4" data-name="Captain Quack">
+    <div class="stage">
+      <span class="num">04 &middot; kept</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Captain Quack"><title>Captain Quack</title><mask id="m-pirate-duck-26" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,150)">
+        <g transform="rotate(22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+        <g transform="rotate(-22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+      </g>
+      <circle cx="100" cy="86" r="55" fill="#000"/>
+      <circle cx="100" cy="86" r="48" fill="#fff"/>
+      <ellipse cx="100" cy="38" rx="6" ry="13" fill="#fff"/>
+      <ellipse cx="89" cy="42" rx="5" ry="11" transform="rotate(-32 89 42)" fill="#fff"/>
+      <ellipse cx="111" cy="42" rx="5" ry="11" transform="rotate(32 111 42)" fill="#fff"/>
+      <path d="M50,62 L150,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="120" cy="86" rx="15" ry="13" fill="#000"/>
+      <circle cx="80" cy="85" r="11" fill="#000"/>
+      <circle cx="83" cy="87" r="5.5" fill="#fff"/>
+      <path d="M64,66 L94,74" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M58,112 Q100,96 142,112 Q148,128 100,130 Q52,128 58,112 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,118 Q100,124 136,118" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="92" cy="107" rx="2.6" ry="1.8" fill="#000"/><ellipse cx="108" cy="107" rx="2.6" ry="1.8" fill="#000"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-pirate-duck-26)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Captain Quack</h2>
+        <button class="pick" type="button" id="pick-pirate-duck" aria-pressed="false" aria-label="Shortlist Captain Quack">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Duckling</span><span class="x">&times;</span><span>Pirate</span><span class="style emblem">Emblem</span></p>
+      <p class="note">The closest cousin to Psycho Bunny: one face over crossed bones. A duckling with an eyepatch and a scowl reads at 1 inch on a chest.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Captain Quack on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Captain Quack"><mask id="m-pirate-duck-27" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,150)">
+        <g transform="rotate(22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+        <g transform="rotate(-22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+      </g>
+      <circle cx="100" cy="86" r="55" fill="#000"/>
+      <circle cx="100" cy="86" r="48" fill="#fff"/>
+      <ellipse cx="100" cy="38" rx="6" ry="13" fill="#fff"/>
+      <ellipse cx="89" cy="42" rx="5" ry="11" transform="rotate(-32 89 42)" fill="#fff"/>
+      <ellipse cx="111" cy="42" rx="5" ry="11" transform="rotate(32 111 42)" fill="#fff"/>
+      <path d="M50,62 L150,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="120" cy="86" rx="15" ry="13" fill="#000"/>
+      <circle cx="80" cy="85" r="11" fill="#000"/>
+      <circle cx="83" cy="87" r="5.5" fill="#fff"/>
+      <path d="M64,66 L94,74" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M58,112 Q100,96 142,112 Q148,128 100,130 Q52,128 58,112 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,118 Q100,124 136,118" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="92" cy="107" rx="2.6" ry="1.8" fill="#000"/><ellipse cx="108" cy="107" rx="2.6" ry="1.8" fill="#000"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-pirate-duck-27)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Captain Quack on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Captain Quack"><mask id="m-pirate-duck-28" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,150)">
+        <g transform="rotate(22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+        <g transform="rotate(-22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+      </g>
+      <circle cx="100" cy="86" r="55" fill="#000"/>
+      <circle cx="100" cy="86" r="48" fill="#fff"/>
+      <ellipse cx="100" cy="38" rx="6" ry="13" fill="#fff"/>
+      <ellipse cx="89" cy="42" rx="5" ry="11" transform="rotate(-32 89 42)" fill="#fff"/>
+      <ellipse cx="111" cy="42" rx="5" ry="11" transform="rotate(32 111 42)" fill="#fff"/>
+      <path d="M50,62 L150,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="120" cy="86" rx="15" ry="13" fill="#000"/>
+      <circle cx="80" cy="85" r="11" fill="#000"/>
+      <circle cx="83" cy="87" r="5.5" fill="#fff"/>
+      <path d="M64,66 L94,74" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M58,112 Q100,96 142,112 Q148,128 100,130 Q52,128 58,112 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,118 Q100,124 136,118" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="92" cy="107" rx="2.6" ry="1.8" fill="#000"/><ellipse cx="108" cy="107" rx="2.6" ry="1.8" fill="#000"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-pirate-duck-28)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Captain Quack on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Captain Quack"><mask id="m-pirate-duck-29" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,150)">
+        <g transform="rotate(22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+        <g transform="rotate(-22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+      </g>
+      <circle cx="100" cy="86" r="55" fill="#000"/>
+      <circle cx="100" cy="86" r="48" fill="#fff"/>
+      <ellipse cx="100" cy="38" rx="6" ry="13" fill="#fff"/>
+      <ellipse cx="89" cy="42" rx="5" ry="11" transform="rotate(-32 89 42)" fill="#fff"/>
+      <ellipse cx="111" cy="42" rx="5" ry="11" transform="rotate(32 111 42)" fill="#fff"/>
+      <path d="M50,62 L150,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="120" cy="86" rx="15" ry="13" fill="#000"/>
+      <circle cx="80" cy="85" r="11" fill="#000"/>
+      <circle cx="83" cy="87" r="5.5" fill="#fff"/>
+      <path d="M64,66 L94,74" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M58,112 Q100,96 142,112 Q148,128 100,130 Q52,128 58,112 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,118 Q100,124 136,118" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="92" cy="107" rx="2.6" ry="1.8" fill="#000"/><ellipse cx="108" cy="107" rx="2.6" ry="1.8" fill="#000"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-pirate-duck-29)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article></div>
+    </section>
+    <section>
+      <h3 class="section-title">New in Round 2</h3>
+      <div class="grid">
+  <article class="card" data-n="5" data-name="Big Head">
+    <div class="stage">
+      <span class="num">05</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Big Head"><title>Big Head</title><mask id="m-alien-grill-30" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M84,46 L70,20 M116,46 L130,20" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="68" cy="16" r="9" fill="#fff"/><circle cx="132" cy="16" r="9" fill="#fff"/>
+      <path d="M100,40 C150,40 172,74 166,104 C160,140 126,174 100,176 C74,174 40,140 34,104 C28,74 50,40 100,40 Z" fill="#fff"/>
+      <path d="M46,98 C54,78 82,78 94,104 C82,120 56,118 46,98 Z" fill="#000"/>
+      <path d="M154,98 C146,78 118,78 106,104 C118,120 144,118 154,98 Z" fill="#000"/>
+      <circle cx="68" cy="94" r="6" fill="#fff"/><circle cx="132" cy="94" r="6" fill="#fff"/>
+      <circle cx="78" cy="106" r="2.5" fill="#fff"/><circle cx="122" cy="106" r="2.5" fill="#fff"/>
+      <path d="M74,136 Q100,150 126,136 Q122,160 100,162 Q78,160 74,136 Z" fill="#000"/>
+      <path d="M84,142 L84,150 M93,145 L93,153 M102,145 L102,153 M111,143 L111,151" stroke="#fff" stroke-width="6" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-alien-grill-30)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Big Head</h2>
+        <button class="pick" type="button" id="pick-alien-grill" aria-pressed="false" aria-label="Shortlist Big Head">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Alien</span><span class="x">&times;</span><span>Hip hop</span><span class="style emblem">Emblem</span></p>
+      <p class="note">A cute alien with huge almond eyes and a gold grill. The silhouette is recognizable at any size, and aliens are big in streetwear right now.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Big Head on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Big Head"><mask id="m-alien-grill-31" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M84,46 L70,20 M116,46 L130,20" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="68" cy="16" r="9" fill="#fff"/><circle cx="132" cy="16" r="9" fill="#fff"/>
+      <path d="M100,40 C150,40 172,74 166,104 C160,140 126,174 100,176 C74,174 40,140 34,104 C28,74 50,40 100,40 Z" fill="#fff"/>
+      <path d="M46,98 C54,78 82,78 94,104 C82,120 56,118 46,98 Z" fill="#000"/>
+      <path d="M154,98 C146,78 118,78 106,104 C118,120 144,118 154,98 Z" fill="#000"/>
+      <circle cx="68" cy="94" r="6" fill="#fff"/><circle cx="132" cy="94" r="6" fill="#fff"/>
+      <circle cx="78" cy="106" r="2.5" fill="#fff"/><circle cx="122" cy="106" r="2.5" fill="#fff"/>
+      <path d="M74,136 Q100,150 126,136 Q122,160 100,162 Q78,160 74,136 Z" fill="#000"/>
+      <path d="M84,142 L84,150 M93,145 L93,153 M102,145 L102,153 M111,143 L111,151" stroke="#fff" stroke-width="6" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-alien-grill-31)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Big Head on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Big Head"><mask id="m-alien-grill-32" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M84,46 L70,20 M116,46 L130,20" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="68" cy="16" r="9" fill="#fff"/><circle cx="132" cy="16" r="9" fill="#fff"/>
+      <path d="M100,40 C150,40 172,74 166,104 C160,140 126,174 100,176 C74,174 40,140 34,104 C28,74 50,40 100,40 Z" fill="#fff"/>
+      <path d="M46,98 C54,78 82,78 94,104 C82,120 56,118 46,98 Z" fill="#000"/>
+      <path d="M154,98 C146,78 118,78 106,104 C118,120 144,118 154,98 Z" fill="#000"/>
+      <circle cx="68" cy="94" r="6" fill="#fff"/><circle cx="132" cy="94" r="6" fill="#fff"/>
+      <circle cx="78" cy="106" r="2.5" fill="#fff"/><circle cx="122" cy="106" r="2.5" fill="#fff"/>
+      <path d="M74,136 Q100,150 126,136 Q122,160 100,162 Q78,160 74,136 Z" fill="#000"/>
+      <path d="M84,142 L84,150 M93,145 L93,153 M102,145 L102,153 M111,143 L111,151" stroke="#fff" stroke-width="6" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-alien-grill-32)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Big Head on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Big Head"><mask id="m-alien-grill-33" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M84,46 L70,20 M116,46 L130,20" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="68" cy="16" r="9" fill="#fff"/><circle cx="132" cy="16" r="9" fill="#fff"/>
+      <path d="M100,40 C150,40 172,74 166,104 C160,140 126,174 100,176 C74,174 40,140 34,104 C28,74 50,40 100,40 Z" fill="#fff"/>
+      <path d="M46,98 C54,78 82,78 94,104 C82,120 56,118 46,98 Z" fill="#000"/>
+      <path d="M154,98 C146,78 118,78 106,104 C118,120 144,118 154,98 Z" fill="#000"/>
+      <circle cx="68" cy="94" r="6" fill="#fff"/><circle cx="132" cy="94" r="6" fill="#fff"/>
+      <circle cx="78" cy="106" r="2.5" fill="#fff"/><circle cx="122" cy="106" r="2.5" fill="#fff"/>
+      <path d="M74,136 Q100,150 126,136 Q122,160 100,162 Q78,160 74,136 Z" fill="#000"/>
+      <path d="M84,142 L84,150 M93,145 L93,153 M102,145 L102,153 M111,143 L111,151" stroke="#fff" stroke-width="6" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-alien-grill-33)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="6" data-name="Toast">
+    <div class="stage">
+      <span class="num">06</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Toast"><title>Toast</title><mask id="m-toast-fighter-34" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M52,92 C28,92 28,46 64,42 C78,24 122,24 136,42 C172,46 172,92 148,92 L148,164 Q148,172 140,172 L60,172 Q52,172 52,164 Z" fill="#fff"/>
+      <path d="M63,94 C44,92 44,58 70,54 C82,40 118,40 130,54 C156,58 156,92 137,94 L137,160 L63,160 Z" fill="#fff" stroke="#000" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M70,98 L94,108 A13,13 0 0 1 70,98 Z" fill="#000"/>
+      <path d="M106,108 L130,98 A13,13 0 0 1 106,108 Z" fill="#000"/>
+      <circle cx="85" cy="110" r="3.5" fill="#fff"/><circle cx="115" cy="110" r="3.5" fill="#fff"/>
+      <rect x="80" y="124" width="40" height="16" rx="5" fill="#000"/>
+      <path d="M90,126 L90,138 M100,126 L100,138 M110,126 L110,138" stroke="#fff" stroke-width="3"/>
+      <g transform="translate(-6,42) scale(0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(206,42) scale(-0.8,0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-toast-fighter-34)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Toast</h2>
+        <button class="pick" type="button" id="pick-toast-fighter" aria-pressed="false" aria-label="Shortlist Toast">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Slice of bread</span><span class="x">&times;</span><span>MMA</span><span class="style graphic">Graphic</span></p>
+      <p class="note">A fired-up slice of bread in boxing gloves, as a mascot for Daily Bread. A bread slice is instantly recognizable, and the gloves add the fight-night attitude.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Toast on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Toast"><mask id="m-toast-fighter-35" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M52,92 C28,92 28,46 64,42 C78,24 122,24 136,42 C172,46 172,92 148,92 L148,164 Q148,172 140,172 L60,172 Q52,172 52,164 Z" fill="#fff"/>
+      <path d="M63,94 C44,92 44,58 70,54 C82,40 118,40 130,54 C156,58 156,92 137,94 L137,160 L63,160 Z" fill="#fff" stroke="#000" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M70,98 L94,108 A13,13 0 0 1 70,98 Z" fill="#000"/>
+      <path d="M106,108 L130,98 A13,13 0 0 1 106,108 Z" fill="#000"/>
+      <circle cx="85" cy="110" r="3.5" fill="#fff"/><circle cx="115" cy="110" r="3.5" fill="#fff"/>
+      <rect x="80" y="124" width="40" height="16" rx="5" fill="#000"/>
+      <path d="M90,126 L90,138 M100,126 L100,138 M110,126 L110,138" stroke="#fff" stroke-width="3"/>
+      <g transform="translate(-6,42) scale(0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(206,42) scale(-0.8,0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-toast-fighter-35)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Toast on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Toast"><mask id="m-toast-fighter-36" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M52,92 C28,92 28,46 64,42 C78,24 122,24 136,42 C172,46 172,92 148,92 L148,164 Q148,172 140,172 L60,172 Q52,172 52,164 Z" fill="#fff"/>
+      <path d="M63,94 C44,92 44,58 70,54 C82,40 118,40 130,54 C156,58 156,92 137,94 L137,160 L63,160 Z" fill="#fff" stroke="#000" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M70,98 L94,108 A13,13 0 0 1 70,98 Z" fill="#000"/>
+      <path d="M106,108 L130,98 A13,13 0 0 1 106,108 Z" fill="#000"/>
+      <circle cx="85" cy="110" r="3.5" fill="#fff"/><circle cx="115" cy="110" r="3.5" fill="#fff"/>
+      <rect x="80" y="124" width="40" height="16" rx="5" fill="#000"/>
+      <path d="M90,126 L90,138 M100,126 L100,138 M110,126 L110,138" stroke="#fff" stroke-width="3"/>
+      <g transform="translate(-6,42) scale(0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(206,42) scale(-0.8,0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-toast-fighter-36)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Toast on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Toast"><mask id="m-toast-fighter-37" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M52,92 C28,92 28,46 64,42 C78,24 122,24 136,42 C172,46 172,92 148,92 L148,164 Q148,172 140,172 L60,172 Q52,172 52,164 Z" fill="#fff"/>
+      <path d="M63,94 C44,92 44,58 70,54 C82,40 118,40 130,54 C156,58 156,92 137,94 L137,160 L63,160 Z" fill="#fff" stroke="#000" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M70,98 L94,108 A13,13 0 0 1 70,98 Z" fill="#000"/>
+      <path d="M106,108 L130,98 A13,13 0 0 1 106,108 Z" fill="#000"/>
+      <circle cx="85" cy="110" r="3.5" fill="#fff"/><circle cx="115" cy="110" r="3.5" fill="#fff"/>
+      <rect x="80" y="124" width="40" height="16" rx="5" fill="#000"/>
+      <path d="M90,126 L90,138 M100,126 L100,138 M110,126 L110,138" stroke="#fff" stroke-width="3"/>
+      <g transform="translate(-6,42) scale(0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(206,42) scale(-0.8,0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-toast-fighter-37)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="7" data-name="Bag Secured">
+    <div class="stage">
+      <span class="num">07</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Bag Secured"><title>Bag Secured</title><mask id="m-money-bag-38" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M74,36 L88,56 L100,40 L112,56 L126,36 Q132,62 118,72 L82,72 Q68,62 74,36 Z" fill="#fff"/>
+      <path d="M100,72 C152,72 174,122 168,150 C162,174 132,180 100,180 C68,180 38,174 32,150 C26,122 48,72 100,72 Z" fill="#fff"/>
+      <rect x="76" y="64" width="48" height="12" rx="6" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <rect x="48" y="96" width="104" height="30" rx="15" fill="#000"/>
+      <circle cx="78" cy="111" r="9" fill="#fff"/><circle cx="122" cy="111" r="9" fill="#fff"/>
+      <circle cx="82" cy="110" r="4" fill="#000"/><circle cx="126" cy="110" r="4" fill="#000"/>
+      <path d="M114,142 Q104,134 94,138 Q82,144 96,152 L106,156 Q120,162 110,170 Q100,176 86,168" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/>
+      <path d="M100,130 L100,178" stroke="#000" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-money-bag-38)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Bag Secured</h2>
+        <button class="pick" type="button" id="pick-money-bag" aria-pressed="false" aria-label="Shortlist Bag Secured">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Money bag</span><span class="x">&times;</span><span>Heist</span><span class="style emblem">Emblem</span></p>
+      <p class="note">A money bag in a ski mask, a plain take on "bread" as money. The bag shape and the $ read clearly from across a room.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bag Secured on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bag Secured"><mask id="m-money-bag-39" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M74,36 L88,56 L100,40 L112,56 L126,36 Q132,62 118,72 L82,72 Q68,62 74,36 Z" fill="#fff"/>
+      <path d="M100,72 C152,72 174,122 168,150 C162,174 132,180 100,180 C68,180 38,174 32,150 C26,122 48,72 100,72 Z" fill="#fff"/>
+      <rect x="76" y="64" width="48" height="12" rx="6" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <rect x="48" y="96" width="104" height="30" rx="15" fill="#000"/>
+      <circle cx="78" cy="111" r="9" fill="#fff"/><circle cx="122" cy="111" r="9" fill="#fff"/>
+      <circle cx="82" cy="110" r="4" fill="#000"/><circle cx="126" cy="110" r="4" fill="#000"/>
+      <path d="M114,142 Q104,134 94,138 Q82,144 96,152 L106,156 Q120,162 110,170 Q100,176 86,168" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/>
+      <path d="M100,130 L100,178" stroke="#000" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-money-bag-39)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bag Secured on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bag Secured"><mask id="m-money-bag-40" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M74,36 L88,56 L100,40 L112,56 L126,36 Q132,62 118,72 L82,72 Q68,62 74,36 Z" fill="#fff"/>
+      <path d="M100,72 C152,72 174,122 168,150 C162,174 132,180 100,180 C68,180 38,174 32,150 C26,122 48,72 100,72 Z" fill="#fff"/>
+      <rect x="76" y="64" width="48" height="12" rx="6" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <rect x="48" y="96" width="104" height="30" rx="15" fill="#000"/>
+      <circle cx="78" cy="111" r="9" fill="#fff"/><circle cx="122" cy="111" r="9" fill="#fff"/>
+      <circle cx="82" cy="110" r="4" fill="#000"/><circle cx="126" cy="110" r="4" fill="#000"/>
+      <path d="M114,142 Q104,134 94,138 Q82,144 96,152 L106,156 Q120,162 110,170 Q100,176 86,168" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/>
+      <path d="M100,130 L100,178" stroke="#000" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-money-bag-40)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Bag Secured on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Bag Secured"><mask id="m-money-bag-41" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M74,36 L88,56 L100,40 L112,56 L126,36 Q132,62 118,72 L82,72 Q68,62 74,36 Z" fill="#fff"/>
+      <path d="M100,72 C152,72 174,122 168,150 C162,174 132,180 100,180 C68,180 38,174 32,150 C26,122 48,72 100,72 Z" fill="#fff"/>
+      <rect x="76" y="64" width="48" height="12" rx="6" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <rect x="48" y="96" width="104" height="30" rx="15" fill="#000"/>
+      <circle cx="78" cy="111" r="9" fill="#fff"/><circle cx="122" cy="111" r="9" fill="#fff"/>
+      <circle cx="82" cy="110" r="4" fill="#000"/><circle cx="126" cy="110" r="4" fill="#000"/>
+      <path d="M114,142 Q104,134 94,138 Q82,144 96,152 L106,156 Q120,162 110,170 Q100,176 86,168" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/>
+      <path d="M100,130 L100,178" stroke="#000" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-money-bag-41)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="8" data-name="Game Over">
+    <div class="stage">
+      <span class="num">08</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Game Over"><title>Game Over</title><mask id="m-game-over-ghost-42" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,118) rotate(-48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <g transform="translate(100,118) rotate(48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <path d="M52,170 L52,96 C52,58 76,40 100,40 C124,40 148,58 148,96 L148,170 L132,156 L116,170 L100,156 L84,170 L68,156 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,92 L94,104 A16,16 0 0 1 64,92 Z" fill="#000"/>
+      <path d="M106,104 L136,92 A16,16 0 0 1 106,104 Z" fill="#000"/>
+      <circle cx="83" cy="108" r="4.5" fill="#fff"/><circle cx="117" cy="108" r="4.5" fill="#fff"/>
+      <path d="M78,130 Q100,150 122,130 Q100,140 78,130 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-game-over-ghost-42)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Game Over</h2>
+        <button class="pick" type="button" id="pick-game-over-ghost" aria-pressed="false" aria-label="Shortlist Game Over">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Arcade ghost</span><span class="x">&times;</span><span>Gamer</span><span class="style emblem">Emblem</span></p>
+      <p class="note">An angry arcade ghost over crossed joysticks. It follows the same layout as Psycho Bunny’s skull and crossbones, in gaming terms.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Game Over on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Game Over"><mask id="m-game-over-ghost-43" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,118) rotate(-48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <g transform="translate(100,118) rotate(48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <path d="M52,170 L52,96 C52,58 76,40 100,40 C124,40 148,58 148,96 L148,170 L132,156 L116,170 L100,156 L84,170 L68,156 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,92 L94,104 A16,16 0 0 1 64,92 Z" fill="#000"/>
+      <path d="M106,104 L136,92 A16,16 0 0 1 106,104 Z" fill="#000"/>
+      <circle cx="83" cy="108" r="4.5" fill="#fff"/><circle cx="117" cy="108" r="4.5" fill="#fff"/>
+      <path d="M78,130 Q100,150 122,130 Q100,140 78,130 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-game-over-ghost-43)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Game Over on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Game Over"><mask id="m-game-over-ghost-44" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,118) rotate(-48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <g transform="translate(100,118) rotate(48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <path d="M52,170 L52,96 C52,58 76,40 100,40 C124,40 148,58 148,96 L148,170 L132,156 L116,170 L100,156 L84,170 L68,156 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,92 L94,104 A16,16 0 0 1 64,92 Z" fill="#000"/>
+      <path d="M106,104 L136,92 A16,16 0 0 1 106,104 Z" fill="#000"/>
+      <circle cx="83" cy="108" r="4.5" fill="#fff"/><circle cx="117" cy="108" r="4.5" fill="#fff"/>
+      <path d="M78,130 Q100,150 122,130 Q100,140 78,130 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-game-over-ghost-44)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Game Over on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Game Over"><mask id="m-game-over-ghost-45" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,118) rotate(-48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <g transform="translate(100,118) rotate(48) scale(1.1)">
+  <rect x="-5" y="-66" width="10" height="122" rx="5" fill="#fff"/>
+  <circle cx="0" cy="-72" r="15" fill="#fff"/>
+  <rect x="-24" y="52" width="48" height="18" rx="5" fill="#fff"/></g>
+      <path d="M52,170 L52,96 C52,58 76,40 100,40 C124,40 148,58 148,96 L148,170 L132,156 L116,170 L100,156 L84,170 L68,156 Z" fill="#fff" stroke="#000" stroke-width="10" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,92 L94,104 A16,16 0 0 1 64,92 Z" fill="#000"/>
+      <path d="M106,104 L136,92 A16,16 0 0 1 106,104 Z" fill="#000"/>
+      <circle cx="83" cy="108" r="4.5" fill="#fff"/><circle cx="117" cy="108" r="4.5" fill="#fff"/>
+      <path d="M78,130 Q100,150 122,130 Q100,140 78,130 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-game-over-ghost-45)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="9" data-name="Ground & Pound">
+    <div class="stage">
+      <span class="num">09</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Ground & Pound"><title>Ground & Pound</title><mask id="m-mma-bear-46" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="60" cy="44" r="16" fill="#fff"/><circle cx="140" cy="44" r="16" fill="#fff"/>
+      <circle cx="60" cy="44" r="7" fill="#000"/><circle cx="140" cy="44" r="7" fill="#000"/>
+      <path d="M58,64 L26,54 M58,70 L28,82" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="100" cy="86" r="50" fill="#fff"/>
+      <rect x="50" y="58" width="100" height="11" fill="#000"/>
+      <path d="M72,80 L92,88 A11,11 0 0 1 72,80 Z" fill="#000"/>
+      <path d="M108,88 L128,80 A11,11 0 0 1 108,88 Z" fill="#000"/>
+      <circle cx="84" cy="90" r="2.8" fill="#fff"/><circle cx="116" cy="90" r="2.8" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="20" ry="14" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <ellipse cx="100" cy="104" rx="7" ry="4.5" fill="#000"/>
+      <path d="M100,108 L100,114 M92,118 Q100,114 108,118" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <g transform="translate(8,-4)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(192,-4) scale(-1,1)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-mma-bear-46)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Ground & Pound</h2>
+        <button class="pick" type="button" id="pick-mma-bear" aria-pressed="false" aria-label="Shortlist Ground & Pound">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Bear cub</span><span class="x">&times;</span><span>MMA</span><span class="style graphic">Graphic</span></p>
+      <p class="note">A bear cub in a fight headband with its gloves up. It looks like a stuffed toy that could choke you out.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Ground & Pound on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Ground & Pound"><mask id="m-mma-bear-47" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="60" cy="44" r="16" fill="#fff"/><circle cx="140" cy="44" r="16" fill="#fff"/>
+      <circle cx="60" cy="44" r="7" fill="#000"/><circle cx="140" cy="44" r="7" fill="#000"/>
+      <path d="M58,64 L26,54 M58,70 L28,82" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="100" cy="86" r="50" fill="#fff"/>
+      <rect x="50" y="58" width="100" height="11" fill="#000"/>
+      <path d="M72,80 L92,88 A11,11 0 0 1 72,80 Z" fill="#000"/>
+      <path d="M108,88 L128,80 A11,11 0 0 1 108,88 Z" fill="#000"/>
+      <circle cx="84" cy="90" r="2.8" fill="#fff"/><circle cx="116" cy="90" r="2.8" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="20" ry="14" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <ellipse cx="100" cy="104" rx="7" ry="4.5" fill="#000"/>
+      <path d="M100,108 L100,114 M92,118 Q100,114 108,118" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <g transform="translate(8,-4)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(192,-4) scale(-1,1)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-mma-bear-47)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Ground & Pound on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Ground & Pound"><mask id="m-mma-bear-48" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="60" cy="44" r="16" fill="#fff"/><circle cx="140" cy="44" r="16" fill="#fff"/>
+      <circle cx="60" cy="44" r="7" fill="#000"/><circle cx="140" cy="44" r="7" fill="#000"/>
+      <path d="M58,64 L26,54 M58,70 L28,82" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="100" cy="86" r="50" fill="#fff"/>
+      <rect x="50" y="58" width="100" height="11" fill="#000"/>
+      <path d="M72,80 L92,88 A11,11 0 0 1 72,80 Z" fill="#000"/>
+      <path d="M108,88 L128,80 A11,11 0 0 1 108,88 Z" fill="#000"/>
+      <circle cx="84" cy="90" r="2.8" fill="#fff"/><circle cx="116" cy="90" r="2.8" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="20" ry="14" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <ellipse cx="100" cy="104" rx="7" ry="4.5" fill="#000"/>
+      <path d="M100,108 L100,114 M92,118 Q100,114 108,118" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <g transform="translate(8,-4)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(192,-4) scale(-1,1)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-mma-bear-48)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Ground & Pound on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Ground & Pound"><mask id="m-mma-bear-49" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="60" cy="44" r="16" fill="#fff"/><circle cx="140" cy="44" r="16" fill="#fff"/>
+      <circle cx="60" cy="44" r="7" fill="#000"/><circle cx="140" cy="44" r="7" fill="#000"/>
+      <path d="M58,64 L26,54 M58,70 L28,82" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="100" cy="86" r="50" fill="#fff"/>
+      <rect x="50" y="58" width="100" height="11" fill="#000"/>
+      <path d="M72,80 L92,88 A11,11 0 0 1 72,80 Z" fill="#000"/>
+      <path d="M108,88 L128,80 A11,11 0 0 1 108,88 Z" fill="#000"/>
+      <circle cx="84" cy="90" r="2.8" fill="#fff"/><circle cx="116" cy="90" r="2.8" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="20" ry="14" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <ellipse cx="100" cy="104" rx="7" ry="4.5" fill="#000"/>
+      <path d="M100,108 L100,114 M92,118 Q100,114 108,118" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <g transform="translate(8,-4)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(192,-4) scale(-1,1)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-mma-bear-49)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="10" data-name="Hop">
+    <div class="stage">
+      <span class="num">10</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Hop"><title>Hop</title><mask id="m-chain-frog-50" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><g transform="translate(0,-12)">
+      <circle cx="64" cy="70" r="26" fill="#fff"/><circle cx="136" cy="70" r="26" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="72" ry="46" fill="#fff"/>
+      <circle cx="64" cy="72" r="14" fill="#000"/><circle cx="136" cy="72" r="14" fill="#000"/>
+      <rect x="48" y="56" width="32" height="15" fill="#fff"/><rect x="120" y="56" width="32" height="15" fill="#fff"/>
+      <path d="M50,71 L78,71 M122,71 L150,71" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="68" cy="77" r="3" fill="#fff"/><circle cx="140" cy="77" r="3" fill="#fff"/>
+      <circle cx="90" cy="100" r="2.6" fill="#000"/><circle cx="110" cy="100" r="2.6" fill="#000"/>
+      <path d="M50,118 Q100,150 150,118" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+      <path d="M60,152 Q100,176 140,152" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="7 4"/>
+      <path d="M100,160 L100,166" stroke="#fff" stroke-width="5"/>
+      <path d="M84,186 C84,168 116,168 116,186 L116,192 L84,192 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <path d="M92,176 L96,183 M100,174 L104,181 M108,176 L111,182" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-chain-frog-50)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Hop</h2>
+        <button class="pick" type="button" id="pick-chain-frog" aria-pressed="false" aria-label="Shortlist Hop">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Frog</span><span class="x">&times;</span><span>Hip hop</span><span class="style emblem">Emblem</span></p>
+      <p class="note">An unimpressed frog wearing a chain with a bread-loaf pendant, a nod to Daily Bread. The wide face and eye bumps make an unusual silhouette.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Hop on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Hop"><mask id="m-chain-frog-51" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><g transform="translate(0,-12)">
+      <circle cx="64" cy="70" r="26" fill="#fff"/><circle cx="136" cy="70" r="26" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="72" ry="46" fill="#fff"/>
+      <circle cx="64" cy="72" r="14" fill="#000"/><circle cx="136" cy="72" r="14" fill="#000"/>
+      <rect x="48" y="56" width="32" height="15" fill="#fff"/><rect x="120" y="56" width="32" height="15" fill="#fff"/>
+      <path d="M50,71 L78,71 M122,71 L150,71" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="68" cy="77" r="3" fill="#fff"/><circle cx="140" cy="77" r="3" fill="#fff"/>
+      <circle cx="90" cy="100" r="2.6" fill="#000"/><circle cx="110" cy="100" r="2.6" fill="#000"/>
+      <path d="M50,118 Q100,150 150,118" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+      <path d="M60,152 Q100,176 140,152" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="7 4"/>
+      <path d="M100,160 L100,166" stroke="#fff" stroke-width="5"/>
+      <path d="M84,186 C84,168 116,168 116,186 L116,192 L84,192 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <path d="M92,176 L96,183 M100,174 L104,181 M108,176 L111,182" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#141414" mask="url(#m-chain-frog-51)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Hop on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Hop"><mask id="m-chain-frog-52" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><g transform="translate(0,-12)">
+      <circle cx="64" cy="70" r="26" fill="#fff"/><circle cx="136" cy="70" r="26" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="72" ry="46" fill="#fff"/>
+      <circle cx="64" cy="72" r="14" fill="#000"/><circle cx="136" cy="72" r="14" fill="#000"/>
+      <rect x="48" y="56" width="32" height="15" fill="#fff"/><rect x="120" y="56" width="32" height="15" fill="#fff"/>
+      <path d="M50,71 L78,71 M122,71 L150,71" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="68" cy="77" r="3" fill="#fff"/><circle cx="140" cy="77" r="3" fill="#fff"/>
+      <circle cx="90" cy="100" r="2.6" fill="#000"/><circle cx="110" cy="100" r="2.6" fill="#000"/>
+      <path d="M50,118 Q100,150 150,118" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+      <path d="M60,152 Q100,176 140,152" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="7 4"/>
+      <path d="M100,160 L100,166" stroke="#fff" stroke-width="5"/>
+      <path d="M84,186 C84,168 116,168 116,186 L116,192 L84,192 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <path d="M92,176 L96,183 M100,174 L104,181 M108,176 L111,182" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-chain-frog-52)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Hop on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Hop"><mask id="m-chain-frog-53" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><g transform="translate(0,-12)">
+      <circle cx="64" cy="70" r="26" fill="#fff"/><circle cx="136" cy="70" r="26" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="72" ry="46" fill="#fff"/>
+      <circle cx="64" cy="72" r="14" fill="#000"/><circle cx="136" cy="72" r="14" fill="#000"/>
+      <rect x="48" y="56" width="32" height="15" fill="#fff"/><rect x="120" y="56" width="32" height="15" fill="#fff"/>
+      <path d="M50,71 L78,71 M122,71 L150,71" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="68" cy="77" r="3" fill="#fff"/><circle cx="140" cy="77" r="3" fill="#fff"/>
+      <circle cx="90" cy="100" r="2.6" fill="#000"/><circle cx="110" cy="100" r="2.6" fill="#000"/>
+      <path d="M50,118 Q100,150 150,118" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+      <path d="M60,152 Q100,176 140,152" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="7 4"/>
+      <path d="M100,160 L100,166" stroke="#fff" stroke-width="5"/>
+      <path d="M84,186 C84,168 116,168 116,186 L116,192 L84,192 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <path d="M92,176 L96,183 M100,174 L104,181 M108,176 L111,182" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-chain-frog-53)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="11" data-name="Respawn">
+    <div class="stage">
+      <span class="num">11</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Respawn"><title>Respawn</title><mask id="m-reaper-54" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M154,192 L172,30" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M172,28 C146,6 96,8 62,32 C102,26 138,32 166,52 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100,32 C142,32 160,70 160,110 L168,178 L32,178 L40,110 C40,70 58,32 100,32 Z" fill="#fff" stroke="#000" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M100,62 C126,62 138,86 136,108 C134,130 118,142 100,142 C82,142 66,130 64,108 C62,86 74,62 100,62 Z" fill="#000"/>
+      <circle cx="86" cy="102" r="9" fill="#fff"/><circle cx="114" cy="102" r="9" fill="#fff"/>
+      <circle cx="89" cy="99" r="3.2" fill="#000"/><circle cx="117" cy="99" r="3.2" fill="#000"/>
+      <path d="M92,122 Q100,128 108,122" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M70,150 L66,178 M100,150 L100,178 M130,150 L134,178" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-reaper-54)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Respawn</h2>
+        <button class="pick" type="button" id="pick-reaper" aria-pressed="false" aria-label="Shortlist Respawn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Tiny reaper</span><span class="x">&times;</span><span>Gamer</span><span class="style graphic">Graphic</span></p>
+      <p class="note">A tiny grim reaper with glowing cute eyes in a dark hood. It reads as "death" from afar and "adorable" up close, and "Respawn" is a gamer joke.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Respawn on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Respawn"><mask id="m-reaper-55" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M154,192 L172,30" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M172,28 C146,6 96,8 62,32 C102,26 138,32 166,52 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100,32 C142,32 160,70 160,110 L168,178 L32,178 L40,110 C40,70 58,32 100,32 Z" fill="#fff" stroke="#000" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M100,62 C126,62 138,86 136,108 C134,130 118,142 100,142 C82,142 66,130 64,108 C62,86 74,62 100,62 Z" fill="#000"/>
+      <circle cx="86" cy="102" r="9" fill="#fff"/><circle cx="114" cy="102" r="9" fill="#fff"/>
+      <circle cx="89" cy="99" r="3.2" fill="#000"/><circle cx="117" cy="99" r="3.2" fill="#000"/>
+      <path d="M92,122 Q100,128 108,122" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M70,150 L66,178 M100,150 L100,178 M130,150 L134,178" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-reaper-55)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Respawn on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Respawn"><mask id="m-reaper-56" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M154,192 L172,30" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M172,28 C146,6 96,8 62,32 C102,26 138,32 166,52 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100,32 C142,32 160,70 160,110 L168,178 L32,178 L40,110 C40,70 58,32 100,32 Z" fill="#fff" stroke="#000" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M100,62 C126,62 138,86 136,108 C134,130 118,142 100,142 C82,142 66,130 64,108 C62,86 74,62 100,62 Z" fill="#000"/>
+      <circle cx="86" cy="102" r="9" fill="#fff"/><circle cx="114" cy="102" r="9" fill="#fff"/>
+      <circle cx="89" cy="99" r="3.2" fill="#000"/><circle cx="117" cy="99" r="3.2" fill="#000"/>
+      <path d="M92,122 Q100,128 108,122" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M70,150 L66,178 M100,150 L100,178 M130,150 L134,178" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-reaper-56)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Respawn on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Respawn"><mask id="m-reaper-57" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M154,192 L172,30" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+      <path d="M172,28 C146,6 96,8 62,32 C102,26 138,32 166,52 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M100,32 C142,32 160,70 160,110 L168,178 L32,178 L40,110 C40,70 58,32 100,32 Z" fill="#fff" stroke="#000" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M100,62 C126,62 138,86 136,108 C134,130 118,142 100,142 C82,142 66,130 64,108 C62,86 74,62 100,62 Z" fill="#000"/>
+      <circle cx="86" cy="102" r="9" fill="#fff"/><circle cx="114" cy="102" r="9" fill="#fff"/>
+      <circle cx="89" cy="99" r="3.2" fill="#000"/><circle cx="117" cy="99" r="3.2" fill="#000"/>
+      <path d="M92,122 Q100,128 108,122" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M70,150 L66,178 M100,150 L100,178 M130,150 L134,178" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-reaper-57)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="12" data-name="Loan Shark">
+    <div class="stage">
+      <span class="num">12</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Loan Shark"><title>Loan Shark</title><mask id="m-loan-shark-58" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M86,84 L104,40 L124,84 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M30,106 C58,82 104,74 142,80 C168,84 188,100 190,114 C184,130 160,140 130,142 C96,146 62,138 42,126 L12,148 L22,112 L10,80 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M96,138 L82,170 L122,140 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+      <circle cx="156" cy="102" r="7" fill="#000"/><circle cx="158" cy="100" r="2.4" fill="#fff"/>
+      <path d="M142,88 L168,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M140,120 Q166,128 188,116 Q182,138 160,138 Q144,136 140,120 Z" fill="#000"/>
+      <path d="M150,124 L154,132 L158,125 M164,125 L168,133 L172,124" fill="#fff" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="175" y="121" width="8" height="8" rx="1.5" fill="#fff"/>
+      <path d="M118,98 Q114,110 118,122 M108,98 Q104,110 108,122 M98,98 Q94,110 98,122" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-loan-shark-58)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Loan Shark</h2>
+        <button class="pick" type="button" id="pick-loan-shark" aria-pressed="false" aria-label="Shortlist Loan Shark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Shark</span><span class="x">&times;</span><span>Mobster</span><span class="style graphic">Graphic</span></p>
+      <p class="note">A chubby shark with a gold-tooth grin and an angry brow. The name ties straight into the money theme.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Loan Shark on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Loan Shark"><mask id="m-loan-shark-59" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M86,84 L104,40 L124,84 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M30,106 C58,82 104,74 142,80 C168,84 188,100 190,114 C184,130 160,140 130,142 C96,146 62,138 42,126 L12,148 L22,112 L10,80 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M96,138 L82,170 L122,140 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+      <circle cx="156" cy="102" r="7" fill="#000"/><circle cx="158" cy="100" r="2.4" fill="#fff"/>
+      <path d="M142,88 L168,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M140,120 Q166,128 188,116 Q182,138 160,138 Q144,136 140,120 Z" fill="#000"/>
+      <path d="M150,124 L154,132 L158,125 M164,125 L168,133 L172,124" fill="#fff" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="175" y="121" width="8" height="8" rx="1.5" fill="#fff"/>
+      <path d="M118,98 Q114,110 118,122 M108,98 Q104,110 108,122 M98,98 Q94,110 98,122" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-loan-shark-59)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Loan Shark on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Loan Shark"><mask id="m-loan-shark-60" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M86,84 L104,40 L124,84 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M30,106 C58,82 104,74 142,80 C168,84 188,100 190,114 C184,130 160,140 130,142 C96,146 62,138 42,126 L12,148 L22,112 L10,80 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M96,138 L82,170 L122,140 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+      <circle cx="156" cy="102" r="7" fill="#000"/><circle cx="158" cy="100" r="2.4" fill="#fff"/>
+      <path d="M142,88 L168,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M140,120 Q166,128 188,116 Q182,138 160,138 Q144,136 140,120 Z" fill="#000"/>
+      <path d="M150,124 L154,132 L158,125 M164,125 L168,133 L172,124" fill="#fff" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="175" y="121" width="8" height="8" rx="1.5" fill="#fff"/>
+      <path d="M118,98 Q114,110 118,122 M108,98 Q104,110 108,122 M98,98 Q94,110 98,122" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-loan-shark-60)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Loan Shark on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Loan Shark"><mask id="m-loan-shark-61" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M86,84 L104,40 L124,84 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M30,106 C58,82 104,74 142,80 C168,84 188,100 190,114 C184,130 160,140 130,142 C96,146 62,138 42,126 L12,148 L22,112 L10,80 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M96,138 L82,170 L122,140 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+      <circle cx="156" cy="102" r="7" fill="#000"/><circle cx="158" cy="100" r="2.4" fill="#fff"/>
+      <path d="M142,88 L168,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M140,120 Q166,128 188,116 Q182,138 160,138 Q144,136 140,120 Z" fill="#000"/>
+      <path d="M150,124 L154,132 L158,125 M164,125 L168,133 L172,124" fill="#fff" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="175" y="121" width="8" height="8" rx="1.5" fill="#fff"/>
+      <path d="M118,98 Q114,110 118,122 M108,98 Q104,110 108,122 M98,98 Q94,110 98,122" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-loan-shark-61)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="13" data-name="Abducted">
+    <div class="stage">
+      <span class="num">13</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Abducted"><title>Abducted</title><mask id="m-ufo-bread-62" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M78,92 L44,184 M122,92 L156,184" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <path d="M70,114 L130,114 M62,136 L138,136" stroke="#fff" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="54" rx="30" ry="28" fill="#fff"/>
+      <ellipse cx="100" cy="56" rx="24" ry="22" fill="#000"/>
+      <path d="M100,40 C114,40 120,50 118,60 C116,70 106,76 100,76 C94,76 84,70 82,60 C80,50 86,40 100,40 Z" fill="#fff"/>
+      <path d="M86,56 C90,50 96,52 98,60 C93,63 88,62 86,56 Z M114,56 C110,50 104,52 102,60 C107,63 112,62 114,56 Z" fill="#000"/>
+      <ellipse cx="100" cy="80" rx="72" ry="17" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <circle cx="56" cy="83" r="4.5" fill="#000"/><circle cx="78" cy="83" r="4.5" fill="#000"/><circle cx="100" cy="83" r="4.5" fill="#000"/><circle cx="122" cy="83" r="4.5" fill="#000"/><circle cx="144" cy="83" r="4.5" fill="#000"/>
+      <path d="M68,166 C68,138 132,138 132,166 L132,180 Q132,186 126,186 L74,186 Q68,186 68,180 Z" fill="#fff"/>
+      <path d="M84,150 L92,164 M98,146 L106,160 M112,148 L120,162" stroke="#000" stroke-width="4.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-ufo-bread-62)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Abducted</h2>
+        <button class="pick" type="button" id="pick-ufo-bread" aria-pressed="false" aria-label="Shortlist Abducted">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>Alien in a UFO</span><span class="x">&times;</span><span>Heist</span><span class="style graphic">Graphic</span></p>
+      <p class="note">An alien in a flying saucer beaming up a loaf of bread. It says "taking the bread" in one picture and works as a brand story for Daily Bread.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Abducted on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Abducted"><mask id="m-ufo-bread-63" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M78,92 L44,184 M122,92 L156,184" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <path d="M70,114 L130,114 M62,136 L138,136" stroke="#fff" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="54" rx="30" ry="28" fill="#fff"/>
+      <ellipse cx="100" cy="56" rx="24" ry="22" fill="#000"/>
+      <path d="M100,40 C114,40 120,50 118,60 C116,70 106,76 100,76 C94,76 84,70 82,60 C80,50 86,40 100,40 Z" fill="#fff"/>
+      <path d="M86,56 C90,50 96,52 98,60 C93,63 88,62 86,56 Z M114,56 C110,50 104,52 102,60 C107,63 112,62 114,56 Z" fill="#000"/>
+      <ellipse cx="100" cy="80" rx="72" ry="17" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <circle cx="56" cy="83" r="4.5" fill="#000"/><circle cx="78" cy="83" r="4.5" fill="#000"/><circle cx="100" cy="83" r="4.5" fill="#000"/><circle cx="122" cy="83" r="4.5" fill="#000"/><circle cx="144" cy="83" r="4.5" fill="#000"/>
+      <path d="M68,166 C68,138 132,138 132,166 L132,180 Q132,186 126,186 L74,186 Q68,186 68,180 Z" fill="#fff"/>
+      <path d="M84,150 L92,164 M98,146 L106,160 M112,148 L120,162" stroke="#000" stroke-width="4.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-ufo-bread-63)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Abducted on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Abducted"><mask id="m-ufo-bread-64" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M78,92 L44,184 M122,92 L156,184" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <path d="M70,114 L130,114 M62,136 L138,136" stroke="#fff" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="54" rx="30" ry="28" fill="#fff"/>
+      <ellipse cx="100" cy="56" rx="24" ry="22" fill="#000"/>
+      <path d="M100,40 C114,40 120,50 118,60 C116,70 106,76 100,76 C94,76 84,70 82,60 C80,50 86,40 100,40 Z" fill="#fff"/>
+      <path d="M86,56 C90,50 96,52 98,60 C93,63 88,62 86,56 Z M114,56 C110,50 104,52 102,60 C107,63 112,62 114,56 Z" fill="#000"/>
+      <ellipse cx="100" cy="80" rx="72" ry="17" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <circle cx="56" cy="83" r="4.5" fill="#000"/><circle cx="78" cy="83" r="4.5" fill="#000"/><circle cx="100" cy="83" r="4.5" fill="#000"/><circle cx="122" cy="83" r="4.5" fill="#000"/><circle cx="144" cy="83" r="4.5" fill="#000"/>
+      <path d="M68,166 C68,138 132,138 132,166 L132,180 Q132,186 126,186 L74,186 Q68,186 68,180 Z" fill="#fff"/>
+      <path d="M84,150 L92,164 M98,146 L106,160 M112,148 L120,162" stroke="#000" stroke-width="4.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-ufo-bread-64)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Abducted on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Abducted"><mask id="m-ufo-bread-65" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M78,92 L44,184 M122,92 L156,184" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <path d="M70,114 L130,114 M62,136 L138,136" stroke="#fff" stroke-width="3" stroke-dasharray="6 6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="54" rx="30" ry="28" fill="#fff"/>
+      <ellipse cx="100" cy="56" rx="24" ry="22" fill="#000"/>
+      <path d="M100,40 C114,40 120,50 118,60 C116,70 106,76 100,76 C94,76 84,70 82,60 C80,50 86,40 100,40 Z" fill="#fff"/>
+      <path d="M86,56 C90,50 96,52 98,60 C93,63 88,62 86,56 Z M114,56 C110,50 104,52 102,60 C107,63 112,62 114,56 Z" fill="#000"/>
+      <ellipse cx="100" cy="80" rx="72" ry="17" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <circle cx="56" cy="83" r="4.5" fill="#000"/><circle cx="78" cy="83" r="4.5" fill="#000"/><circle cx="100" cy="83" r="4.5" fill="#000"/><circle cx="122" cy="83" r="4.5" fill="#000"/><circle cx="144" cy="83" r="4.5" fill="#000"/>
+      <path d="M68,166 C68,138 132,138 132,166 L132,180 Q132,186 126,186 L74,186 Q68,186 68,180 Z" fill="#fff"/>
+      <path d="M84,150 L92,164 M98,146 L106,160 M112,148 L120,162" stroke="#000" stroke-width="4.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-ufo-bread-65)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article>
+  <article class="card" data-n="14" data-name="Block Bird">
+    <div class="stage">
+      <span class="num">14</span>
+      <div class="mark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Block Bird"><title>Block Bird</title><mask id="m-pigeon-66" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M64,168 L18,186 L30,170 L16,160 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M58,176 C36,146 46,104 90,96 C122,90 152,112 152,144 C152,166 132,180 100,180 Z" fill="#fff"/>
+      <circle cx="114" cy="78" r="32" fill="#fff"/>
+      <path d="M140,80 L170,90 L140,98 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M82,66 C82,30 144,30 146,64 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <rect x="128" y="58" width="50" height="10" rx="4" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke"/>
+      <circle cx="114" cy="44" r="4" fill="#000"/>
+      <circle cx="126" cy="82" r="8" fill="#000"/>
+      <rect x="117" y="72" width="18" height="8" fill="#fff"/>
+      <path d="M117,80 L135,80" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="130" cy="84" r="2.4" fill="#fff"/>
+      <path d="M86,108 Q114,122 144,108" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="6 4"/>
+      <path d="M66,138 Q100,124 136,146 M70,156 Q96,146 122,160" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M88,180 L84,194 M112,180 L116,194" stroke="#fff" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="currentColor" mask="url(#m-pigeon-66)"/></svg></div>
+      <p class="wordmark" aria-hidden="true">Daily Bread</p>
+    </div>
+    <div class="body">
+      <div class="title-row">
+        <h2>Block Bird</h2>
+        <button class="pick" type="button" id="pick-pigeon" aria-pressed="false" aria-label="Shortlist Block Bird">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg>
+          <span>Shortlist</span>
+        </button>
+      </div>
+      <p class="tags"><span>City pigeon</span><span class="x">&times;</span><span>Street</span><span class="style emblem">Emblem</span></p>
+      <p class="note">The most street animal there is: a pigeon in a flat-brim fitted cap with a side-eye. A funny pick that still looks good on a chest.</p>
+      <div class="tees">
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Block Bird on a white tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#f7f7f5" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Block Bird"><mask id="m-pigeon-67" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M64,168 L18,186 L30,170 L16,160 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M58,176 C36,146 46,104 90,96 C122,90 152,112 152,144 C152,166 132,180 100,180 Z" fill="#fff"/>
+      <circle cx="114" cy="78" r="32" fill="#fff"/>
+      <path d="M140,80 L170,90 L140,98 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M82,66 C82,30 144,30 146,64 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <rect x="128" y="58" width="50" height="10" rx="4" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke"/>
+      <circle cx="114" cy="44" r="4" fill="#000"/>
+      <circle cx="126" cy="82" r="8" fill="#000"/>
+      <rect x="117" y="72" width="18" height="8" fill="#fff"/>
+      <path d="M117,80 L135,80" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="130" cy="84" r="2.4" fill="#fff"/>
+      <path d="M86,108 Q114,122 144,108" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="6 4"/>
+      <path d="M66,138 Q100,124 136,146 M70,156 Q96,146 122,160" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M88,180 L84,194 M112,180 L116,194" stroke="#fff" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#141414" mask="url(#m-pigeon-67)"/></svg>
+    </svg>
+    <figcaption>White</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Block Bird on a black tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1b1b1d" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Block Bird"><mask id="m-pigeon-68" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M64,168 L18,186 L30,170 L16,160 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M58,176 C36,146 46,104 90,96 C122,90 152,112 152,144 C152,166 132,180 100,180 Z" fill="#fff"/>
+      <circle cx="114" cy="78" r="32" fill="#fff"/>
+      <path d="M140,80 L170,90 L140,98 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M82,66 C82,30 144,30 146,64 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <rect x="128" y="58" width="50" height="10" rx="4" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke"/>
+      <circle cx="114" cy="44" r="4" fill="#000"/>
+      <circle cx="126" cy="82" r="8" fill="#000"/>
+      <rect x="117" y="72" width="18" height="8" fill="#fff"/>
+      <path d="M117,80 L135,80" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="130" cy="84" r="2.4" fill="#fff"/>
+      <path d="M86,108 Q114,122 144,108" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="6 4"/>
+      <path d="M66,138 Q100,124 136,146 M70,156 Q96,146 122,160" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M88,180 L84,194 M112,180 L116,194" stroke="#fff" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f4f4f2" mask="url(#m-pigeon-68)"/></svg>
+    </svg>
+    <figcaption>Black</figcaption>
+  </figure>
+  <figure class="tee">
+    <svg viewBox="0 0 200 200" role="img" aria-label="Block Bird on a navy tee">
+      <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="#1f2a44" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M70,22 Q100,42 130,22" fill="none" stroke="var(--tee-edge)" stroke-width="1.5"/>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" x="110" y="50" width="32" height="32" role="img" aria-label="Block Bird"><mask id="m-pigeon-69" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M64,168 L18,186 L30,170 L16,160 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M58,176 C36,146 46,104 90,96 C122,90 152,112 152,144 C152,166 132,180 100,180 Z" fill="#fff"/>
+      <circle cx="114" cy="78" r="32" fill="#fff"/>
+      <path d="M140,80 L170,90 L140,98 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M82,66 C82,30 144,30 146,64 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <rect x="128" y="58" width="50" height="10" rx="4" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke"/>
+      <circle cx="114" cy="44" r="4" fill="#000"/>
+      <circle cx="126" cy="82" r="8" fill="#000"/>
+      <rect x="117" y="72" width="18" height="8" fill="#fff"/>
+      <path d="M117,80 L135,80" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="130" cy="84" r="2.4" fill="#fff"/>
+      <path d="M86,108 Q114,122 144,108" fill="none" stroke="#000" stroke-width="5" stroke-dasharray="6 4"/>
+      <path d="M66,138 Q100,124 136,146 M70,156 Q96,146 122,160" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M88,180 L84,194 M112,180 L116,194" stroke="#fff" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#f1efe8" mask="url(#m-pigeon-69)"/></svg>
+    </svg>
+    <figcaption>Navy</figcaption>
+  </figure></div>
+    </div>
+  </article></div>
+    </section>
+  </main>
+
+  <footer>
+    <h3>Next round</h3>
+    <p>Shortlist your favorites and paste the list back to me with any notes (which animal, which twist, simpler or bolder). Round 3 takes your top picks into color, a proper Daily Bread wordmark, and hoodie and back-print mockups.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var swatches = Array.prototype.slice.call(document.querySelectorAll('.swatch'));
+  function setFabric(btn) {
+    swatches.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+    root.style.setProperty('--stage-fabric', btn.dataset.fabric);
+    root.style.setProperty('--stage-ink', btn.dataset.ink);
+    try { localStorage.setItem('fabric', btn.id); } catch (e) {}
+  }
+  swatches.forEach(function (b) { b.addEventListener('click', function () { setFabric(b); }); });
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var count = document.getElementById('pick-count');
+  var copy = document.getElementById('copy-picks');
+  function picked() { return cards.filter(function (c) { return c.classList.contains('picked'); }); }
+  function refresh() {
+    var p = picked();
+    count.textContent = p.length ? p.map(function (c) { return '#' + c.dataset.n + ' ' + c.dataset.name; }).join(', ') : 'Shortlist up to 5 favorites';
+    copy.disabled = !p.length;
+    try { localStorage.setItem('picks', JSON.stringify(p.map(function (c) { return c.dataset.n; }))); } catch (e) {}
+  }
+  function toggle(card, on) {
+    card.classList.toggle('picked', on);
+    card.querySelector('.pick').setAttribute('aria-pressed', String(on));
+  }
+  cards.forEach(function (card) {
+    card.querySelector('.pick').addEventListener('click', function () {
+      var on = !card.classList.contains('picked');
+      if (on && picked().length >= 5) toggle(picked()[0], false);
+      toggle(card, on);
+      refresh();
+    });
+  });
+  copy.addEventListener('click', function () {
+    var text = 'Logo shortlist: ' + count.textContent;
+    var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy shortlist'; }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { window.getSelection().selectAllChildren(count); });
+    else window.getSelection().selectAllChildren(count);
+  });
+
+  try {
+    var f = document.getElementById(localStorage.getItem('fabric'));
+    if (f) setFabric(f);
+    JSON.parse(localStorage.getItem('picks') || '[]').forEach(function (n) {
+      var c = document.querySelector('.card[data-n="' + n + '"]'); if (c) toggle(c, true);
+    });
+  } catch (e) {}
+  var nameBox = document.getElementById('show-name');
+  function setName(on) { root.classList.toggle('show-name', on); try { localStorage.setItem('showName', on ? '1' : ''); } catch (e) {} }
+  nameBox.addEventListener('change', function () { setName(nameBox.checked); });
+  try { if (localStorage.getItem('showName')) { nameBox.checked = true; setName(true); } } catch (e) {}
+  refresh();
+})();
+</script>

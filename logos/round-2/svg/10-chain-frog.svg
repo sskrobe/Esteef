@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Hop"><title>Hop</title><mask id="m-chain-frog-9" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><g transform="translate(0,-12)">
+      <circle cx="64" cy="70" r="26" fill="#fff"/><circle cx="136" cy="70" r="26" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="72" ry="46" fill="#fff"/>
+      <circle cx="64" cy="72" r="14" fill="#000"/><circle cx="136" cy="72" r="14" fill="#000"/>
+      <rect x="48" y="56" width="32" height="15" fill="#fff"/><rect x="120" y="56" width="32" height="15" fill="#fff"/>
+      <path d="M50,71 L78,71 M122,71 L150,71" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="68" cy="77" r="3" fill="#fff"/><circle cx="140" cy="77" r="3" fill="#fff"/>
+      <circle cx="90" cy="100" r="2.6" fill="#000"/><circle cx="110" cy="100" r="2.6" fill="#000"/>
+      <path d="M50,118 Q100,150 150,118" fill="none" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+      <path d="M60,152 Q100,176 140,152" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="7 4"/>
+      <path d="M100,160 L100,166" stroke="#fff" stroke-width="5"/>
+      <path d="M84,186 C84,168 116,168 116,186 L116,192 L84,192 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <path d="M92,176 L96,183 M100,174 L104,181 M108,176 L111,182" stroke="#000" stroke-width="2.5" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#111111" mask="url(#m-chain-frog-9)"/></svg>

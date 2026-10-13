@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Big Head"><title>Big Head</title><mask id="m-alien-grill-4" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M84,46 L70,20 M116,46 L130,20" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="68" cy="16" r="9" fill="#fff"/><circle cx="132" cy="16" r="9" fill="#fff"/>
+      <path d="M100,40 C150,40 172,74 166,104 C160,140 126,174 100,176 C74,174 40,140 34,104 C28,74 50,40 100,40 Z" fill="#fff"/>
+      <path d="M46,98 C54,78 82,78 94,104 C82,120 56,118 46,98 Z" fill="#000"/>
+      <path d="M154,98 C146,78 118,78 106,104 C118,120 144,118 154,98 Z" fill="#000"/>
+      <circle cx="68" cy="94" r="6" fill="#fff"/><circle cx="132" cy="94" r="6" fill="#fff"/>
+      <circle cx="78" cy="106" r="2.5" fill="#fff"/><circle cx="122" cy="106" r="2.5" fill="#fff"/>
+      <path d="M74,136 Q100,150 126,136 Q122,160 100,162 Q78,160 74,136 Z" fill="#000"/>
+      <path d="M84,142 L84,150 M93,145 L93,153 M102,145 L102,153 M111,143 L111,151" stroke="#fff" stroke-width="6" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-alien-grill-4)"/></svg>

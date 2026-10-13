@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Bag Secured"><title>Bag Secured</title><mask id="m-money-bag-6" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M74,36 L88,56 L100,40 L112,56 L126,36 Q132,62 118,72 L82,72 Q68,62 74,36 Z" fill="#fff"/>
+      <path d="M100,72 C152,72 174,122 168,150 C162,174 132,180 100,180 C68,180 38,174 32,150 C26,122 48,72 100,72 Z" fill="#fff"/>
+      <rect x="76" y="64" width="48" height="12" rx="6" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+      <rect x="48" y="96" width="104" height="30" rx="15" fill="#000"/>
+      <circle cx="78" cy="111" r="9" fill="#fff"/><circle cx="122" cy="111" r="9" fill="#fff"/>
+      <circle cx="82" cy="110" r="4" fill="#000"/><circle cx="126" cy="110" r="4" fill="#000"/>
+      <path d="M114,142 Q104,134 94,138 Q82,144 96,152 L106,156 Q120,162 110,170 Q100,176 86,168" fill="none" stroke="#000" stroke-width="7" stroke-linecap="round"/>
+      <path d="M100,130 L100,178" stroke="#000" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-money-bag-6)"/></svg>
