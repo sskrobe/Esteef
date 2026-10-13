@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Ronin"><title>Ronin</title><mask id="m-ronin-shiba-12" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="rotate(-42 100 100)">
+        <path d="M8,96 L136,96 L136,106 L18,106 Z" fill="#fff"/>
+        <rect x="136" y="86" width="8" height="30" rx="2" fill="#fff"/>
+        <rect x="144" y="94" width="48" height="12" rx="3" fill="#fff"/>
+        <path d="M152,96 L157,100 L152,104 L147,100 Z" fill="#000"/><path d="M164,96 L169,100 L164,104 L159,100 Z" fill="#000"/><path d="M176,96 L181,100 L176,104 L171,100 Z" fill="#000"/>
+      </g>
+      <path d="M46,74 L54,22 L92,52 Z M154,74 L146,22 L108,52 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M100,46 C146,46 166,78 164,108 C162,146 132,172 100,172 C68,172 38,146 36,108 C34,78 54,46 100,46 Z" fill="#fff" stroke="#000" stroke-width="9" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M56,46 L60,66 L76,56 Z M144,46 L140,66 L124,56 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M62.6,96 L85.4,104 A12,12 0 0 1 62.6,96 Z" fill="#000"/><path d="M114.6,104 L137.4,96 A12,12 0 0 1 114.6,104 Z" fill="#000"/>
+    <circle cx="77" cy="106" r="3.2" fill="#fff"/><circle cx="123" cy="106" r="3.2" fill="#fff"/>
+      <path d="M62,78 L88,122" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M46,122 Q70,112 88,128 Q100,118 112,128 Q130,112 154,122" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+      <path d="M92,134 Q100,130 108,134 Q104,144 100,144 Q96,144 92,134 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M100,144 L100,150 M90,156 Q100,150 110,156" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-ronin-shiba-12)"/></svg>

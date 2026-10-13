@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Scar"><title>Scar</title><mask id="m-tiger-cub-16" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="50" cy="58" r="19" fill="#fff"/><circle cx="150" cy="58" r="19" fill="#fff"/>
+      <circle cx="51" cy="59" r="8" fill="#000"/><circle cx="149" cy="59" r="8" fill="#000"/>
+      <ellipse cx="100" cy="106" rx="62" ry="56" fill="#fff" stroke="#000" stroke-width="8" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M84,52 L92,74 L98,52 Z M102,52 L108,74 L116,52 Z M72,58 L82,74 L84,56 Z M128,58 L118,74 L116,56 Z" fill="#000"/>
+      <path d="M38,92 L62,100 L39,108 Z M162,92 L138,100 L161,108 Z" fill="#000"/>
+      <path d="M62.6,96 L85.4,104 A12,12 0 0 1 62.6,96 Z" fill="#000"/><path d="M114.6,104 L137.4,96 A12,12 0 0 1 114.6,104 Z" fill="#000"/>
+    <circle cx="77" cy="106" r="3.2" fill="#fff"/><circle cx="123" cy="106" r="3.2" fill="#fff"/>
+      <path d="M118,80 L136,120" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="88" cy="134" rx="15" ry="11" fill="#fff" stroke="#000" stroke-width="4" paint-order="stroke" stroke-linejoin="round"/><ellipse cx="112" cy="134" rx="15" ry="11" fill="#fff" stroke="#000" stroke-width="4" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M92,118 L108,118 L100,126 Z" fill="#000" stroke="#000" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M104,144 L111,144 L107,154 Z" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-tiger-cub-16)"/></svg>

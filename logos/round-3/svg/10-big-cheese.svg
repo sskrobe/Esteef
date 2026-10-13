@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Big Cheese"><title>Big Cheese</title><mask id="m-big-cheese-9" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M118,58 L118,30 L130,44 L142,24 L154,44 L166,30 L166,58 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M22,108 L178,108 L142,62 Z" fill="#fff"/>
+      <rect x="22" y="112" width="156" height="62" rx="4" fill="#fff"/>
+      <ellipse cx="96" cy="96" rx="8" ry="4.5" fill="#000"/><ellipse cx="138" cy="84" rx="6" ry="3.5" fill="#000"/><ellipse cx="160" cy="100" rx="5" ry="3" fill="#000"/>
+      <circle cx="30" cy="150" r="8" fill="#000"/><circle cx="172" cy="162" r="9" fill="#000"/><circle cx="170" cy="126" r="5" fill="#000"/><circle cx="58" cy="168" r="5" fill="#000"/>
+      <path d="M64.6,130 L87.4,138 A12,12 0 0 1 64.6,130 Z" fill="#000"/><path d="M112.6,138 L135.4,130 A12,12 0 0 1 112.6,138 Z" fill="#000"/>
+    <circle cx="79" cy="140" r="3.2" fill="#fff"/><circle cx="121" cy="140" r="3.2" fill="#fff"/>
+      <path d="M84,160 Q100,166 118,154" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-big-cheese-9)"/></svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Toast"><title>Toast</title><mask id="m-toast-fighter-5" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M52,92 C28,92 28,46 64,42 C78,24 122,24 136,42 C172,46 172,92 148,92 L148,164 Q148,172 140,172 L60,172 Q52,172 52,164 Z" fill="#fff"/>
+      <path d="M63,94 C44,92 44,58 70,54 C82,40 118,40 130,54 C156,58 156,92 137,94 L137,160 L63,160 Z" fill="#fff" stroke="#000" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M70,98 L94,108 A13,13 0 0 1 70,98 Z" fill="#000"/>
+      <path d="M106,108 L130,98 A13,13 0 0 1 106,108 Z" fill="#000"/>
+      <circle cx="85" cy="110" r="3.5" fill="#fff"/><circle cx="115" cy="110" r="3.5" fill="#fff"/>
+      <rect x="80" y="124" width="40" height="16" rx="5" fill="#000"/>
+      <path d="M90,126 L90,138 M100,126 L100,138 M110,126 L110,138" stroke="#fff" stroke-width="3"/>
+      <g transform="translate(-6,42) scale(0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g>
+      <g transform="translate(206,42) scale(-0.8,0.8)">
+  <path d="M26,136 C24,112 60,108 70,128 C80,148 70,172 48,174 C30,174 26,158 26,136 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+  <rect x="32" y="170" width="32" height="16" rx="4" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke"/>
+  <path d="M34,178 L62,178" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M38,140 Q50,130 62,140" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></g></mask><rect width="200" height="200" fill="#111111" mask="url(#m-toast-fighter-5)"/></svg>

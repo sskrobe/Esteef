@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Steamed"><title>Steamed</title><mask id="m-dumpling-11" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M58,62 q-10,-12 0,-24 t0,-24 M142,62 q10,-12 0,-24 t0,-24" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <path d="M26,156 C22,112 60,74 100,70 C140,74 178,112 174,156 Q100,180 26,156 Z" fill="#fff"/>
+      <path d="M90,72 Q100,52 110,72 Z" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M100,74 Q88,86 86,100 M100,74 Q112,86 114,100 M98,74 Q74,82 64,98 M102,74 Q126,82 136,98" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+      <path d="M61.65,120 L86.35,128 A13,13 0 0 1 61.65,120 Z" fill="#000"/><path d="M113.65,128 L138.35,120 A13,13 0 0 1 113.65,128 Z" fill="#000"/>
+    <circle cx="77" cy="130" r="3.5" fill="#fff"/><circle cx="123" cy="130" r="3.5" fill="#fff"/>
+      <path d="M90,154 Q100,146 110,154" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M140,100 q7,0 7,-7 M156,100 q-7,0 -7,-7 M140,108 q7,0 7,7 M156,108 q-7,0 -7,7" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-dumpling-11)"/></svg>

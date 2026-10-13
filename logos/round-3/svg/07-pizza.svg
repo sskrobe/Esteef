@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Hot Slice"><title>Hot Slice</title><mask id="m-pizza-6" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M30,40 Q100,16 170,40 L166,60 Q100,40 34,60 Z" fill="#fff"/>
+      <path d="M38,64 Q100,46 162,64 L100,190 Z" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke" stroke-linejoin="round"/>
+      <circle cx="80" cy="72" r="6" fill="#000"/><circle cx="122" cy="70" r="6" fill="#000"/>
+      <rect x="52" y="84" width="44" height="22" rx="7" fill="#000"/><rect x="104" y="84" width="44" height="22" rx="7" fill="#000"/>
+      <rect x="90" y="87" width="20" height="5" fill="#000"/>
+      <path d="M66,94 L76,90 M110,94 L120,90" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M86,128 Q102,138 116,122" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="100" cy="158" r="7" fill="#000"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-pizza-6)"/></svg>

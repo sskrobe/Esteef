@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Nug Life"><title>Nug Life</title><mask id="m-nugget-7" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M48,80 C40,50 80,36 104,44 C130,34 166,52 160,86 C172,112 158,150 128,158 C100,172 60,164 46,140 C30,120 36,100 48,80 Z" fill="#fff"/>
+      <ellipse cx="72" cy="62" rx="3" ry="2" fill="#000"/><ellipse cx="138" cy="68" rx="3" ry="2" fill="#000"/>
+      <ellipse cx="148" cy="128" rx="3" ry="2" fill="#000"/><ellipse cx="58" cy="146" rx="3" ry="2" fill="#000"/>
+      <path d="M62.65,94 L87.35,102 A13,13 0 0 1 62.65,94 Z" fill="#000"/><path d="M112.65,102 L137.35,94 A13,13 0 0 1 112.65,102 Z" fill="#000"/>
+    <circle cx="78" cy="104" r="3.5" fill="#fff"/><circle cx="122" cy="104" r="3.5" fill="#fff"/>
+      <circle cx="125" cy="101" r="21" fill="none" stroke="#000" stroke-width="4.5"/>
+      <g transform="rotate(-28 74 124)"><rect x="56" y="117" width="36" height="14" rx="7" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke" stroke-linejoin="round"/>
+        <rect x="68" y="119" width="12" height="10" fill="#000" opacity="0"/><circle cx="71" cy="124" r="1.6" fill="#000"/><circle cx="77" cy="124" r="1.6" fill="#000"/></g>
+      <path d="M88,140 Q102,130 116,140" fill="none" stroke="#000" stroke-width="5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-nugget-7)"/></svg>
