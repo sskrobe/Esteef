@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Captain Quack"><title>Captain Quack</title><mask id="m-pirate-duck-0" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <g transform="translate(100,150)">
+        <g transform="rotate(22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+        <g transform="rotate(-22)"><rect x="-60" y="-6.5" width="120" height="13" rx="6.5" fill="#fff"/>
+          <circle cx="-62" cy="-7" r="9" fill="#fff"/><circle cx="-62" cy="7" r="9" fill="#fff"/>
+          <circle cx="62" cy="-7" r="9" fill="#fff"/><circle cx="62" cy="7" r="9" fill="#fff"/></g>
+      </g>
+      <circle cx="100" cy="86" r="55" fill="#000"/>
+      <circle cx="100" cy="86" r="48" fill="#fff"/>
+      <ellipse cx="100" cy="38" rx="6" ry="13" fill="#fff"/>
+      <ellipse cx="89" cy="42" rx="5" ry="11" transform="rotate(-32 89 42)" fill="#fff"/>
+      <ellipse cx="111" cy="42" rx="5" ry="11" transform="rotate(32 111 42)" fill="#fff"/>
+      <path d="M50,62 L150,96" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="120" cy="86" rx="15" ry="13" fill="#000"/>
+      <circle cx="80" cy="85" r="11" fill="#000"/>
+      <circle cx="83" cy="87" r="5.5" fill="#fff"/>
+      <path d="M64,66 L94,74" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+      <path d="M58,112 Q100,96 142,112 Q148,128 100,130 Q52,128 58,112 Z" fill="#fff" stroke="#000" stroke-width="7" paint-order="stroke" stroke-linejoin="round"/>
+      <path d="M64,118 Q100,124 136,118" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="92" cy="107" rx="2.6" ry="1.8" fill="#000"/><ellipse cx="108" cy="107" rx="2.6" ry="1.8" fill="#000"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-pirate-duck-0)"/></svg>

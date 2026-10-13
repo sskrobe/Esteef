@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Count Nibbles"><title>Count Nibbles</title><mask id="m-vamp-hamster-4" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M30,172 L38,70 L80,120 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M170,172 L162,70 L120,120 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="100" cy="114" rx="61" ry="57" fill="#000"/>
+      <circle cx="64" cy="66" r="14" fill="#fff"/><circle cx="136" cy="66" r="14" fill="#fff"/>
+      <circle cx="65" cy="65" r="6.5" fill="#000"/><circle cx="135" cy="65" r="6.5" fill="#000"/>
+      <ellipse cx="100" cy="114" rx="56" ry="52" fill="#fff"/>
+      <path d="M78,72 L100,90 L122,72" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="79" cy="104" r="7.5" fill="#000"/><circle cx="121" cy="104" r="7.5" fill="#000"/>
+      <circle cx="81.5" cy="101.5" r="2.6" fill="#fff"/><circle cx="123.5" cy="101.5" r="2.6" fill="#fff"/>
+      <path d="M52,118 Q58,138 76,140 M148,118 Q142,138 124,140" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="100" cy="118" rx="4.5" ry="3.2" fill="#000"/>
+      <path d="M87,126 Q100,146 113,126 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M90,126 L96,126 L93,136 Z M104,126 L110,126 L107,136 Z" fill="#fff" stroke="#fff" stroke-width="1" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-vamp-hamster-4)"/></svg>

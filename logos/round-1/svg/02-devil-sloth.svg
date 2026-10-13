@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Slow Burn"><title>Slow Burn</title><mask id="m-devil-sloth-1" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <path d="M64,70 Q44,40 54,16 Q66,44 86,58 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M136,70 Q156,40 146,16 Q134,44 114,58 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+      <ellipse cx="100" cy="106" rx="62" ry="56" fill="#fff"/>
+      <path d="M58,92 Q100,70 142,92 Q150,124 128,146 Q100,160 72,146 Q50,124 58,92 Z" fill="#000"/>
+      <ellipse cx="76" cy="108" rx="24" ry="13" transform="rotate(-22 76 108)" fill="#fff"/>
+      <ellipse cx="124" cy="108" rx="24" ry="13" transform="rotate(22 124 108)" fill="#fff"/>
+      <path d="M72,100 L90,106 A9,9 0 0 1 72,100 Z" fill="#000"/>
+      <path d="M110,106 L128,100 A9,9 0 0 1 110,106 Z" fill="#000"/>
+      <circle cx="84" cy="107" r="2.8" fill="#fff"/><circle cx="116" cy="107" r="2.8" fill="#fff"/>
+      <ellipse cx="100" cy="124" rx="11" ry="7" fill="#fff"/>
+      <path d="M82,138 Q100,148 120,134" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <path d="M106,141 L113,138 L111,148 Z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-devil-sloth-1)"/></svg>

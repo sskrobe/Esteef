@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Bamboo Bandit"><title>Bamboo Bandit</title><mask id="m-bad-panda-5" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="52" cy="58" r="23" fill="#fff"/><circle cx="148" cy="58" r="23" fill="#fff"/>
+      <ellipse cx="100" cy="110" rx="67" ry="61" fill="#fff"/>
+      <ellipse cx="100" cy="114" rx="58" ry="52" fill="#000"/>
+      <path d="M48,98 Q48,90 58,90 L88,90 Q96,90 96,98 Q96,126 76,128 Q54,128 48,112 Z" fill="#fff"/>
+      <path d="M152,98 Q152,90 142,90 L112,90 Q104,90 104,98 Q104,126 124,128 Q146,128 152,112 Z" fill="#fff"/>
+      <rect x="94" y="92" width="12" height="5" fill="#fff"/>
+      <rect x="38" y="92" width="12" height="5" fill="#fff"/><rect x="150" y="92" width="12" height="5" fill="#fff"/>
+      <path d="M58,104 L70,94 M60,114 L78,98 M118,104 L130,94 M120,114 L138,98" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+      <path d="M118,64 L136,86" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M121,74 L129,68 M126,80 L134,74" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M88,138 Q100,132 112,138 Q106,150 100,150 Q94,150 88,138 Z" fill="#fff"/>
+      <path d="M100,150 L100,156 M84,158 Q98,164 116,154" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-bad-panda-5)"/></svg>

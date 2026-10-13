@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Happy Accident"><title>Happy Accident</title><mask id="m-bomb-quokka-9" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="54" cy="58" r="15" fill="#fff"/><circle cx="118" cy="52" r="15" fill="#fff"/>
+      <circle cx="55" cy="59" r="6.5" fill="#000"/><circle cx="117" cy="53" r="6.5" fill="#000"/>
+      <circle cx="86" cy="100" r="52" fill="#fff"/>
+      <circle cx="70" cy="94" r="6.5" fill="#000"/><circle cx="104" cy="92" r="6.5" fill="#000"/>
+      <circle cx="72" cy="91.5" r="2.2" fill="#fff"/><circle cx="106" cy="89.5" r="2.2" fill="#fff"/>
+      <ellipse cx="87" cy="106" rx="6" ry="4.2" fill="#000"/>
+      <path d="M64,116 Q86,146 112,114 Q86,126 64,116 Z" fill="#000" stroke="#000" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M87,110 L87,118" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="146" cy="144" r="36" fill="#000"/>
+      <circle cx="146" cy="144" r="30" fill="#fff"/>
+      <rect x="156" y="104" width="18" height="14" rx="2" transform="rotate(38 165 111)" fill="#fff" stroke="#000" stroke-width="5" paint-order="stroke"/>
+      <path d="M172,104 Q186,90 176,76" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <path d="M176,58 L179,68 L189,66 L182,74 L190,80 L180,80 L178,90 L174,80 L164,82 L170,74 L163,66 L173,68 Z" fill="#fff"/>
+      <path d="M128,138 Q130,126 142,122" fill="none" stroke="#000" stroke-width="4.5" stroke-linecap="round"/>
+      <ellipse cx="116" cy="150" rx="11" ry="13" fill="#fff" stroke="#000" stroke-width="6" paint-order="stroke"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-bomb-quokka-9)"/></svg>

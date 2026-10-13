@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="1000" height="1000" role="img" aria-label="Otter Job"><title>Otter Job</title><mask id="m-heist-otter-2" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/>
+      <circle cx="58" cy="64" r="16" fill="#fff"/><circle cx="142" cy="64" r="16" fill="#fff"/>
+      <circle cx="58" cy="64" r="7" fill="#000"/><circle cx="142" cy="64" r="7" fill="#000"/>
+      <circle cx="100" cy="40" r="13" fill="#fff"/>
+      <ellipse cx="100" cy="104" rx="56" ry="54" fill="#fff"/>
+      <path d="M52,74 Q100,54 148,74" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M70,65.6 l0,-9" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M82,64.16 l0,-9" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M94,62.72 l0,-9" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M106,62.72 l0,-9" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M118,64.16 l0,-9" stroke="#000" stroke-width="2.5" stroke-linecap="round"/><path d="M130,65.6 l0,-9" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="56" y="84" width="88" height="28" rx="14" fill="#000"/>
+      <circle cx="80" cy="98" r="8.5" fill="#fff"/><circle cx="120" cy="98" r="8.5" fill="#fff"/>
+      <circle cx="84" cy="97" r="3.5" fill="#000"/><circle cx="124" cy="97" r="3.5" fill="#000"/>
+      <ellipse cx="100" cy="134" rx="25" ry="17" fill="#000"/>
+      <path d="M89,124 Q100,119 111,124 Q105,134 100,134 Q95,134 89,124 Z" fill="#fff"/>
+      <path d="M90,139 Q95,145 100,139 Q105,145 110,139" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M77,130 L26,122 M77,138 L28,144 M123,130 L174,122 M123,138 L172,144" stroke="#fff" stroke-width="3" stroke-linecap="round"/></mask><rect width="200" height="200" fill="#111111" mask="url(#m-heist-otter-2)"/></svg>
