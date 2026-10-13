@@ -1,0 +1,143 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Color Splash Tee</title>
+<script src="logos.js"></script>
+<style>html,body{margin:0;background:#222}canvas{display:block}</style>
+<canvas id="c"></canvas>
+<script>
+// All-over print panel for the color-splash tee: a dark shirt with bright paint splatters,
+// droplets and drips, and (on the front) a large, crisp Coma Toast mark centered on the chest.
+// Query options, e.g. splash.html?panel=front&seed=3&w=3000&h=4000&s=1.2&cw=hot-wire&logo=1500,1100,1250
+//   panel  front | back | sleeve   (sets how heavy and where the splatter goes)
+//   w, h   layout size in design units; s = pixels per design unit
+//   cw     logo colorway key from logos.js; logo = x,y,width of the mark's visible area (design units)
+//   only=logo  renders just the logo on a transparent background; hide=1 leaves the logo off
+const Q = new URLSearchParams(location.search);
+const W = +(Q.get('w') || 3000), H = +(Q.get('h') || 4000), S = +(Q.get('s') || 1);
+const PANEL = Q.get('panel') || 'front';
+const CW = window.LOGOS[Q.get('cw') || 'hot-wire'];
+const LOGO = Q.get('logo') ? Q.get('logo').split(',').map(Number) : null;
+const ONLY_LOGO = Q.get('only') === 'logo';
+const cv = document.getElementById('c'); cv.width = Math.round(W * S); cv.height = Math.round(H * S);
+const ctx = cv.getContext('2d'); ctx.scale(S, S);
+
+let seed = +(Q.get('seed') || 7);
+const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+const R = (a, b) => a + rnd() * (b - a);
+const pick = a => a[Math.floor(rnd() * a.length)];
+
+const BASE = '#121214';
+// The splash palette: the logo's colorways plus white and orange for extra punch.
+const PAINT = ['#ff2e88', '#c6ff00', '#00e5ff', '#ffe600', '#ff6a00', '#f4f4f2'];
+
+// Closed smooth shape through a ring of points (curves through midpoints).
+function blob(pts) {
+  const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  ctx.beginPath();
+  ctx.moveTo(...mid(pts[pts.length - 1], pts[0]));
+  pts.forEach((p, i) => ctx.quadraticCurveTo(p[0], p[1], ...mid(p, pts[(i + 1) % pts.length])));
+  ctx.closePath();
+  ctx.fill();
+}
+
+// One paint splat: a lumpy core with long thrown spikes, a ring of droplets, and a few drips.
+function splat(x, y, r, color) {
+  ctx.fillStyle = color;
+  const n = 46, pts = [];
+  const spikes = new Set(Array.from({ length: Math.round(R(4, 9)) }, () => Math.floor(R(0, n))));
+  for (let i = 0; i < n; i++) {
+    const t = i / n * Math.PI * 2;
+    let rr = r * (0.78 + 0.22 * Math.sin(t * 3 + seed % 7) + R(-0.08, 0.08));
+    if (spikes.has(i)) rr *= R(1.5, 2.4);
+    pts.push([x + Math.cos(t) * rr, y + Math.sin(t) * rr]);
+  }
+  blob(pts);
+  // thrown droplets, getting smaller further out
+  const drops = Math.round(R(14, 30));
+  for (let i = 0; i < drops; i++) {
+    const a = R(0, Math.PI * 2), d = r * R(1.2, 3.2), s = r * R(0.03, 0.16) * (1.6 - d / (r * 3.2));
+    ctx.beginPath(); ctx.ellipse(x + Math.cos(a) * d, y + Math.sin(a) * d, s, s * R(0.7, 1.3), a, 0, Math.PI * 2); ctx.fill();
+  }
+  // gravity drips off the bottom edge
+  const drips = Math.round(R(0, 4));
+  for (let i = 0; i < drips; i++) {
+    const dx = x + R(-0.6, 0.6) * r, top = y + r * 0.55, len = r * R(0.6, 2.2), w = r * R(0.08, 0.18);
+    ctx.beginPath(); ctx.roundRect(dx - w / 2, top, w, len, w / 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(dx, top + len, w * 0.85, 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+// A fast flick of paint: a tapered streak with a fat head.
+function flick(x, y, len, a, w, color) {
+  ctx.fillStyle = color;
+  ctx.save(); ctx.translate(x, y); ctx.rotate(a);
+  ctx.beginPath(); ctx.moveTo(0, -w / 2); ctx.quadraticCurveTo(len * 0.6, -w * 0.15, len, 0); ctx.quadraticCurveTo(len * 0.6, w * 0.15, 0, w / 2); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.arc(0, 0, w * 0.6, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+// Fine spray mist around a point.
+function mist(x, y, r, color, n) {
+  ctx.fillStyle = color;
+  for (let i = 0; i < n; i++) {
+    const a = R(0, Math.PI * 2), d = r * Math.sqrt(rnd());
+    ctx.beginPath(); ctx.arc(x + Math.cos(a) * d, y + Math.sin(a) * d, R(1.2, 4.5), 0, Math.PI * 2); ctx.fill();
+  }
+}
+
+function loadLogo() {
+  return new Promise((ok, fail) => {
+    const img = new Image(); img.onload = () => ok(img); img.onerror = fail;
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(CW.svg);
+  });
+}
+// LOGO_BOX is the mark's visible area inside its 200-unit square; w is the visible width on the shirt.
+const BOX = window.LOGO_BOX;
+function drawLogo(img, x, y, w) {
+  const unit = w / BOX.w, size = 200 * unit;
+  ctx.drawImage(img, x - BOX.cx * unit, y - BOX.cy * unit, size, size);
+}
+
+// Keep splatter away from the chest logo: an oval clear zone around it.
+function clear(x, y) {
+  if (!LOGO) return true;
+  const [lx, ly, lw] = LOGO, lh = lw * BOX.h / BOX.w, rx = lw * 0.9, ry = lh * 0.78;
+  return ((x - lx) / rx) ** 2 + ((y - ly) / ry) ** 2 > 1;
+}
+
+(async function compose() {
+  const img = (LOGO || ONLY_LOGO) ? await loadLogo() : null;
+  if (ONLY_LOGO) { drawLogo(img, W / 2, H / 2, Math.min(W * 0.86, H * 0.86 * BOX.w / BOX.h)); window.DONE = true; return; }
+
+  ctx.fillStyle = BASE; ctx.fillRect(0, 0, W, H);
+
+  // Where the paint lands. Front: edges and hem, clear chest. Back: one big burst plus scatter.
+  // Sleeves: a few splats from the cuff and the shoulder.
+  const plan = [];
+  if (PANEL === 'front') {
+    for (let i = 0; i < 70 && plan.length < 16; i++) {
+      const edge = pick(['left', 'right', 'hem', 'hem', 'shoulder']);
+      const x = edge === 'left' ? R(0, W * 0.24) : edge === 'right' ? R(W * 0.76, W) : edge === 'shoulder' ? pick([R(0, W * 0.3), R(W * 0.7, W)]) : R(0, W);
+      const y = edge === 'hem' ? R(H * 0.68, H) : edge === 'shoulder' ? R(0, H * 0.2) : R(H * 0.15, H);
+      const r = R(70, 230);
+      if (clear(x, y) && clear(x + r, y) && clear(x - r, y) && clear(x, y - r) && clear(x, y + r)) plan.push([x, y, r]);
+    }
+  } else if (PANEL === 'back') {
+    plan.push([W * R(0.4, 0.6), H * R(0.3, 0.4), R(380, 470)]);
+    for (let i = 0; i < 18; i++) plan.push([R(0, W), R(0, H), R(60, 240)]);
+  } else {
+    for (let i = 0; i < 11; i++) plan.push([R(0, W), R(0, H), R(60, 200)]);
+  }
+
+  plan.forEach(([x, y, r], i) => {
+    const color = PAINT[i % PAINT.length];
+    if (rnd() < 0.5) mist(x, y, r * 2.4, color, Math.round(r * 1.2));
+    splat(x, y, r, color);
+    if (rnd() < 0.6) flick(x, y, r * R(2, 3.6), R(0, Math.PI * 2), r * R(0.18, 0.3), color);
+  });
+
+  // hide=1 keeps the logo's clear zone but leaves the logo off (for layering a logo PNG in Printful)
+  if (LOGO && !Q.get('hide')) drawLogo(img, LOGO[0], LOGO[1], LOGO[2]);
+  window.DONE = true;
+})();
+</script>

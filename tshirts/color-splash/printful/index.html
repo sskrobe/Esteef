@@ -1,0 +1,99 @@
+<title>Color Splash Tee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;1,6..96,500&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400&display=swap">
+<style>
+/* Layout: front and back mockups, the three logo colorways, then the Printful file list. */
+:root {
+  --paper: #f3f1f4; --surface: #ffffff; --ink: #18161b; --muted: #6c6672; --rule: #dcd7df; --accent: #d6336f;
+  --shirt: #121214; --tee-edge: rgba(24, 22, 27, 0.3);
+  --font-display: "Bodoni Moda", "Didot", Georgia, serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33; --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.35); color-scheme: dark; }
+}
+:root[data-theme="dark"] { --paper: #131115; --surface: #1d1a20; --ink: #f1edf3; --muted: #a39ca8; --rule: #2f2b33; --accent: #ff6b9f; --tee-edge: rgba(241, 237, 243, 0.35); color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1100px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 32px; }
+header { display: grid; gap: 12px; max-width: 68ch; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(36px, 6vw, 62px); line-height: .98; margin: 0; letter-spacing: -.02em; text-wrap: balance; }
+h1 em { font-weight: 500; color: var(--accent); }
+.lede { margin: 0; color: var(--muted); font-size: 16px; }
+h2 { font-family: var(--font-display); font-weight: 700; font-size: 28px; margin: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; display: grid; gap: 8px; justify-items: center; min-width: 0; }
+figure svg { width: 100%; max-width: 420px; height: auto; display: block; }
+figure.dark { background: var(--shirt); border-color: var(--shirt); }
+figure.dark img { width: 100%; max-width: 260px; height: auto; display: block; }
+figure.dark figcaption { color: #b9b3bd; }
+figcaption { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); text-align: center; }
+.files { display: grid; gap: 14px; max-width: 78ch; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 400; }
+td code { font-family: var(--font-mono); font-size: 12px; white-space: nowrap; }
+ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.note { margin: 0; color: var(--muted); font-size: 14px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Coma Toast &middot; Printful all-over print</p>
+    <h1>Saint, <em>loud.</em></h1>
+    <p class="lede">A near-black all-over print tee. Saint sits large and crisp in the middle of the chest, in bright, high-contrast colors, with the eyes, mouth and outlines cut out so the dark shirt shows through. Bright paint splashes, droplets and drips hit the hem, sides, shoulders, back and sleeves, with clear space left around the chest logo so it stays the hero.</p>
+  </header>
+
+  <div class="grid">
+    <figure>
+      <svg viewBox="0 0 200 200" role="img" aria-label="Front">
+        <defs><clipPath id="t-front"><path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
+        <rect width="200" height="200" fill="none"/>
+        <image href="preview/front.jpg" x="-2" y="2" width="204" height="272" preserveAspectRatio="xMidYMin slice" clip-path="url(#t-front)"/>
+        <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/><path d="M70,22 Q100,42 130,22" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3"/>
+      </svg>
+      <figcaption>Front</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 200 200" role="img" aria-label="Back">
+        <defs><clipPath id="t-back"><path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
+        <rect width="200" height="200" fill="none"/>
+        <image href="preview/back.jpg" x="-2" y="2" width="204" height="272" preserveAspectRatio="xMidYMin slice" clip-path="url(#t-back)"/>
+        <path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
+      </svg>
+      <figcaption>Back</figcaption>
+    </figure>
+  </div>
+
+  <section class="files">
+    <h2>Logo colorways</h2>
+    <p class="note">The front file uses Hot Wire. Each colorway also comes as a transparent PNG, so you can swap it in on Printful.</p>
+  </section>
+  <div class="grid"><figure class="dark"><img src="preview/saint-hot-wire.png" alt="Saint in the Hot Wire colorway"><figcaption>Hot Wire: pink toast, lime halo (used on the front file)</figcaption></figure><figure class="dark"><img src="preview/saint-toxic.png" alt="Saint in the Toxic colorway"><figcaption>Toxic: yellow toast, cyan halo</figcaption></figure><figure class="dark"><img src="preview/saint-riot.png" alt="Saint in the Riot colorway"><figcaption>Riot: cyan toast, pink halo</figcaption></figure></div>
+
+  <section class="files">
+    <h2>Files for Printful</h2>
+    <p class="note">Every panel is oversized (24 in wide at 150 dpi) so Printful can crop it to the shirt without gaps at the seams. I couldn’t reach Printful’s template from here, so check each placement in their preview before ordering.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>File</th><th>Size</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td><code>front.jpg</code></td><td>3600 &times; 4800</td><td>Front, with the Hot Wire Saint already centered on the chest (about 8 in wide, 8.7 in tall).</td></tr>
+        <tr><td><code>front-no-logo.jpg</code></td><td>3600 &times; 4800</td><td>Front without the logo but with its clear space, if you’d rather place a logo PNG as a layer.</td></tr>
+        <tr><td><code>saint-hot-wire.png</code>, <code>-toxic.png</code>, <code>-riot.png</code></td><td>3000 &times; 3000, transparent</td><td>The logo in each colorway.</td></tr>
+        <tr><td><code>back.jpg</code></td><td>3600 &times; 4800</td><td>Back.</td></tr>
+        <tr><td><code>sleeve-left.jpg</code>, <code>sleeve-right.jpg</code></td><td>3600 &times; 2400</td><td>Sleeves.</td></tr>
+      </tbody>
+    </table></div>
+    <h2>Setting it up</h2>
+    <ol>
+      <li>Open the All-Over Print Men’s Crew Neck T-Shirt in Printful’s design maker.</li>
+      <li>Upload <code>front.jpg</code>, <code>back.jpg</code> and the two sleeve files to their placements, each set to fill its area.</li>
+      <li>Check that the logo sits centered on the chest, a few inches below the collar. If it’s off, use <code>front-no-logo.jpg</code> and add a logo PNG as a layer, about 8 in wide, centered on the chest.</li>
+      <li>Set the collar, if your product has a separate collar placement, to the same near-black (#121214).</li>
+    </ol>
+  </section>
+</div>
