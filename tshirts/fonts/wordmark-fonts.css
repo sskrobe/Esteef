@@ -40,3 +40,45 @@
   font-display: block;
   src: url(RubikMonoOne-latin.woff2) format('woff2');
 }
+@font-face {
+  font-family: 'Rubik Wet Paint';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(RubikWetPaint-latin.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Rubik Spray Paint';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(RubikSprayPaint-latin.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Sedgwick Ave Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(SedgwickAveDisplay-latin.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Knewave';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(Knewave-latin.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Rubik Pixels';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(RubikPixels-latin.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Bangers';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(Bangers-0.woff2) format('woff2');
+}

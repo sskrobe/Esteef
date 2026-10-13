@@ -6,13 +6,13 @@ const fs = require('fs');
 const path = require('path');
 const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
 
-const FONTS = ['blackletter', 'couture', 'neon', 'pixel', 'signature', 'block'];
+const FONTS = ['blackletter', 'couture', 'neon', 'pixel', 'signature', 'block', 'wet-paint', 'spray', 'handstyle', 'throw-up', 'pixel-tag', 'pixel-drip', 'pixel-throw'];
 const CWS = ['hot-wire', 'toxic', 'riot'];
-// The toast's top edge sits about 6.1 in down; it's stretched about 8% lengthwise (8.5 in tall) and
-// about 3% widthwise (8.2 in wide) from its natural proportions, growing downward only.
-const CHEST = '1500,1300,1030,1067';
+// The toast is 10 in tall and about 9.7 in wide (stretched slightly lengthwise), its top edge about
+// 6.1 in down, centered on the chest.
+const CHEST = '1500,1391,1207,1250';
 const jobs = [];
-for (const f of FONTS) for (const cw of CWS) jobs.push({ file: `fonts/${f}-${cw}.png`, q: `only=wordmark&w=1400&h=360&s=1&cw=${cw}&wm=${f}` });
+for (const f of FONTS) for (const cw of CWS) jobs.push({ file: `fonts/${f}-${cw}.png`, q: `only=wordmark&w=1400&h=420&s=1&cw=${cw}&wm=${f}` });
 for (const cw of CWS) {
   jobs.push({ file: `shirts/front-${cw}.jpg`, q: `panel=front&seed=3&w=3000&h=4000&s=0.3&cw=${cw}&logo=${CHEST}` });
   for (const f of FONTS) jobs.push({ file: `shirts/back-${cw}-${f}.jpg`, q: `panel=back&seed=11&w=3000&h=4000&s=0.3&cw=${cw}&wm=${f}` });
