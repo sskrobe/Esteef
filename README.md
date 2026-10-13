@@ -21,6 +21,8 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `logos/round-10/` combines X'd-out eyes with a heartbeat line (as the mouth or along the bottom) under compact, symmetrical medical and sleep accessories. Rebuild with `node logos/round-10/build.js`.
 
+- `logos/round-11/` is the settled Coma Toast face (X eyes, heartbeat mouth) with every combination of halo, devil horns, angel wings and devil wings (15 marks). Rebuild with `node logos/round-11/build.js`.
+
 ## T-shirt designs
 
 - `tshirts/index.html` previews the tee concepts on shirt mockups.
