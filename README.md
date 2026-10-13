@@ -45,6 +45,8 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 - `tshirts/desk-graffiti/printful/` holds the Printful all-over print files for the desk tee with a hand-drawn Raising Hell on the left chest: front, back and sleeve panels, the logo patch as a transparent PNG, and two zips. Re-render with `node tshirts/desk-graffiti/make-logo.js` then `node tshirts/desk-graffiti/printful.js` (needs Playwright). `desk.html` takes `seed`, `w`, `h`, `s`, `logo` and `only=logo` query options.
 - `tshirts/paintshop/` is the PaintShop all-over print tee in three colorways (Hot Wire, Toxic, Riot): a near-black shirt with a 10 in outline Coma Toast framed on the chest, square neon paint blocks, $Daily Bread$ in Wet Paint at the back hem, and a hidden "Esteef" on one back block. Final Printful files and a zip per colorway are in `tshirts/paintshop/printful/<colorway>/`; `review/` holds the font study. Re-render with `node tshirts/paintshop/make-logo.js` then `node tshirts/paintshop/printful.js` (needs Playwright).
 
+- `tshirts/benday-logo/` is the Benday Logo tee: a single chest logo, the official mark filled with blue Ben-Day dots and comic inking (black, white, blue), on a transparent background. `files/` has a 300 dpi PNG and an SVG per mark (sized to a 10 x 10 in box) and `benday-logo-samples.png` shows all five at true scale. Re-render with `node tshirts/benday-logo/make.js` then `node tshirts/benday-logo/mockup.js` (needs Playwright).
+
 ## Notes and local copies
 
 - `obsidian/Coma Toast/` holds the Obsidian notes: the project hub (`Coma Toast.md`), `Logo Marks.md`, and one note per shirt in `Shirts/` (`PaintShop.md` has every spec and the change log).
