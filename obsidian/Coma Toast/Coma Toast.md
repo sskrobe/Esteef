@@ -23,7 +23,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 |---|---|---|
 | PaintShop | v10 files ready for Printful (Hot Wire, Toxic, Riot) | [[PaintShop]] |
 | Benday Logo | Women's final: Saint in Hot Pink, with ` Bread$` back. Men's (blue) waiting on mark pick | [[Benday Logo]] |
-| Argyle and Houndstooth | v1: Saint with an argyle or houndstooth face, Classic / Brand colorways; waiting on pick | [[Argyle and Houndstooth]] |
+| Argyle and Houndstooth | Argyle v2 (calmer, one outline) and houndstooth v1, Classic / Brand; waiting on pick | [[Argyle and Houndstooth]] |
 | Looney | Rejected | [[Looney]] |
 | Desk Tee | Rejected | [[Desk Tee]] |
 | Inside label | Final: DAILY / BREAD in Montserrat outline, tall square block | [[Labels]] |

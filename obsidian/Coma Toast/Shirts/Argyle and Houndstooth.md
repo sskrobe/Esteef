@@ -1,7 +1,7 @@
 ---
 tags: [coma-toast, shirt, argyle, houndstooth, printful]
 updated: 2026-10-13
-status: v1 samples (2 patterns × 2 colorways), waiting on pick
+status: argyle v2 (calmer, no extra borders), waiting on pick
 ---
 # Argyle and Houndstooth
 
@@ -10,7 +10,21 @@ Part of [[Coma Toast]]. Two designs that mix the **main halo logo** (Saint, see 
 - **Local folders:** `G:\ComaToast\Argyle\`, `G:\ComaToast\Houndstooth\`
 - **Repo folder:** `tshirts/patterns/` (files in `files/<design>-<colorway>/`)
 
-## Look
+## Argyle v2 (current, 2026-10-13)
+Feedback on v1: "a nice start, but a little busy", and no extra border. Changes:
+- The **whole toast is argyle** (no solid crust band) with **one black outline**; no light keylines.
+- **Bigger diamonds** (about three across the toast), **no accent diamonds**, a **thin dashed overcheck**.
+- **Lighter diamond colors** so the black face reads without a keyline.
+- Variants with the logo's inner crust line (`-line`) were made for comparison; it reads as a second border, so the plain ones are recommended.
+
+| Design | Diamonds | Overcheck | Halo |
+|---|---|---|---|
+| **Argyle · Classic** (`argyle-classic`) | pale blue `#9fb0c8` and cream `#f3ecdc` | navy `#1d2a4d` | gold `#d4af37` |
+| **Argyle · Brand** (`argyle-brand`) | hot pink `#ff2e88` and white | black | lime `#c6ff00` |
+
+Files: `files/argyle-classic/`, `files/argyle-brand/` (and `-line` variants). Locally in `G:\ComaToast\Argyle\`.
+
+## Look (v1)
 - The toast's **face is filled with the pattern**; the **crust is solid** and frames it; the **halo is solid**.
 - The face (X eyes, Soft Pulse mouth, inner crust line) is black with a thin light keyline so it reads over the pattern.
 - Thick black outline around everything (6.5 units; 9 was too heavy and merged the halo into the toast).
@@ -43,6 +57,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: the art is **10.08 × 12 in*
 
 ## Change log
 - **2026-10-13 — v1:** Saint × argyle and Saint × houndstooth, Classic and Brand colorways each, with the `$Daily Bread$` back.
+- **Argyle v2:** calmer: whole toast argyle, one outline, bigger diamonds, no accents, thin overcheck, lighter colors; inner-line variants for comparison.
 
 ## Open items
 - [ ] Pick the pattern and colorway.

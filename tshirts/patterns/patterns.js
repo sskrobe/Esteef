@@ -17,10 +17,17 @@ const { setDpi } = require('../paintshop/printful');
 
 const INK = '#111111';
 const DESIGNS = {
-  'argyle-classic': { name: 'Argyle · Classic', pattern: 'argyle', crust: '#1d2a4d', halo: '#d4af37', key: '#f3ecdc',
-    a: { base: '#f3ecdc', d1: '#1d2a4d', d2: '#6f7f99', line: '#8c1d2b' } },
-  'argyle-brand': { name: 'Argyle · Brand', pattern: 'argyle', crust: '#111111', halo: '#c6ff00', key: '#ffffff',
-    a: { base: '#ffffff', d1: '#ff2e88', d2: '#111111', line: '#c6ff00' } },
+  // Argyle v2 (calmer): the whole toast is argyle (no solid crust band), no keylines, bigger diamonds, no
+  // accent diamonds, a thin overcheck; light diamond colors so the black face reads on its own. "-line" keeps
+  // the logo's inner crust line, the plain ids drop it (one outline only).
+  'argyle-classic': { name: 'Argyle · Classic', pattern: 'argyle', v2: true, innerLine: false, halo: '#d4af37',
+    a: { base: '#f3ecdc', d1: '#9fb0c8', d2: '#f3ecdc', line: '#1d2a4d' } },
+  'argyle-classic-line': { name: 'Argyle · Classic, inner line', pattern: 'argyle', v2: true, innerLine: true, halo: '#d4af37',
+    a: { base: '#f3ecdc', d1: '#9fb0c8', d2: '#f3ecdc', line: '#1d2a4d' } },
+  'argyle-brand': { name: 'Argyle · Brand', pattern: 'argyle', v2: true, innerLine: false, halo: '#c6ff00',
+    a: { base: '#ffffff', d1: '#ff2e88', d2: '#ffffff', line: '#111111' } },
+  'argyle-brand-line': { name: 'Argyle · Brand, inner line', pattern: 'argyle', v2: true, innerLine: true, halo: '#c6ff00',
+    a: { base: '#ffffff', d1: '#ff2e88', d2: '#ffffff', line: '#111111' } },
   'houndstooth-classic': { name: 'Houndstooth · Classic', pattern: 'houndstooth', crust: '#f4f4f2', halo: '#d4af37', key: '#ffffff',
     h: { dark: '#111111', light: '#f4f4f2' } },
   'houndstooth-brand': { name: 'Houndstooth · Brand', pattern: 'houndstooth', crust: '#ff2e88', halo: '#c6ff00', key: '#ffffff',
@@ -34,11 +41,11 @@ const FACE = `<g transform="${TOAST_T}"><path d="M62,108 C44,106 44,78 66,74 C78
 const isHalo = p => p.shape.includes('A38,9');
 
 // Pattern tiles, in drawing units (the toast is about 115 units wide).
-function argyleTile(c, w = 26, h = 36) {
+// Argyle v2: about three diamonds across the toast, a thin dashed overcheck, no accent diamonds.
+function argyleTile(c, w = 38, h = 52) {
   return { w, h, svg: `<rect width="${w}" height="${h}" fill="${c.d2}"/>`
     + `<path d="M${w / 2},0 L${w},${h / 2} L${w / 2},${h} L0,${h / 2} Z" fill="${c.d1}"/>`
-    + `<path d="M0,0 L${w},${h} M${w},0 L0,${h}" stroke="${c.line}" stroke-width="0.9" stroke-dasharray="2.2 1.6" fill="none"/>`
-    + `<path d="M${w / 2},${h / 2 - 3.2} L${w / 2 + 2.3},${h / 2} L${w / 2},${h / 2 + 3.2} L${w / 2 - 2.3},${h / 2} Z" fill="${c.base}"/>` };
+    + `<path d="M0,0 L${w},${h} M${w},0 L0,${h}" stroke="${c.line}" stroke-width="0.7" stroke-dasharray="3 2.2" fill="none"/>` };
 }
 function houndstoothTile(c, cell = 1.15) {
   // 2/2 twill: warp shows where (x + y) mod 4 < 2; warp color by column, weft color by row (4 dark, 4 light).
@@ -58,10 +65,16 @@ function frontSvg(id, size = 1000) {
   const outline = saint.parts.map(p => `<g fill="${INK}" stroke="${INK}" stroke-width="${OUTLINE}" stroke-linejoin="round">${p.shape}</g>`).join('');
   const halo = saint.parts.filter(isHalo).map(p => `<g fill="${d.halo}">${p.shape}</g>`).join('');
   const toastP = saint.parts.find(p => !isHalo(p));
-  const toast = `<g fill="${d.crust}">${toastP.shape}</g><g fill="url(#p-${id})">${FACE}</g>`;
-  // face details: the light keyline first (a wider stroke underneath), then the black lines
-  const det = toastP.detail.replace(/#000/g, INK);
-  const keyline = det.replace(/stroke="#111111"/g, `stroke="${d.key}"`).replace(/stroke-width="([\d.]+)"/g, (m, w) => `stroke-width="${+w + 3.2}"`);
+  let toast, det = toastP.detail.replace(/#000/g, INK), keyline = '';
+  if (d.v2) {
+    // the whole toast in the pattern, no keylines; drop the inner crust line unless asked for
+    toast = `<g fill="url(#p-${id})">${toastP.shape}</g>`;
+    if (!d.innerLine) det = det.replace(/<path d="M62,108[^>]*\/>/, '');
+  } else {
+    toast = `<g fill="${d.crust}">${toastP.shape}</g><g fill="url(#p-${id})">${FACE}</g>`;
+    // face details: the light keyline first (a wider stroke underneath), then the black lines
+    keyline = det.replace(/stroke="#111111"/g, `stroke="${d.key}"`).replace(/stroke-width="([\d.]+)"/g, (m, w) => `stroke-width="${+w + 3.2}"`);
+  }
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 20 160 180" width="${size}" height="${size * 180 / 160}"><title>Coma Toast Saint, ${d.name}</title><defs>${pat}</defs>${outline}${halo}${toast}${keyline}${det}</svg>`;
 }
 
