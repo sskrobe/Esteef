@@ -1,0 +1,82 @@
+{
+  "anaglyph-single": {
+    "front": {
+      "wIn": 10.44,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.11,
+      "hIn": 0.92
+    }
+  },
+  "anaglyph-double": {
+    "front": {
+      "wIn": 10.46,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.13,
+      "hIn": 0.94
+    }
+  },
+  "brand-single": {
+    "front": {
+      "wIn": 10.44,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.11,
+      "hIn": 0.92
+    }
+  },
+  "brand-double": {
+    "front": {
+      "wIn": 10.46,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.13,
+      "hIn": 0.94
+    }
+  },
+  "mono-dark-single": {
+    "front": {
+      "wIn": 10.44,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.11,
+      "hIn": 0.92
+    }
+  },
+  "mono-dark-double": {
+    "front": {
+      "wIn": 10.46,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.13,
+      "hIn": 0.94
+    }
+  },
+  "mono-light-single": {
+    "front": {
+      "wIn": 10.44,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.11,
+      "hIn": 0.92
+    }
+  },
+  "mono-light-double": {
+    "front": {
+      "wIn": 10.46,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.13,
+      "hIn": 0.94
+    }
+  }
+}
