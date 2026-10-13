@@ -1,4 +1,4 @@
-// Round 9: COMA TOAST. One plain slice of toast, out cold (closed-line eyes, tiny straight mouth),
+// Round 9: COMA TOAST, ten options. One plain slice of toast, out cold (closed-line eyes, tiny straight mouth),
 // with a different sleepy / knocked-out / hospital accessory as the second section each time.
 const round4 = require('../round-4/logos');
 const { W, K } = round4.helpers;
@@ -241,5 +241,7 @@ const marks = [
   },
 ];
 
-const all = marks.map(m => ({ ...m, animal: 'Coma Toast', style: 'New', group: 'new' }));
+// The ten shortlisted options shown on the page. The other nine stay above in case they come back.
+const SHORTLIST = ['lights-out', 'ko-crown', 'nightcap', 'on-the-drip', 'nap-pod', 'sleepwalker', 'lo-fi', 'night-shift', 'snooze', 'burnt-out'];
+const all = SHORTLIST.map(id => marks.find(m => m.id === id)).map(m => ({ ...m, animal: 'Coma Toast', style: 'New', group: 'new' }));
 module.exports = { logos: all, kept: [], fresh: all, renderLogo };

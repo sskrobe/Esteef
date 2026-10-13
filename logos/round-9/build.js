@@ -159,7 +159,7 @@ footer p { margin: 0; }
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">Brand identity &middot; Round 9 &middot; Coma Toast &middot; 19 options</p>
+    <p class="eyebrow">Brand identity &middot; Round 9 &middot; Coma Toast &middot; 10 options</p>
     <h1>Coma <em>Toast.</em></h1>
     <p class="lede">Comatose, but toast: one plain slice that’s out cold, with closed-line eyes and the same tiny straight mouth every time. Each option gives it a different sleepy, knocked-out or hospital accessory, from a nightcap and a sleep mask to an IV drip and a heart-monitor line. Turn on <strong>Show the name</strong> to see each one with "Coma Toast" underneath, and <strong>Outline test</strong> to check the shapes.</p>
   </header>

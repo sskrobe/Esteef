@@ -17,7 +17,7 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `logos/round-8/` keeps Daily Bread, Off Duty and The Inspector, gives every face a tiny straight-line mouth, and adds more guinea pigs and foods. Rebuild with `node logos/round-8/build.js`.
 
-- `logos/round-9/` is 19 "Coma Toast" options: a plain slice of toast, out cold, with a different sleepy or hospital accessory each. Rebuild with `node logos/round-9/build.js`.
+- `logos/round-9/` is 10 "Coma Toast" options: a plain slice of toast, out cold, with a different sleepy or hospital accessory each. Rebuild with `node logos/round-9/build.js`.
 
 ## T-shirt designs
 
