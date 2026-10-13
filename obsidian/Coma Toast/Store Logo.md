@@ -26,6 +26,12 @@ All use **ESTEEF** in the brand font (**Montserrat ExtraBold**, capitals, tracke
 
 Printful doesn't publish an exact quick-store logo size; these are high-resolution transparent PNGs that scale down cleanly. Upload the black version where the store's settings take the logo, then check it on desktop and phone.
 
+## Upload troubleshooting (2026-10-13)
+Uploading `store-logo-tagline-white.png` hung and didn't apply. The file was fine (14 KB, 841 × 348, 8-bit transparent PNG). Notes:
+- The store header is white, so the **white** logo is invisible there even when it applies; use the **black** one.
+- Backup files to try: `store-logo-tagline-<color>-square.png` (1000 × 1000, in case the uploader crops to a square), `-solid.jpg` (no transparency, solid background), `-500.png` (500 px wide).
+- If the upload box itself keeps spinning: refresh, or try another browser or a private window (Dashboard → Settings → Store settings → General).
+
 ## Regenerating
 `node brand/store/store-logo.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`).
 
