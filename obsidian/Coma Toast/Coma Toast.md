@@ -26,6 +26,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | Argyle and Houndstooth | Argyle v2 (calmer, one outline) and houndstooth v1, Classic / Brand; waiting on pick | [[Argyle and Houndstooth]] |
 | Blurry | v1: Saint in double-vision line art + large DAILY / BREAD block back, 4 colorways × single/double line; waiting on pick | [[Blurry]] |
 | Looney | Rejected | [[Looney]] |
+| Store logo (Esteef.co) | v1: mark / halo / tagline options; waiting on pick | [[Store Logo]] |
 | Desk Tee | Rejected | [[Desk Tee]] |
 | Inside label | Final: DAILY / BREAD in Montserrat outline, tall square block | [[Labels]] |
 | S-Chain | Concept only | Cool S doodle as chain links over soda-can stripes (`tshirts/s-chain/`) |

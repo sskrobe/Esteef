@@ -55,6 +55,8 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `tshirts/labels/` holds the inside and outside neck label options (3 x 3 in each): Daily Bread, ` Bread$`, DB, `$`, a reversed DB and a reversed DB with a halo, each in plain black, plain white and the Benday style. Re-render with `node tshirts/labels/labels.js` (needs Playwright). `tshirts/labels/inside.js` renders the current inside label direction: Daily Bread in outline in six brand font candidates (`inside/`, `inside-label-fonts.png`); Montserrat was picked, and `inside-final.js` renders the final DAILY / BREAD justified block variants (`inside/final/`, `inside-label-final.png`).
 
+- `brand/store/` holds the store header logo options for the Printful quick store Esteef.co: ESTEEF in Montserrat with the Saint mark (mark, halo and tagline options, black and white) and a square icon. Re-render with `node brand/store/store-logo.js` (needs Playwright).
+
 ## Notes and local copies
 
 - `obsidian/Coma Toast/` holds the Obsidian notes: the project hub (`Coma Toast.md`), `Logo Marks.md`, and one note per shirt in `Shirts/` (`PaintShop.md` has every spec and the change log).
