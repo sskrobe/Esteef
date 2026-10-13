@@ -24,7 +24,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | PaintShop | v10 files ready for Printful (Hot Wire, Toxic, Riot) | [[PaintShop]] |
 | Benday Logo | v2 samples (Ben-Day stipple swatch) of all five marks; waiting on pick | [[Benday Logo]] |
 | Desk Tee | Rejected | [[Desk Tee]] |
-| Labels (inside + outside) | v1 options: six Daily Bread / DB logos in plain and Benday styles; waiting on pick | [[Labels]] |
+| Inside label | v2: Daily Bread in outline, six brand font candidates; waiting on font pick | [[Labels]] |
 | S-Chain | Concept only | Cool S doodle as chain links over soda-can stripes (`tshirts/s-chain/`) |
 
 ## Where things live
@@ -34,6 +34,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 
 ## Shared design choices
 - **Every design gets a ` Bread$` back print** (standing rule): bottom right of the back, as low as the product's back print area allows, in that design's art style.
+- **Fonts:** drip/graffiti fonts (Rubik Wet Paint) are design-specific. Labels and other brand pieces use one corporate **brand font**, being picked now (see [[Labels]]).
 - Shirt base color for dark tees: `#121214` (near-black).
 - Colorways used so far: Hot Wire (`#ff2e88` pink + `#c6ff00` lime), Toxic (`#ffe600` yellow + `#00e5ff` cyan), Riot (`#00e5ff` cyan + `#ff2e88` pink). White accent `#f4f4f2`.
 - Printful All-Over Print Men's Crew Neck (product 257) print files: front and back 28 × 36 in (4200 × 5400 px), sleeves 20 × 12 in (3000 × 1800 px), 150 dpi. The collar band is cut from the top 2.3 in of the front file, so keep that strip plain. Full template measurements are in [[PaintShop]]. Always check placement in Printful's mockup preview before ordering.

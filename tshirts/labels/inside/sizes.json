@@ -1,0 +1,74 @@
+{
+  "bodoni-moda-line": {
+    "font": "Bodoni Moda",
+    "layout": "line",
+    "wIn": 2.5,
+    "hIn": 0.46
+  },
+  "bodoni-moda-stacked": {
+    "font": "Bodoni Moda",
+    "layout": "stacked",
+    "wIn": 1.75,
+    "hIn": 1.2
+  },
+  "cinzel-line": {
+    "font": "Cinzel",
+    "layout": "line",
+    "wIn": 2.5,
+    "hIn": 0.31
+  },
+  "cinzel-stacked": {
+    "font": "Cinzel",
+    "layout": "stacked",
+    "wIn": 2.33,
+    "hIn": 1.2
+  },
+  "syne-line": {
+    "font": "Syne",
+    "layout": "line",
+    "wIn": 2.5,
+    "hIn": 0.3
+  },
+  "syne-stacked": {
+    "font": "Syne",
+    "layout": "stacked",
+    "wIn": 2.5,
+    "hIn": 1.07
+  },
+  "archivo-black-line": {
+    "font": "Archivo Black",
+    "layout": "line",
+    "wIn": 2.5,
+    "hIn": 0.42
+  },
+  "archivo-black-stacked": {
+    "font": "Archivo Black",
+    "layout": "stacked",
+    "wIn": 1.91,
+    "hIn": 1.2
+  },
+  "unbounded-line": {
+    "font": "Unbounded",
+    "layout": "line",
+    "wIn": 2.5,
+    "hIn": 0.39
+  },
+  "unbounded-stacked": {
+    "font": "Unbounded",
+    "layout": "stacked",
+    "wIn": 2.07,
+    "hIn": 1.2
+  },
+  "montserrat-line": {
+    "font": "Montserrat",
+    "layout": "line",
+    "wIn": 2.5,
+    "hIn": 0.46
+  },
+  "montserrat-stacked": {
+    "font": "Montserrat",
+    "layout": "stacked",
+    "wIn": 1.7,
+    "hIn": 1.2
+  }
+}
