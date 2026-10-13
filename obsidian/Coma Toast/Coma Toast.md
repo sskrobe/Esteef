@@ -21,7 +21,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 ## Shirts
 | Shirt | Status | Note |
 |---|---|---|
-| PaintShop | Final files done (Hot Wire, Toxic, Riot) | [[PaintShop]] |
+| PaintShop | v8 files sized to Printful's template (Hot Wire, Toxic, Riot) | [[PaintShop]] |
 | Desk Tee | Rejected | [[Desk Tee]] |
 | S-Chain | Concept only | Cool S doodle as chain links over soda-can stripes (`tshirts/s-chain/`) |
 
@@ -33,4 +33,4 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 ## Shared design choices
 - Shirt base color for dark tees: `#121214` (near-black).
 - Colorways used so far: Hot Wire (`#ff2e88` pink + `#c6ff00` lime), Toxic (`#ffe600` yellow + `#00e5ff` cyan), Riot (`#00e5ff` cyan + `#ff2e88` pink). White accent `#f4f4f2`.
-- Printful placement caveat: Printful's template couldn't be checked from the design environment, so panels are made oversized (24 × 32 in front/back, 24 × 16 in sleeves at 150 dpi). Always check placement in Printful's mockup preview before ordering.
+- Printful All-Over Print Men's Crew Neck (product 257) print files: front and back 28 × 36 in (4200 × 5400 px), sleeves 20 × 12 in (3000 × 1800 px), 150 dpi. The collar band is cut from the top 2.3 in of the front file, so keep that strip plain. Full template measurements are in [[PaintShop]]. Always check placement in Printful's mockup preview before ordering.

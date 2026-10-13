@@ -16,8 +16,14 @@
 //   cw also sets the paint palette (the colorway's colors plus white), on every panel
 //   wm     wordmark font key (see WORDMARK_FONTS); draws $Daily Bread$ at the bottom right (back)
 //   only=logo | only=wordmark  renders just that on a transparent background; hide=1 leaves the logo off
+//   top    the shoulder line, in design units down from the top of the panel (Printful's 28 x 36 in
+//          template: 325 = 2.6 in). Nothing is painted above it; on the front that strip is the collar.
+//   wmr, hem  wordmark right edge and its clearance above the bottom of the panel (design units)
 const Q = new URLSearchParams(location.search);
 const W = +(Q.get('w') || 3000), H = +(Q.get('h') || 4000), S = +(Q.get('s') || 1);
+const TOP = +(Q.get('top') || 0), BH = H - TOP;
+// Paint amounts were tuned on a 3000 x 4000 body; scale them with the body area.
+const AREA = W * BH / 12e6;
 const PANEL = Q.get('panel') || 'front';
 const WM = Q.get('wm');
 const CW = window.LOGOS[Q.get('cw') || 'hot-wire'];
@@ -58,7 +64,7 @@ const WM_TEXT = ['$', 'Daily Bread', '$'];
 // Back wordmark: right edge in design units (about 3.8 in in from the right edge of the panel), 5.6 in
 // wide, set as low as it can go: its lowest point (drips included) sits WM_HEM_CLEAR above the bottom
 // of the panel, which is 1.5 in of clearance for the hem fold and print trim (125 units = 1 in).
-const WM_RIGHT = 2520, WM_W = 700, WM_HEM_CLEAR = 190;
+const WM_RIGHT = +(Q.get('wmr') || 2520), WM_W = 700, WM_HEM_CLEAR = +(Q.get('hem') || 190);
 let WM_BASE = 3600;
 
 // Measure the wordmark at a given width: returns the font string and per-piece widths.
@@ -177,7 +183,7 @@ function block(x, y, r, color, alt) {
 const SIGNATURE = 'Esteef', SIGNATURE_FONT = 'italic 800 100px "Bodoni Moda"';
 function hideSignature(blocks) {
   const ok = blocks.filter((b, i) => i >= 2 && b.color !== WHITE && b.r >= 80 && b.r <= 220
-    && Math.abs(b.x - W / 2) > W * 0.16 && Math.abs(b.x - W / 2) < W * 0.35 && b.y > H * 0.35 && b.y < H * 0.88
+    && Math.abs(b.x - W / 2) > W * 0.16 && Math.abs(b.x - W / 2) < W * 0.35 && b.y > TOP + BH * 0.35 && b.y < TOP + BH * 0.88
     && !blocks.slice(i + 1).some(o => Math.hypot(o.x - b.x, o.y - b.y) < (o.r + b.r) * 1.1));
   if (!ok.length) return;
   const b = ok[0], len = b.h * 0.34, size = len / 3.6;
@@ -236,9 +242,9 @@ const logoRect = m => {
 // print stays light near the collar (about 7.6 in to each side; 5.6 in deep on the front, where the
 // neckline dips, and 4 in on the back).
 const COLLAR = (PANEL === 'front' || PANEL === 'back') ? { rx: 950, ry: PANEL === 'front' ? 700 : 500 } : null;
-const inCollar = (x, y, k = 1) => COLLAR && ((x - W / 2) / (COLLAR.rx * k)) ** 2 + (y / (COLLAR.ry * k)) ** 2 < 1;
+const inCollar = (x, y, k = 1) => COLLAR && ((x - W / 2) / (COLLAR.rx * k)) ** 2 + ((y - TOP) / (COLLAR.ry * k)) ** 2 < 1;
 function clear(x, y) {
-  if (inCollar(x, y)) return false;
+  if (y < TOP || inCollar(x, y)) return false;
   if (WM_ZONE && x > WM_ZONE[0] && x < WM_ZONE[2] && y > WM_ZONE[1] && y < WM_ZONE[3]) return false;
   if (!LOGO) return true;
   const z = logoRect(LOGO_MARGIN);
@@ -273,11 +279,11 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
   const plan = [];
   if (PANEL === 'front') {
     let ring = 0;
-    for (let i = 0; i < 1200 && plan.length < 38; i++) {
+    for (let i = 0; i < 1200 && plan.length < Math.round(38 * AREA); i++) {
       // left/right alternate so both sides of the chest get the same amount of paint
       const edge = pick(['side', 'hem', 'shoulder', 'any', 'frame', 'frame']);
       let x = edge === 'side' ? (i % 2 ? R(W * 0.07, W * 0.26) : R(W * 0.74, W * 0.93)) : edge === 'shoulder' ? pick([R(0, W * 0.3), R(W * 0.7, W)]) : R(0, W);
-      let y = edge === 'hem' ? R(H * 0.62, H) : edge === 'shoulder' ? R(0, H * 0.2) : edge === 'any' ? R(0, H) : R(H * 0.1, H);
+      let y = TOP + BH * (edge === 'hem' ? R(0.62, 1) : edge === 'shoulder' ? R(0, 0.2) : edge === 'any' ? R(0, 1) : R(0.1, 1));
       const r = R(60, 210);
       if (edge === 'frame' && LOGO) {
         // just outside the logo window, anywhere around its edge, so the paint rings the logo
@@ -290,20 +296,23 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
     }
   } else if (PANEL === 'back') {
     // Two mid-sized blocks staggered across the upper middle instead of one big one.
-    plan.push([W * R(0.36, 0.42), H * R(0.26, 0.31), R(210, 250)]);
-    plan.push([W * R(0.58, 0.64), H * R(0.42, 0.47), R(190, 230)]);
-    for (let i = 0; i < 600 && plan.length < 34; i++) {
-      const x = R(0, W), y = R(0, H), r = R(60, 200);
+    plan.push([W * R(0.36, 0.42), TOP + BH * R(0.26, 0.31), R(210, 250)]);
+    plan.push([W * R(0.58, 0.64), TOP + BH * R(0.42, 0.47), R(190, 230)]);
+    for (let i = 0; i < 600 && plan.length < Math.round(34 * AREA); i++) {
+      const x = R(0, W), y = R(TOP, H), r = R(60, 200);
       if (clearAround(x, y, r * 1.15)) plan.push([x, y, r]);
     }
   } else {
-    for (let i = 0; i < 11; i++) plan.push([R(0, W), R(0, H), R(60, 200)]);
+    // 11 splotches on a 3000 x 2000 sleeve; fewer on a smaller one
+    const n = Math.round(11 * Math.sqrt(W * H / 6e6));
+    for (let i = 0; i < n; i++) plan.push([R(0, W), R(0, H), R(60, 200)]);
   }
 
   // Stray chips and trails never cross the wordmark: clip a slightly smaller box out of the paint.
   ctx.save();
   if (WM_ZONE) { const z = WM_ZONE, p = 50; ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.rect(z[0] + p, z[1] + p, z[2] - z[0] - 2 * p, z[3] - z[1] - 2 * p); ctx.clip('evenodd'); }
-  if (COLLAR) { ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.ellipse(W / 2, 0, COLLAR.rx * 0.85, COLLAR.ry * 0.85, 0, 0, Math.PI * 2); ctx.clip('evenodd'); }
+  if (TOP) { ctx.beginPath(); ctx.rect(0, TOP, W, H - TOP); ctx.clip(); }
+  if (COLLAR) { ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.ellipse(W / 2, TOP, COLLAR.rx * 0.85, COLLAR.ry * 0.85, 0, 0, Math.PI * 2); ctx.clip('evenodd'); }
   if (LOGO) { const z = logoRect(LOGO_CLIP); ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.roundRect(z[0], z[1], z[2] - z[0], z[3] - z[1], LOGO_RADIUS); ctx.clip('evenodd'); }
   const blocks = [];
   plan.forEach(([x, y, r], i) => {
@@ -314,8 +323,8 @@ const clearAround = (x, y, m) => clear(x, y) && clear(x + m, y) && clear(x - m, 
   });
   // Small chips and pixels sprinkled everywhere else (kept off the logo), so the front carries color all over.
   if (PANEL === 'front') {
-    for (let i = 0; i < 260; i++) {
-      const x = R(0, W), y = R(0, H), s = R(10, 46);
+    for (let i = 0; i < Math.round(260 * AREA); i++) {
+      const x = R(0, W), y = R(TOP, H), s = R(10, 46);
       if (!clear(x, y) || !clear(x + s * 2, y) || !clear(x - s * 2, y)) continue;
       ctx.fillStyle = pick(PAINT); roughRect(x, y, s, s, R(-0.3, 0.3), s * 0.05);
     }
