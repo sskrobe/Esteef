@@ -29,7 +29,7 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 ## Official marks (v1)
 
-`logos/final/` holds the four go-forward Coma Toast marks: Saint, Little Devil, Heaven Sent and Raising Hell. Each has X'd-out eyes and the Soft Pulse heartbeat mouth (Round 13, option E).
+`logos/final/` holds the official Coma Toast marks: the plain toast (no topper) plus Saint, Little Devil, Heaven Sent and Raising Hell. Each has X'd-out eyes and the Soft Pulse heartbeat mouth (Round 13, option E).
 
 - `logos/final/files/svg/`: one-color SVGs in black and white (cut-outs are transparent).
 - `logos/final/files/png/`: 3000 x 3000 transparent PNGs in black and white.

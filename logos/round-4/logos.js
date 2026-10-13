@@ -469,6 +469,7 @@ const fresh = marks.filter(m => m.group === 'new');
 
 let uid = 0;
 // mode 'solid': one-color mark, cut-outs transparent.
+// A part with noGap: true skips the cut-out gap (for pieces that float clear of the parts behind them).
 // mode 'outline': only the silhouette edge of each part, like a neon outline print. `fabric` paints the gaps.
 function renderLogo(logo, { color = 'currentColor', size, title = true, place, mode = 'solid', fabric = 'var(--stage-fabric)' } = {}) {
   const id = `m-${logo.id}-${uid++}`;
@@ -476,12 +477,12 @@ function renderLogo(logo, { color = 'currentColor', size, title = true, place, m
   const head = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"${dims} role="img" aria-label="${logo.name}">${title ? `<title>${logo.name}</title>` : ''}`;
   if (mode === 'outline') {
     const layers = logo.parts.map((p, i) => `
-      <g style="fill:${fabric};stroke:${fabric}" stroke-width="${i ? GAP : 0}" stroke-linejoin="round">${p.shape}</g>
+      <g style="fill:${fabric};stroke:${fabric}" stroke-width="${i && !p.noGap ? GAP : 0}" stroke-linejoin="round">${p.shape}</g>
       <g style="fill:${color}" stroke="none" filter="url(#${id})">${p.shape}</g>`).join('');
     return `${head}<filter id="${id}" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><feMorphology in="SourceAlpha" operator="erode" radius="3.5" result="e"/><feComposite in="SourceGraphic" in2="e" operator="out"/></filter>${layers}</svg>`;
   }
   const layers = logo.parts.map((p, i) => `
-    ${i ? `<g fill="${K}" stroke="${K}" stroke-width="${GAP}" stroke-linejoin="round">${p.shape}</g>` : ''}
+    ${i && !p.noGap ? `<g fill="${K}" stroke="${K}" stroke-width="${GAP}" stroke-linejoin="round">${p.shape}</g>` : ''}
     <g fill="${W}" stroke="none">${p.shape}</g>${p.detail || ''}`).join('');
   return `${head}<mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="${K}"/>${layers}</mask><rect width="200" height="200" fill="${color}" mask="url(#${id})"/></svg>`;
 }
