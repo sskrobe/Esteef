@@ -2,17 +2,27 @@
 <meta charset="utf-8">
 <title>School Desk All-Over Print</title>
 <link rel="stylesheet" href="../fonts/fonts.css">
+<script src="raising-hell.js"></script>
 <style>html,body{margin:0;background:#222}canvas{display:block}</style>
 <canvas id="c"></canvas>
 <script>
 // All-over print: the whole shirt is the top of an old school desk.
 // Wood grain + worn varnish, carved letters with depth, ballpoint in several colors,
 // pencil, white-out patches and classic notebook doodles. Seeded, so every render matches.
-const W = 3000, H = 4000; // 20 x 26.7 in at 150 dpi (all-over front panel)
-const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+// Options come from the query string, e.g. desk.html?seed=7&w=3000&h=4000&s=1.2&logo=2400,1500,600
+//   w, h  layout size in design units (3000 x 4000 is the original front panel)
+//   s     output scale (pixels per design unit)
+//   logo  x,y,width of the Raising Hell patch in design units (omit for no logo)
+//   only=logo renders just the logo patch on a transparent background
+const Q = new URLSearchParams(location.search);
+const W = +(Q.get('w') || 3000), H = +(Q.get('h') || 4000), S = +(Q.get('s') || 1);
+const ONLY_LOGO = Q.get('only') === 'logo';
+const LOGO = Q.get('logo') ? Q.get('logo').split(',').map(Number) : null;
+const cv = document.getElementById('c'); cv.width = Math.round(W * S); cv.height = Math.round(H * S);
 const ctx = cv.getContext('2d');
+ctx.scale(S, S);
 
-let seed = 19970914;
+let seed = +(Q.get('seed') || 19970914);
 const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
 const R = (a, b) => a + rnd() * (b - a);
 const pick = a => a[Math.floor(rnd() * a.length)];
@@ -75,7 +85,7 @@ function scratches(n, light) {
 }
 
 function noise() {
-  const img = ctx.getImageData(0, 0, W, H), d = img.data;
+  const img = ctx.getImageData(0, 0, cv.width, cv.height), d = img.data;
   for (let i = 0; i < d.length; i += 4) {
     const n = (rnd() - 0.5) * 18;
     d[i] += n; d[i + 1] += n; d[i + 2] += n;
@@ -154,8 +164,53 @@ const D = {
   shaded(c, w) { for (let i = 0; i < 18; i++) hand([[-50 + i * 6, 40], [-30 + i * 6, -40]], c, w * 0.6); hand([[-50, -40], [80, -40], [80, 40], [-50, 40], [-50, -40]], c, w); },
 };
 
+// ---------- the Raising Hell logo ----------
+// Drawn in thick black marker over its own rough patch of white-out, so it reads as the one
+// deliberate mark on a desk full of scribbles, and covers whatever graffiti sits underneath it.
+function loadLogo() {
+  return new Promise((ok, fail) => {
+    const img = new Image();
+    img.onload = () => ok(img); img.onerror = fail;
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(window.LOGO_SVG);
+  });
+}
+// The mark's visible area inside its 200-unit square: about 88% wide, 67% tall, centered at y 116.
+function logoPatch(img, x, y, w) {
+  const markW = w, unit = markW / (200 * 0.88), patchW = markW * 1.3, patchH = 200 * 0.67 * unit * 1.45;
+  // white-out: two overlapping dabs, slightly cream, with a thin dried edge
+  [[0, 0, 1, 1], [-0.04, 0.05, 0.92, 0.9]].forEach(([ox, oy, kw, kh]) => {
+    ctx.save(); ctx.translate(x + ox * patchW, y + oy * patchH); ctx.rotate(-0.04);
+    // smooth, slightly lumpy outline: curve through the midpoints of a wobbly ring of points
+    const pts = Array.from({ length: 28 }, (_, i) => {
+      const t = i / 28 * 6.283, rr = 1 + Math.sin(t * 5 + ox * 40) * 0.025 + R(-0.015, 0.015);
+      return [Math.cos(t) * patchW / 2 * kw * rr, Math.sin(t) * patchH / 2 * kh * rr];
+    });
+    const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    ctx.beginPath();
+    ctx.moveTo(...mid(pts[pts.length - 1], pts[0]));
+    pts.forEach((p, i) => ctx.quadraticCurveTo(p[0], p[1], ...mid(p, pts[(i + 1) % pts.length])));
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(247,243,230,0.97)'; ctx.fill();
+    ctx.strokeStyle = 'rgba(150,135,110,0.35)'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.restore();
+  });
+  // a few brush streaks in the white-out
+  for (let i = 0; i < 6; i++) {
+    const sy = y + R(-0.35, 0.35) * patchH;
+    ctx.beginPath(); ctx.moveTo(x - patchW * 0.38, sy); ctx.lineTo(x + patchW * 0.38, sy + R(-6, 6));
+    ctx.strokeStyle = 'rgba(205,196,175,0.25)'; ctx.lineWidth = R(2, 5); ctx.stroke();
+  }
+  // the mark, centered on its visible area, tilted a hair like it was drawn freehand
+  const size = 200 * unit;
+  ctx.save(); ctx.translate(x, y); ctx.rotate(-0.03);
+  ctx.drawImage(img, -size / 2, -116 * unit, size, size);
+  ctx.restore();
+}
+
 // ---------- compose ----------
 async function compose() {
+const logoImg = (LOGO || ONLY_LOGO) ? await loadLogo() : null;
+if (ONLY_LOGO) { logoPatch(logoImg, W / 2, H / 2, W * 0.78); window.DONE = true; return; }
 wood(); wear(); scratches(1600, true); scratches(500, false);
 
 const CARVED = ["CLASS OF '98", 'TJ WAS HERE', 'J.R. + K.M.', 'D.B.', 'SCHOOL SUX', "'97", 'HELP', 'BORED', '4EVER', 'R + L', 'ROOM 214', 'XOXO', '1999', 'WHY?', 'DAILY BREAD', 'NO', 'MIKEY', 'B-BOY', 'OUT'];
@@ -170,7 +225,7 @@ const PEN_LIST = ['blue', 'blue', 'blue', 'black', 'black', 'red', 'green', 'pur
 
 // Lay items out on a jittered grid so the whole panel is covered without big holes.
 const cells = [];
-const cols = 7, rows = 10;
+const cols = Math.max(3, Math.round(7 * W / 3000)), rows = Math.max(3, Math.round(10 * H / 4000));
 for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) cells.push([(c + 0.5) * W / cols, (r + 0.5) * H / rows]);
 cells.sort(() => rnd() - 0.5);
 
@@ -217,6 +272,7 @@ for (let i = 0; i < 56; i++) {
 }
 
 // a final pass of fine scratches over everything, then grain noise
+if (LOGO) logoPatch(logoImg, LOGO[0], LOGO[1], LOGO[2]);
 scratches(700, true);
 noise();
 window.DONE = true;

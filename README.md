@@ -42,3 +42,4 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 - `tshirts/desk-graffiti/` is an all-over print where the whole shirt is a graffitied school desk (`desk-print.png`, 3000x4000).
 - `tshirts/s-chain/` is a chest print of the 90s Cool S doodle as chain links over soda-can stripes (`s-chain-print.png`, 3600x3600, transparent).
 - Re-render a print with `node tshirts/render.js <page.html> <output-name>` (needs Playwright). Handwriting fonts are in `tshirts/fonts/` (SIL Open Font License).
+- `tshirts/desk-graffiti/printful/` holds the Printful all-over print files for the desk tee with a hand-drawn Raising Hell on the left chest: front, back and sleeve panels, the logo patch as a transparent PNG, and two zips. Re-render with `node tshirts/desk-graffiti/make-logo.js` then `node tshirts/desk-graffiti/printful.js` (needs Playwright). `desk.html` takes `seed`, `w`, `h`, `s`, `logo` and `only=logo` query options.
