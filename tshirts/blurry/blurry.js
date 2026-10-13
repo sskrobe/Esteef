@@ -45,8 +45,8 @@ const svgOf = (inner, size) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox=
   const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
   const browser = await chromium.launch(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {});
   const page = await browser.newPage();
-  await page.setContent('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=block"><body></body>');
-  await page.evaluate(async () => { await document.fonts.load('800 100px "Montserrat"', '$DAILY BREAD$'); });
+  await page.setContent('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Rubik+Mono+One&display=block"><body></body>');
+  await page.evaluate(async () => { await document.fonts.load('800 100px "Montserrat"', '$DAILY BREAD$'); await document.fonts.load('100px "Rubik Mono One"', 'DAILYBREAD'); });
   const root = path.join(__dirname, 'files');
   const sizes = {};
 
@@ -116,7 +116,37 @@ const svgOf = (inner, size) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox=
       return { png: f.toDataURL('image/png'), w: art.width, h: art.height };
     }, { col, s, G: GHOST, DPI });
     fs.writeFileSync(path.join(out, 'back.png'), setDpi(Buffer.from(back.png.split(',')[1], 'base64'), true));
-    sizes[id] = { front: { wIn: +(front.w / DPI).toFixed(2), hIn: +(front.h / DPI).toFixed(2) }, back: { wIn: +(back.w / DPI).toFixed(2), hIn: +(back.h / DPI).toFixed(2) } };
+    // LARGE BACK (Blurry's back print): DAILY over BREAD in Rubik Mono One (a monospaced block face, so the two
+    // five-letter words make a perfectly justified block), line art with the same doubling, about 11.4 in wide,
+    // centered across the upper back with its top 1 in below the top of the 12 x 16 in back print area.
+    const large = await page.evaluate(({ col, s, G, DPI }) => {
+      const AREA_W = 12 * DPI, AREA_H = 16 * DPI, BLOCK_W = 11.4 * DPI, TOP = 1.0 * DPI;
+      const font = px => `${px}px "Rubik Mono One"`, words = ['DAILY', 'BREAD'];
+      const m = document.createElement('canvas').getContext('2d'); m.font = font(100);
+      const ink = t => { const v = m.measureText(t); return { w: v.actualBoundingBoxLeft + v.actualBoundingBoxRight, l: v.actualBoundingBoxLeft, a: v.actualBoundingBoxAscent }; };
+      const wMax = Math.max(...words.map(t => ink(t).w));
+      const px = 100 * BLOCK_W * 0.94 / wMax;          // leave room for the line and the ghost
+      const cap = ink('D').a * px / 100, gap = cap * 0.22;
+      const u = px / 60;                                 // drawing unit for lines and offsets (matches the front's look)
+      const W = Math.ceil(BLOCK_W + 30 * u), H = Math.ceil(cap * 2 + gap + 30 * u);
+      const mask = ghost => {
+        const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+        if (ghost) { x.translate(W / 2, H / 2); x.rotate(G.rot * Math.PI / 180 * 0.5); x.translate(-W / 2 + G.dx * u, -H / 2 + G.dy * u); }
+        x.font = font(px); x.textBaseline = 'alphabetic'; x.textAlign = 'center'; x.lineJoin = 'round'; x.strokeStyle = '#fff';
+        const ys = [15 * u + cap, 15 * u + cap * 2 + gap];
+        x.lineWidth = s.w * u; words.forEach((t, i) => x.strokeText(t, W / 2, ys[i]));
+        if (s.cut) { x.globalCompositeOperation = 'destination-out'; x.lineWidth = s.cut * u; words.forEach((t, i) => x.strokeText(t, W / 2, ys[i])); }
+        return c;
+      };
+      let art = trim(compose(mask(false), mask(true), col));
+      if (art.width > BLOCK_W) { const f = BLOCK_W / art.width, r = document.createElement('canvas'); r.width = BLOCK_W; r.height = Math.round(art.height * f); r.getContext('2d').drawImage(art, 0, 0, r.width, r.height); art = r; }
+      const f = document.createElement('canvas'); f.width = AREA_W; f.height = AREA_H;
+      f.getContext('2d').drawImage(art, (AREA_W - art.width) / 2, TOP);
+      return { png: f.toDataURL('image/png'), w: art.width, h: art.height };
+    }, { col, s, G: GHOST, DPI });
+    fs.writeFileSync(path.join(out, 'back-large.png'), setDpi(Buffer.from(large.png.split(',')[1], 'base64'), true));
+    sizes[id] = { front: { wIn: +(front.w / DPI).toFixed(2), hIn: +(front.h / DPI).toFixed(2) }, back: { wIn: +(back.w / DPI).toFixed(2), hIn: +(back.h / DPI).toFixed(2) },
+      backLarge: { wIn: +(large.w / DPI).toFixed(2), hIn: +(large.h / DPI).toFixed(2) } };
   }
   fs.writeFileSync(path.join(root, 'sizes.json'), JSON.stringify(sizes, null, 2) + '\n');
 
@@ -128,7 +158,7 @@ const svgOf = (inner, size) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox=
   for (const [cw, col] of Object.entries(COLORWAYS)) for (const st of Object.keys(STYLES)) for (const sn of col.shirts) {
     const id = `${cw}-${st}`, z = sizes[id].front, [c, collar] = SH[sn];
     cells.push(`<figure style="margin:0;text-align:center;font:600 12px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE}" fill="${c}"/><path d="M-3.6,0 Q0,6 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${href(path.join(root, id, 'front.png'))}" x="${-z.wIn / 2}" y="4.5" width="${z.wIn}" height="${z.hIn}"/></svg><figcaption>${col.name} · ${st} · ${sn}</figcaption></figure>`);
-    cells.push(`<figure style="margin:0;text-align:center;font:600 12px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE.replace('Q0,6', 'Q0,2')}" fill="${c}"/><path d="M-3.6,0 Q0,2 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${href(path.join(root, id, 'back.png'))}" x="-6" y="3" width="12" height="16"/></svg><figcaption>back</figcaption></figure>`);
+    cells.push(`<figure style="margin:0;text-align:center;font:600 12px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE.replace('Q0,6', 'Q0,2')}" fill="${c}"/><path d="M-3.6,0 Q0,2 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${href(path.join(root, id, 'back-large.png'))}" x="-6" y="3" width="12" height="16"/></svg><figcaption>back</figcaption></figure>`);
   }
   const tmp = path.join(root, '_sheet.html');
   fs.writeFileSync(tmp, `<body style="margin:0;padding:10px;background:#ececea;display:grid;grid-template-columns:repeat(6,auto);gap:6px 8px">${cells.join('')}</body>`);
