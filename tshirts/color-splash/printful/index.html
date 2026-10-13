@@ -1,4 +1,4 @@
-<title>Color Splash Tee</title>
+<title>Color Splash Finals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;1,6..96,500&family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400&display=swap">
@@ -26,7 +26,9 @@ h1 em { font-weight: 500; color: var(--accent); }
 h2 { font-family: var(--font-display); font-weight: 700; font-size: 28px; margin: 0; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
 figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; display: grid; gap: 8px; justify-items: center; min-width: 0; }
-figure svg { width: 100%; max-width: 420px; height: auto; display: block; }
+figure > img.shirt { width: 100%; height: auto; display: block; border-radius: 4px; }
+.wm { background: var(--shirt); border-radius: 4px; padding: 10px; width: 100%; }
+.wm img { width: 100%; height: auto; display: block; }
 figure.dark { background: var(--shirt); border-color: var(--shirt); }
 figure.dark img { width: 100%; max-width: 260px; height: auto; display: block; }
 figure.dark figcaption { color: #b9b3bd; }
@@ -43,57 +45,39 @@ ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">Coma Toast &middot; Printful all-over print</p>
-    <h1>Saint, <em>wired.</em></h1>
-    <p class="lede">A near-black all-over print tee. Saint sits large in the middle of the chest, inverted: the shirt fills the mark and the color is only the line work, like a neon sign. Chunky square paint blocks, chips and drips cover the front, back and sleeves, with a dark margin left around the logo so it stays the hero.</p>
+    <p class="eyebrow">Coma Toast &middot; Printful all-over print &middot; finals</p>
+    <h1>Three shirts, <em>ready to print.</em></h1>
+    <p class="lede">The color-splash tee in Hot Wire, Toxic and Riot. On the front, the 10 in outline toast sits in a clean dark window, framed by square paint blocks, with open space around the collar. On the back, more blocks, $Daily Bread$ in Wet Paint along the hem at the bottom right, and a tiny "Esteef" hidden on one of the blocks.</p>
   </header>
 
-  <div class="grid">
-    <figure>
-      <svg viewBox="0 0 200 200" role="img" aria-label="Front">
-        <defs><clipPath id="t-front"><path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
-        <rect width="200" height="200" fill="none"/>
-        <image href="preview/front.jpg" x="-2" y="2" width="204" height="272" preserveAspectRatio="xMidYMin slice" clip-path="url(#t-front)"/>
-        <path d="M70,22 Q100,42 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/><path d="M70,22 Q100,42 130,22" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3"/>
-      </svg>
-      <figcaption>Front</figcaption>
-    </figure>
-    <figure>
-      <svg viewBox="0 0 200 200" role="img" aria-label="Back">
-        <defs><clipPath id="t-back"><path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z"/></clipPath></defs>
-        <rect width="200" height="200" fill="none"/>
-        <image href="preview/back.jpg" x="-2" y="2" width="204" height="272" preserveAspectRatio="xMidYMin slice" clip-path="url(#t-back)"/>
-        <path d="M70,22 Q100,30 130,22 L168,38 L192,80 L160,94 L152,82 L152,190 L48,190 L48,82 L40,94 L8,80 L32,38 Z" fill="none" stroke="var(--tee-edge)" stroke-width="1.5" stroke-linejoin="round"/>
-      </svg>
-      <figcaption>Back</figcaption>
-    </figure>
-  </div>
+  <div style="display:grid;gap:16px"><figure><img class="shirt" src="hot-wire/preview/shirt.png" alt="Hot Wire tee, front and back">
+<div class="wm"><img src="hot-wire/daily-bread-hot-wire.png" alt="$Daily Bread$ wordmark, Hot Wire"></div>
+<figcaption>Hot Wire: pink toast, lime accents &middot; <code>coma-toast-color-splash-hot-wire.zip</code></figcaption></figure><figure><img class="shirt" src="toxic/preview/shirt.png" alt="Toxic tee, front and back">
+<div class="wm"><img src="toxic/daily-bread-toxic.png" alt="$Daily Bread$ wordmark, Toxic"></div>
+<figcaption>Toxic: yellow toast, cyan accents &middot; <code>coma-toast-color-splash-toxic.zip</code></figcaption></figure><figure><img class="shirt" src="riot/preview/shirt.png" alt="Riot tee, front and back">
+<div class="wm"><img src="riot/daily-bread-riot.png" alt="$Daily Bread$ wordmark, Riot"></div>
+<figcaption>Riot: cyan toast, pink accents &middot; <code>coma-toast-color-splash-riot.zip</code></figcaption></figure></div>
 
   <section class="files">
-    <h2>Logo colorways</h2>
-    <p class="note">The front file uses Hot Wire. Each colorway also comes as a transparent outline PNG, so you can swap it in on Printful.</p>
-  </section>
-  <div class="grid"><figure class="dark"><img src="preview/saint-hot-wire.png" alt="Saint in the Hot Wire colorway"><figcaption>Hot Wire: pink toast, lime halo (used on the front file)</figcaption></figure><figure class="dark"><img src="preview/saint-toxic.png" alt="Saint in the Toxic colorway"><figcaption>Toxic: yellow toast, cyan halo</figcaption></figure><figure class="dark"><img src="preview/saint-riot.png" alt="Saint in the Riot colorway"><figcaption>Riot: cyan toast, pink halo</figcaption></figure></div>
-
-  <section class="files">
-    <h2>Files for Printful</h2>
-    <p class="note">Every panel is oversized (24 in wide at 150 dpi) so Printful can crop it to the shirt without gaps at the seams. I couldn’t reach Printful’s template from here, so check each placement in their preview before ordering.</p>
+    <h2>In each zip</h2>
     <div class="scroll"><table>
       <thead><tr><th>File</th><th>Size</th><th>Use for</th></tr></thead>
       <tbody>
-        <tr><td><code>front.jpg</code></td><td>3600 &times; 4800</td><td>Front, with the Hot Wire Saint already centered on the chest (about 8 in wide, 8.7 in tall, top of the halo about 5.8 in down).</td></tr>
-        <tr><td><code>front-no-logo.jpg</code></td><td>3600 &times; 4800</td><td>Front without the logo but with its clear space, if you’d rather place a logo PNG as a layer.</td></tr>
-        <tr><td><code>saint-hot-wire.png</code>, <code>-toxic.png</code>, <code>-riot.png</code></td><td>3000 &times; 3000, transparent</td><td>The outline logo in each colorway.</td></tr>
-        <tr><td><code>back.jpg</code></td><td>3600 &times; 4800</td><td>Back.</td></tr>
+        <tr><td><code>front.jpg</code></td><td>3600 &times; 4800</td><td>Front, with the toast 10 in tall and about 9.7 in wide, top edge about 6.1 in down.</td></tr>
+        <tr><td><code>front-no-logo.jpg</code></td><td>3600 &times; 4800</td><td>Front without the toast, if you’d rather place the logo PNG as a layer.</td></tr>
+        <tr><td><code>back.jpg</code></td><td>3600 &times; 4800</td><td>Back, with $Daily Bread$ 1.5 in above the bottom edge and the hidden signature.</td></tr>
         <tr><td><code>sleeve-left.jpg</code>, <code>sleeve-right.jpg</code></td><td>3600 &times; 2400</td><td>Sleeves.</td></tr>
+        <tr><td><code>coma-toast-&lt;colorway&gt;.png</code></td><td>3000 &times; 3000, transparent</td><td>The toast alone.</td></tr>
+        <tr><td><code>daily-bread-&lt;colorway&gt;.png</code></td><td>3000 &times; 900, transparent</td><td>The wordmark alone.</td></tr>
       </tbody>
     </table></div>
     <h2>Setting it up</h2>
     <ol>
       <li>Open the All-Over Print Men’s Crew Neck T-Shirt in Printful’s design maker.</li>
-      <li>Upload <code>front.jpg</code>, <code>back.jpg</code> and the two sleeve files to their placements, each set to fill its area.</li>
-      <li>Check that the logo sits centered on the chest with clear space under the collar. If it’s off, use <code>front-no-logo.jpg</code> and add a logo PNG as a layer, about 8 in wide, centered on the chest.</li>
-      <li>Set the collar, if your product has a separate collar placement, to the same near-black (#121214).</li>
+      <li>Upload <code>front.jpg</code>, <code>back.jpg</code> and the two sleeve files to their placements, each set to fill.</li>
+      <li>Set the collar, if it’s a separate placement, to the shirt color (#121214).</li>
+      <li>In the mockup preview, check that the toast clears the collar and $Daily Bread$ clears the hem.</li>
     </ol>
+    <p class="note">Every panel is oversized (24 in wide at 150 dpi) so Printful can crop it to the shirt. I couldn’t reach Printful’s template from here, so check each placement in their preview before ordering.</p>
   </section>
 </div>
