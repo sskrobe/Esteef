@@ -8,6 +8,7 @@
 //   icons      a tone-on-tone repeat of tiny halos, X eyes and heartbeat squiggles
 //   sparkle    scattered four-point sparkles and dots in dim gold and violet
 //   type       rows of tiny COMA TOAST · DAILY BREAD, tone-on-tone, on an angle
+//   snake      the classic Snake phone game: pixel snakes winding on a grid, with food pellets
 // Solid colors only, no partial transparency (DTG). Needs files/rainbow-products/back-pattern.png (products.js).
 // Outputs: files/rainbow-products/back-pattern-<option>.png; backgrounds-samples.png.
 // Run: node tshirts/highlight/backgrounds.js   (needs Playwright; PLAYWRIGHT_PATH / BROWSER_CHANNEL as elsewhere)
@@ -22,6 +23,7 @@ const OPTIONS = {
   icons: 'Face icons',
   sparkle: 'Sparkles',
   type: 'Tiny type',
+  snake: 'Snake game',
 };
 const PANEL = { margin: 0.35, fade: 1.6 };   // inset from the print area, fade-out distance (in)
 const out = path.join(__dirname, 'files', 'rainbow-products');
@@ -77,6 +79,22 @@ const href = p => 'file:///' + p.replace(/\\/g, '/');
         for (let n = 0; n < 900; n++) { const px = R() * AW, py = R() * AH; if (!keep(px, py)) continue;
           x.fillStyle = R() < 0.5 ? GOLD : VIOLET;
           if (R() < 0.35) star(px, py, (0.06 + R() * 0.14) * IN); else { x.beginPath(); x.arc(px, py, (0.012 + R() * 0.02) * IN, 0, Math.PI * 2); x.fill(); } }
+      } else if (opt === 'snake') {
+        // a pixel grid; snakes random-walk with right-angle turns (never crossing themselves or each other), drawn as
+        // square blocks with small gaps like the old phone game; single food pellets scattered around
+        const cell = 0.2 * IN, blk = cell * 0.82, cols = Math.floor(AW / cell), rows = Math.floor(AH / cell), used = new Set();
+        const ok = (i, j) => i >= 0 && j >= 0 && i < cols && j < rows && !used.has(i + ',' + j) && fade((i + 0.5) * cell, (j + 0.5) * cell) > 0.2;
+        const block = (i, j, col) => { x.fillStyle = col; x.fillRect(i * cell + (cell - blk) / 2, j * cell + (cell - blk) / 2, blk, blk); };
+        const DIRS = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+        for (let n = 0; n < 16; n++) {
+          let i, j, t = 0; do { i = (R() * cols) | 0; j = (R() * rows) | 0; t++; } while (!ok(i, j) && t < 500); if (t >= 500) continue;
+          let d = (R() * 4) | 0; const len = 18 + ((R() * 30) | 0), body = [[i, j]]; used.add(i + ',' + j);
+          for (let k = 1; k < len; k++) { if (R() < 0.2) d = (d + (R() < 0.5 ? 1 : 3)) % 4;
+            let moved = false; for (const dd of [d, (d + 1) % 4, (d + 3) % 4]) { const ni = i + DIRS[dd][0], nj = j + DIRS[dd][1]; if (ok(ni, nj)) { i = ni; j = nj; d = dd; moved = true; break; } }
+            if (!moved) break; used.add(i + ',' + j); body.push([i, j]); }
+          body.forEach(([a, b], k) => { if (R() < fade((a + 0.5) * cell, (b + 0.5) * cell) + 0.25) block(a, b, k === body.length - 1 ? '#40613f' : '#33503a'); });
+        }
+        for (let n = 0; n < 60; n++) { const a = (R() * cols) | 0, b = (R() * rows) | 0; if (ok(a, b) && keep((a + 0.5) * cell, (b + 0.5) * cell)) block(a, b, '#5c2f36'); }
       } else if (opt === 'type') {
         x.fillStyle = SLATE; x.font = '700 ' + (0.16 * IN) + 'px "Montserrat"'; x.letterSpacing = (0.04 * IN) + 'px';
         const t = 'COMA TOAST  ·  DAILY BREAD  ·  '; const tw = x.measureText(t).width; const lh = 0.36 * IN;
