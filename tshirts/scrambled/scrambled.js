@@ -1,0 +1,161 @@
+// Scrambled: the Saint mark (halo logo), full chest, as an 80s scrambled cable channel. The picture (the toast,
+// face and halo over a swirling background) is pushed through a "lost sync" pass: every scan line is shoved
+// sideways by stacked sine waves plus a few hard tearing bands (with a slant), two bands roll vertically, the red
+// and blue channels are pulled apart (rainbow fringes), the luminance is false-colored in drifting bands (acid
+// green, magenta, violet), and TV static (grain, snow bands, white dropout streaks) is laid over dim scan lines.
+// The screen edges fray row by row, following the tears, so the print dissolves into the shirt.
+// Versions: "scrambled" (false color) and "static" (black and white with red / cyan fringes).
+// Back: $DAILY BREAD$ as a small scrambled strip, bottom-right of the 12 x 16 in back area.
+// Size and placement (chest standard, Bella+Canvas 3001): fits a 10.5 x 12 in box, centered, top 1.5 in below
+// the collar seam. Full-color raster (DTG), no partial transparency.
+// Outputs: files/<scrambled|static>/front.png, back.png; scrambled-samples.png.
+// Run: node tshirts/scrambled/scrambled.js   (needs Playwright; PLAYWRIGHT_PATH / BROWSER_CHANNEL as elsewhere)
+const fs = require('fs');
+const path = require('path');
+const { logos } = require('../../logos/final/logos');
+const { setDpi } = require('../paintshop/printful');
+
+const VERSIONS = {
+  scrambled: { name: 'Scrambled', shirts: ['black', 'white'], maps: [
+    [[0, '#040a06'], [0.3, '#0f5a1e'], [0.55, '#3fd13a'], [0.8, '#c8ff3c'], [1, '#fffde0']],   // acid green
+    [[0, '#0a0010'], [0.3, '#4b0f6e'], [0.55, '#d0207a'], [0.8, '#ff7ab8'], [1, '#fff0f6']],   // magenta
+    [[0, '#03030f'], [0.35, '#1a2a8a'], [0.6, '#7a3cff'], [0.85, '#5ff0ff'], [1, '#ffffff']],  // violet
+  ] },
+  static: { name: 'Static', shirts: ['black', 'white'], maps: [
+    [[0, '#000000'], [0.5, '#7a7a7a'], [1, '#ffffff']],
+  ] },
+};
+const DPI = 300, BOX_W = 10.5 * DPI, BOX_H = 12 * DPI;
+const saint = logos.find(l => l.id === 'saint');
+const VB = '38 44 124 144';
+const svg = inner => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VB}" width="__W__" height="__H__">${inner}</svg>`;
+const isToast = p => p.shape.includes('scale(0.78)');
+const MARK = {
+  toast: svg(saint.parts.filter(isToast).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
+  halo: svg(saint.parts.filter(p => !isToast(p)).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
+  det: svg(saint.parts.map(p => (p.detail || '').replace(/#000/g, '#fff')).join('')),
+};
+
+(async () => {
+  const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
+  const browser = await chromium.launch(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {});
+  const page = await browser.newPage();
+  await page.setContent('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=block"><body></body>');
+  await page.evaluate(async () => { await document.fonts.load('900 100px "Montserrat"', '$DAILY BREAD$'); });
+  await page.addScriptTag({ content: `
+    window.loadImg = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+    window.canvas = (w, h) => { const c = document.createElement('canvas'); c.width = Math.ceil(w); c.height = Math.ceil(h); return c; };
+    window.alphaOf = c => { const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data, a = new Uint8Array(c.width * c.height); for (let i = 0; i < a.length; i++) a[i] = d[i * 4 + 3] > 110 ? 1 : 0; return a; };
+    window.dilate = (m, r) => { const c = canvas(m.width, m.height), x = c.getContext('2d'); for (let a = 0; a < 360; a += 10) x.drawImage(m, Math.cos(a * Math.PI / 180) * r, Math.sin(a * Math.PI / 180) * r); x.drawImage(m, 0, 0); return c; };
+    window.rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+    // gradient map -> 256-entry RGB lookup tables
+    window.lut = stops => { const c = canvas(256, 1), x = c.getContext('2d'), g = x.createLinearGradient(0, 0, 256, 0); stops.forEach(([o, col]) => g.addColorStop(o, col)); x.fillStyle = g; x.fillRect(0, 0, 256, 1); return x.getImageData(0, 0, 256, 1).data; };
+    // THE SCRAMBLE. L: luminance field (Float32Array, W x H, 0..1). k: scale (1 = full chest). Returns a canvas.
+    window.scramble = (L, W, H, maps, k, seed) => {
+      const R = rng(seed), luts = maps.map(lut), out = canvas(W, H), x = out.getContext('2d'), img = x.createImageData(W, H), o = img.data;
+      // tearing bands: [y0, y1, offset, slant]; rolling bands: [y0, y1, roll]; snow bands: [y0, y1]
+      const tears = [], rolls = [], snow = [];
+      for (let i = 0; i < 7; i++) { const y0 = R() * H, h = (30 + R() * 160) * k; tears.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (60 + R() * 260) * k, (R() - 0.5) * 1.2]); }
+      for (let i = 0; i < 2; i++) { const y0 = R() * H, h = (60 + R() * 140) * k; rolls.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (30 + R() * 60) * k]); }
+      for (let i = 0; i < 5; i++) { const y0 = R() * H, h = (4 + R() * 26) * k; snow.push([y0, y0 + h]); }
+      const ph = [R() * 6.28, R() * 6.28, R() * 6.28];
+      const sample = (sx, sy) => { sx = Math.max(0, Math.min(W - 1, sx | 0)); sy = Math.max(0, Math.min(H - 1, sy | 0)); return L[sy * W + sx]; };
+      const CA = 16 * k;   // chroma split
+      const edgeJ = new Float32Array(H * 2); let bl = 0, br = 0;
+      for (let y = 0; y < H; y++) { if (y % Math.max(2, (6 * k) | 0) === 0) { bl = R(); br = R(); } edgeJ[y * 2] = bl; edgeJ[y * 2 + 1] = br; }
+      for (let y = 0; y < H; y++) {
+        let dx = (34 * Math.sin(y * 0.011 / k + ph[0]) + 18 * Math.sin(y * 0.037 / k + ph[1]) + 6 * Math.sin(y * 0.21 / k)) * k, sy = y, tear = 0;
+        for (const [a, b, off, sl] of tears) if (y >= a && y < b) { tear = off + sl * (y - a); }
+        for (const [a, b, r] of rolls) if (y >= a && y < b) sy = y + r;
+        dx += tear;
+        let isSnow = false; for (const [a, b] of snow) if (y >= a && y < b) isSnow = true;
+        const dim = (y % Math.max(3, (6 * k) | 0)) < Math.max(1, (2 * k) | 0) ? 0.72 : 1;   // scan lines
+        // frayed screen edges, pushed by the tear
+        const pad = 150 * k, l = pad * (0.15 + 0.5 * edgeJ[y * 2]) + Math.max(0, tear) * 0.5, r = W - pad * (0.15 + 0.5 * edgeJ[y * 2 + 1]) + Math.min(0, tear) * 0.5;
+        for (let xx = 0; xx < W; xx++) {
+          const i = (y * W + xx) * 4;
+          if (xx < l || xx > r) { o[i + 3] = 0; continue; }
+          const wv = 22 * k * Math.sin(xx * 0.006 / k + y * 0.017 / k + ph[2]);
+          const sx = xx - dx - wv;
+          // map choice drifts in bands
+          const t = (sy * 0.0009 / k + 0.12 * Math.sin(xx * 0.0025 / k + ph[1]) + 10) * luts.length, m0 = Math.floor(t) % luts.length, m1 = (m0 + 1) % luts.length;
+          let f = t - Math.floor(t); f = f < 0.8 ? 0 : (f - 0.8) / 0.2;
+          const lr = sample(sx + CA, sy), lg = sample(sx, sy), lb = sample(sx - CA, sy);
+          const ch = (l0, c) => { const v = Math.max(0, Math.min(255, (l0 * 255) | 0)) * 4; return luts[m0][v + c] * (1 - f) + luts[m1][v + c] * f; };
+          let rr = ch(lr, 0), gg = ch(lg, 1), bb = ch(lb, 2);
+          const n = R();
+          if (isSnow) { const s = n * 255; rr = rr * 0.15 + s * 0.85; gg = gg * 0.15 + s * 0.85; bb = bb * 0.15 + s * 0.85; }
+          else { const g = (n - 0.5) * 70; rr += g; gg += g; bb += g; if (n > 0.99965) { rr = gg = bb = 255; } }
+          o[i] = rr * dim; o[i + 1] = gg * dim; o[i + 2] = bb * dim; o[i + 3] = 255;
+        }
+      }
+      // dropout streaks: short white horizontal dashes
+      for (let s = 0; s < 170; s++) { const yy = (R() * H) | 0, x0 = (R() * W) | 0, len = (20 + R() * 220) * k, th = Math.max(2, (2 + R() * 3) * k) | 0;
+        for (let y = yy; y < Math.min(H, yy + th); y++) for (let xx = x0; xx < Math.min(W, x0 + len); xx++) { const i = (y * W + xx) * 4; if (o[i + 3]) { o[i] = o[i + 1] = o[i + 2] = 240; } } }
+      x.putImageData(img, 0, 0); return out;
+    };
+  ` });
+
+  const root = path.join(__dirname, 'files'), sizes = {};
+  for (const [vid, v] of Object.entries(VERSIONS)) {
+    const res = await page.evaluate(async ({ v, MARK, BOX_W }) => {
+      const W = BOX_W, H = Math.round(W * 0.92);
+      // the picture: Saint mark over a swirling background
+      const mh = H * 0.86, mw = mh * 124 / 144, X = (W - mw) / 2, Y = (H - mh) / 2 + H * 0.01;
+      const lay = async s => { const i = await loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s.replace('__W__', mw).replace('__H__', mh))); const c = canvas(W, H); c.getContext('2d').drawImage(i, X, Y, mw, mh); return c; };
+      const tC = await lay(MARK.toast), hC = await lay(MARK.halo), dC = await lay(MARK.det);
+      const T = alphaOf(tC), Hm = alphaOf(hC), D = alphaOf(dC);
+      const all = canvas(W, H); all.getContext('2d').drawImage(tC, 0, 0); all.getContext('2d').drawImage(hC, 0, 0);
+      const K = alphaOf(dilate(all, W * 0.012));
+      const L = new Float32Array(W * H);
+      for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+        const i = y * W + x;
+        let l = 0.34 + 0.2 * Math.sin(x * 0.0042 + 1.3 * Math.sin(y * 0.0031)) * Math.cos(y * 0.0055 + x * 0.0012) + 0.1 * Math.sin((x + y) * 0.011);
+        if (K[i]) l = 0.05;
+        if (T[i]) l = 0.74 + 0.06 * Math.sin(y * 0.02 + x * 0.004);
+        if (Hm[i]) l = 0.98;
+        if (D[i]) l = 0.06;
+        L[i] = l;
+      }
+      const out = scramble(L, W, H, v.maps, 1, 1986);
+      return { png: out.toDataURL('image/png'), w: W, h: H };
+    }, { v, MARK, BOX_W });
+    const out = path.join(root, vid); fs.mkdirSync(out, { recursive: true });
+    fs.writeFileSync(path.join(out, 'front.png'), setDpi(Buffer.from(res.png.split(',')[1], 'base64'), true));
+
+    // BACK: $DAILY BREAD$ as a small scrambled strip, bottom-right of the 12 x 16 in back area
+    const back = await page.evaluate(({ v, DPI }) => {
+      const AREA_W = 12 * DPI, AREA_H = 16 * DPI, INSET = 0.1 * DPI, W = Math.round(7.2 * DPI), H = Math.round(1.25 * DPI), t = '$DAILY BREAD$';
+      const c = canvas(W, H), x = c.getContext('2d'); x.font = '900 100px "Montserrat"';
+      const px = 100 * (W * 0.86) / x.measureText(t).width; x.font = `900 ${px}px "Montserrat"`; x.fillStyle = '#fff'; x.textAlign = 'center'; x.fillText(t, W / 2, H / 2 + px * 0.36);
+      const A = alphaOf(c), L = new Float32Array(W * H);
+      for (let y = 0; y < H; y++) for (let i = 0; i < W; i++) { const j = y * W + i; L[j] = A[j] ? 0.92 : 0.22 + 0.12 * Math.sin(i * 0.02 + Math.sin(y * 0.05) * 2); }
+      const art = scramble(L, W, H, v.maps, 0.35, 86), f = canvas(AREA_W, AREA_H);
+      f.getContext('2d').drawImage(art, AREA_W - INSET - W, AREA_H - INSET - H);
+      return { png: f.toDataURL('image/png'), w: W, h: H };
+    }, { v, DPI });
+    fs.writeFileSync(path.join(out, 'back.png'), setDpi(Buffer.from(back.png.split(',')[1], 'base64'), true));
+    sizes[vid] = { front: { wIn: +(res.w / DPI).toFixed(2), hIn: +(res.h / DPI).toFixed(2) }, back: { wIn: +(back.w / DPI).toFixed(2), hIn: +(back.h / DPI).toFixed(2) } };
+  }
+  fs.writeFileSync(path.join(root, 'sizes.json'), JSON.stringify(sizes, null, 2) + '\n');
+
+  // Sheet: each version, front and back, on each shirt (size L, true scale), plus a close-up of the front.
+  const PX = 13, href = p => 'file:///' + p.replace(/\\/g, '/');
+  const TEE = 'M-3.6,0 L-9.8,1.2 L-15.6,7.6 L-12.6,10.8 L-11,9.3 L-11,30 L11,30 L11,9.3 L12.6,10.8 L15.6,7.6 L9.8,1.2 L3.6,0 Q0,6 -3.6,0 Z';
+  const SH = { black: ['#17171a', '#26262a'], white: ['#f7f7f5', '#e4e4e2'] };
+  const cells = [];
+  for (const [vid, v] of Object.entries(VERSIONS)) for (const sn of v.shirts) {
+    const z = sizes[vid].front, [c, collar] = SH[sn];
+    cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE}" fill="${c}"/><path d="M-3.6,0 Q0,6 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${href(path.join(root, vid, 'front.png'))}" x="${-z.wIn / 2}" y="4.5" width="${z.wIn}" height="${z.hIn}"/></svg><figcaption>${v.name} on ${sn} · front · ${z.wIn} × ${z.hIn} in</figcaption></figure>`);
+    cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE.replace('Q0,6', 'Q0,2')}" fill="${c}"/><path d="M-3.6,0 Q0,2 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${href(path.join(root, vid, 'back.png'))}" x="-6" y="3" width="12" height="16"/></svg><figcaption>back</figcaption></figure>`);
+    cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><div style="background:${c};padding:14px;width:${33 * PX - 28}px;height:${33.5 * PX - 28}px;display:flex;align-items:center;justify-content:center"><img src="${href(path.join(root, vid, 'front.png'))}" style="max-width:100%;max-height:100%"></div><figcaption>close-up</figcaption></figure>`);
+  }
+  const tmp = path.join(root, '_sheet.html');
+  fs.writeFileSync(tmp, `<body style="margin:0;padding:10px;background:#ececea;display:grid;grid-template-columns:repeat(3,auto);gap:8px 12px">${cells.join('')}</body>`);
+  await page.setViewportSize({ width: 3 * (33 * PX + 12) + 30, height: 400 });
+  await page.goto(href(tmp)); await page.waitForTimeout(1500);
+  await page.screenshot({ path: path.join(__dirname, 'scrambled-samples.png'), fullPage: true });
+  fs.unlinkSync(tmp);
+  await browser.close();
+  console.log(JSON.stringify(sizes));
+})();

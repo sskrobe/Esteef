@@ -1,13 +1,13 @@
 ---
 tags: [coma-toast, shirt, scanline, printful]
 updated: 2026-10-13
-status: v1 samples (ivory and ink), waiting on review
+status: rejected
 ---
 # Scanline
 
 Part of [[Coma Toast]]. A quiet, **high-fashion** take on the 80s: the three character marks (see [[Logo Marks]]) **Saint**, plain **Coma Toast** and **Little Devil**, set like a fashion label. The 80s is only **alluded to** (CRT / VHS scan lines, one tracking slip, a sportswear pinstripe), never spelled out. Name is a working title. Replaces [[Retro]] (too obvious).
 
-- **Status:** v1 made 2026-10-13.
+- **Status:** **rejected** 2026-10-13 (the user liked the scan-line / VHS concept but not this design). Replaced by [[Scrambled]]. Files kept for reference.
 - **Local folder:** `G:\ComaToast\Scanline\`
 - **Repo folder:** `tshirts/scanline/`
 
@@ -41,7 +41,8 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9 × 3.95 in**, centered, 
 `node tshirts/scanline/scanline.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Line pitch and weight, the slips, colors and the cast are at the top of the script.
 
 ## Change log
+- **2026-10-13 — rejected:** concept kept, design dropped; replaced by [[Scrambled]].
 - **2026-10-13 — v1:** scan-line marks with solid faces, tracking slip, pinstripe and label type; ivory and ink versions; scan-line `$Daily Bread$` back.
 
 ## Open items
-- [ ] Review; pick ivory, ink or both; confirm the name.
+- None (rejected).
