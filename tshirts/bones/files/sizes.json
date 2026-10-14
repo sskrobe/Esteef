@@ -1,0 +1,38 @@
+{
+  "dark": {
+    "bones": 255,
+    "backBones": 437,
+    "front": {
+      "wIn": 10.17,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 6.95,
+      "hIn": 0.75
+    }
+  },
+  "light": {
+    "bones": 255,
+    "backBones": 437,
+    "front": {
+      "wIn": 10.17,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 6.95,
+      "hIn": 0.75
+    }
+  },
+  "brand": {
+    "bones": 255,
+    "backBones": 437,
+    "front": {
+      "wIn": 10.17,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 6.95,
+      "hIn": 0.75
+    }
+  }
+}
