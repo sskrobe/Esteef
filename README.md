@@ -69,5 +69,6 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 ## Notes and local copies
 
+- `baguette/logos/round-1/` is the first round for **Baguette** ("Bag-Ette"), a new female mascot series: seven sassy French concepts mixing a baguette with a fox, a cat, a poodle or a handbag. Rebuild with `node baguette/logos/round-1/build.js` (the PNG needs Playwright). Note: `obsidian/Baguette/Baguette.md`.
 - `obsidian/Coma Toast/` holds the Obsidian notes: the project hub (`Coma Toast.md`), `Logo Marks.md`, and one note per shirt in `Shirts/` (`PaintShop.md` has every spec and the change log).
 - `sync-local.cmd` (Command Prompt) or `sync-local.ps1` (PowerShell), from the repo root, pulls the latest and copies the PaintShop files to `G:\ComaToast\PaintShop\`, and the notes into your vault with `-Vault "<vault path>"`.
