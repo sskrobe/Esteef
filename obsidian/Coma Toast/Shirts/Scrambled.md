@@ -1,17 +1,24 @@
 ---
 tags: [coma-toast, shirt, scrambled, printful]
 updated: 2026-10-13
-status: v1 samples (scrambled and static), waiting on review
+status: v2 (sharp logo over a scrambled background), waiting on review
 ---
 # Scrambled
 
 Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]) as a full chest print of an **80s scrambled cable channel**: TV static plus the wavy, torn, false-colored picture of a premium channel you didn't pay for (after the user's scrambled-TV screenshots). Name is a working title. Replaces [[Scanline]] (rejected), keeping its scan-line / VHS idea.
 
-- **Status:** v1 made 2026-10-13.
+- **Status:** v1 and v2 made 2026-10-13; v2 is current.
 - **Local folder:** `G:\ComaToast\Scrambled\`
 - **Repo folder:** `tshirts/scrambled/`
 
-## Look
+## v2 (current): sharp logo, scrambled background
+Feedback on v1: put the blur in the background; the logo should be clearly visible in the foreground; the static should affect the logo. v2 splits it into layers:
+- **Background:** the scramble (waves, tears, rolls, red / blue split, drifting false color) on a swirling field with a big, faint echo of the Saint in it.
+- **Foreground:** the Saint, sharp and undistorted: cream toast `#fbf6ea`, gold halo `#ffe45c`, black face and dark keyline, with a thin red / cyan fringe (Static version: white toast and halo). Only a few thin jitter slices nudge it sideways.
+- **Static over everything, logo included:** grain, snow bands, white dropout streaks, dim scan lines.
+- **Back:** `$DAILY BREAD$` sharp (cream, keyline, fringe) on a small scrambled strip with the static over it.
+
+## Look (v1)
 The picture (the Saint big and centered, with a dark keyline, over a swirling background) is pushed through a "lost sync" pass:
 - **Wavy tearing:** every scan line is shoved sideways by stacked sine waves, plus a few hard tearing bands with a slant; two thin bands roll vertically.
 - **Rainbow fringes:** the red and blue channels are pulled apart.
@@ -43,6 +50,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **10.5 × 9.66 in**, centere
 `node tshirts/scrambled/scrambled.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Color maps are at the top; tear, roll, snow and wave amounts are in `scramble()`. Change the seed (1986) for a different scramble.
 
 ## Change log
+- **2026-10-13 — v2:** scramble moved to the background, the Saint sharp in the foreground, static over everything (logo included); back text sharp too.
 - **2026-10-13 — v1:** scrambled-channel Saint, scrambled and static versions, scrambled `$Daily Bread$` back. Rolling bands toned down so the face stays readable.
 
 ## Open items

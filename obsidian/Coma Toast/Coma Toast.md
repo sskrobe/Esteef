@@ -27,7 +27,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | Blurry | v1: Saint in double-vision line art + large DAILY / BREAD block back, 4 colorways × single/double line; waiting on pick | [[Blurry]] |
 | 3D | v1: anaglyph DAILY / BREAD block behind the Saint mark, light and dark shirt versions | [[3D]] |
 | Bones | Rejected | [[Bones]] |
-| Scrambled | v1: Saint as an 80s scrambled cable channel with TV static, Scrambled / Static | [[Scrambled]] |
+| Scrambled | v2: sharp Saint over a scrambled 80s cable background, static over all, Scrambled / Static | [[Scrambled]] |
 | Scanline | Rejected | [[Scanline]] |
 | Retro | Rejected (too obvious) | [[Retro]] |
 | Equalizer | Rejected | [[Equalizer]] |

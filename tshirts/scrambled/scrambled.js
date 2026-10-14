@@ -1,11 +1,11 @@
-// Scrambled: the Saint mark (halo logo), full chest, as an 80s scrambled cable channel. The picture (the toast,
-// face and halo over a swirling background) is pushed through a "lost sync" pass: every scan line is shoved
-// sideways by stacked sine waves plus a few hard tearing bands (with a slant), two bands roll vertically, the red
-// and blue channels are pulled apart (rainbow fringes), the luminance is false-colored in drifting bands (acid
-// green, magenta, violet), and TV static (grain, snow bands, white dropout streaks) is laid over dim scan lines.
-// The screen edges fray row by row, following the tears, so the print dissolves into the shirt.
+// Scrambled: the Saint mark (halo logo), full chest, as an 80s scrambled cable channel. v2: the scramble is the
+// BACKGROUND only (a swirling field with a big echo of the mark, pushed through a lost-sync pass: sine-wave line
+// shoves, hard tearing bands, rolling bands, red / blue channel split, false color drifting in bands of acid green,
+// magenta and violet). The Saint sits on top SHARP and undistorted (cream toast, gold halo, black face, dark
+// keyline with a thin red / cyan fringe), except a few thin jitter slices. The STATIC goes over everything, logo
+// included: grain, snow bands, white dropout streaks and dim scan lines. Screen edges fray row by row.
 // Versions: "scrambled" (false color) and "static" (black and white with red / cyan fringes).
-// Back: $DAILY BREAD$ as a small scrambled strip, bottom-right of the 12 x 16 in back area.
+// Back: $DAILY BREAD$ (sharp, same treatment) on a small scrambled strip, bottom-right of the 12 x 16 in back area.
 // Size and placement (chest standard, Bella+Canvas 3001): fits a 10.5 x 12 in box, centered, top 1.5 in below
 // the collar seam. Full-color raster (DTG), no partial transparency.
 // Outputs: files/<scrambled|static>/front.png, back.png; scrambled-samples.png.
@@ -16,12 +16,12 @@ const { logos } = require('../../logos/final/logos');
 const { setDpi } = require('../paintshop/printful');
 
 const VERSIONS = {
-  scrambled: { name: 'Scrambled', shirts: ['black', 'white'], maps: [
+  scrambled: { name: 'Scrambled', shirts: ['black', 'white'], fg: { toast: '#fbf6ea', halo: '#ffe45c', face: '#0b0b0b', key: '#0b0b0b' }, maps: [
     [[0, '#040a06'], [0.3, '#0f5a1e'], [0.55, '#3fd13a'], [0.8, '#c8ff3c'], [1, '#fffde0']],   // acid green
     [[0, '#0a0010'], [0.3, '#4b0f6e'], [0.55, '#d0207a'], [0.8, '#ff7ab8'], [1, '#fff0f6']],   // magenta
     [[0, '#03030f'], [0.35, '#1a2a8a'], [0.6, '#7a3cff'], [0.85, '#5ff0ff'], [1, '#ffffff']],  // violet
   ] },
-  static: { name: 'Static', shirts: ['black', 'white'], maps: [
+  static: { name: 'Static', shirts: ['black', 'white'], fg: { toast: '#f2f2f2', halo: '#ffffff', face: '#0b0b0b', key: '#0b0b0b' }, maps: [
     [[0, '#000000'], [0.5, '#7a7a7a'], [1, '#ffffff']],
   ] },
 };
@@ -50,49 +50,70 @@ const MARK = {
     window.rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
     // gradient map -> 256-entry RGB lookup tables
     window.lut = stops => { const c = canvas(256, 1), x = c.getContext('2d'), g = x.createLinearGradient(0, 0, 256, 0); stops.forEach(([o, col]) => g.addColorStop(o, col)); x.fillStyle = g; x.fillRect(0, 0, 256, 1); return x.getImageData(0, 0, 256, 1).data; };
-    // THE SCRAMBLE. L: luminance field (Float32Array, W x H, 0..1). k: scale (1 = full chest). Returns a canvas.
-    window.scramble = (L, W, H, maps, k, seed) => {
+    // THE SCRAMBLE. L: background luminance field (Float32Array, W x H, 0..1); fg: the sharp foreground canvas
+    // (or null). k: scale (1 = full chest). The background gets the lost-sync pass (waves, tears, rolls, chroma
+    // split, false color); the foreground sits on top undistorted except for a few thin jitter slices; then the
+    // static (grain, snow bands, dropout streaks, scan lines) goes over everything, foreground included.
+    window.scramble = (L, W, H, maps, k, seed, fg) => {
       const R = rng(seed), luts = maps.map(lut), out = canvas(W, H), x = out.getContext('2d'), img = x.createImageData(W, H), o = img.data;
       // tearing bands: [y0, y1, offset, slant]; rolling bands: [y0, y1, roll]; snow bands: [y0, y1]
-      const tears = [], rolls = [], snow = [];
+      const tears = [], rolls = [], snow = [], jit = [];
       for (let i = 0; i < 7; i++) { const y0 = R() * H, h = (30 + R() * 160) * k; tears.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (60 + R() * 260) * k, (R() - 0.5) * 1.2]); }
-      for (let i = 0; i < 2; i++) { const y0 = R() * H, h = (60 + R() * 140) * k; rolls.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (30 + R() * 60) * k]); }
-      for (let i = 0; i < 5; i++) { const y0 = R() * H, h = (4 + R() * 26) * k; snow.push([y0, y0 + h]); }
+      for (let i = 0; i < 2; i++) { const y0 = R() * H, h = (60 + R() * 140) * k; rolls.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (80 + R() * 200) * k]); }
+      for (let i = 0; i < 5; i++) { const y0 = R() * H, h = (4 + R() * 22) * k; snow.push([y0, y0 + h]); }
+      for (let i = 0; i < 4; i++) { const y0 = H * (0.15 + 0.7 * R()), h = (5 + R() * 12) * k; jit.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (12 + R() * 22) * k]); }
       const ph = [R() * 6.28, R() * 6.28, R() * 6.28];
       const sample = (sx, sy) => { sx = Math.max(0, Math.min(W - 1, sx | 0)); sy = Math.max(0, Math.min(H - 1, sy | 0)); return L[sy * W + sx]; };
       const CA = 16 * k;   // chroma split
       const edgeJ = new Float32Array(H * 2); let bl = 0, br = 0;
       for (let y = 0; y < H; y++) { if (y % Math.max(2, (6 * k) | 0) === 0) { bl = R(); br = R(); } edgeJ[y * 2] = bl; edgeJ[y * 2 + 1] = br; }
+      const F = fg ? fg.getContext('2d').getImageData(0, 0, W, H).data : null;
       for (let y = 0; y < H; y++) {
-        let dx = (34 * Math.sin(y * 0.011 / k + ph[0]) + 18 * Math.sin(y * 0.037 / k + ph[1]) + 6 * Math.sin(y * 0.21 / k)) * k, sy = y, tear = 0;
+        let dx = (34 * Math.sin(y * 0.011 / k + ph[0]) + 18 * Math.sin(y * 0.037 / k + ph[1]) + 6 * Math.sin(y * 0.21 / k)) * k, sy = y, tear = 0, jx = 0;
         for (const [a, b, off, sl] of tears) if (y >= a && y < b) { tear = off + sl * (y - a); }
         for (const [a, b, r] of rolls) if (y >= a && y < b) sy = y + r;
+        for (const [a, b, j] of jit) if (y >= a && y < b) jx = j | 0;
         dx += tear;
         let isSnow = false; for (const [a, b] of snow) if (y >= a && y < b) isSnow = true;
-        const dim = (y % Math.max(3, (6 * k) | 0)) < Math.max(1, (2 * k) | 0) ? 0.72 : 1;   // scan lines
+        const dim = (y % Math.max(3, (6 * k) | 0)) < Math.max(1, (2 * k) | 0) ? 0.74 : 1;   // scan lines
         // frayed screen edges, pushed by the tear
         const pad = 150 * k, l = pad * (0.15 + 0.5 * edgeJ[y * 2]) + Math.max(0, tear) * 0.5, r = W - pad * (0.15 + 0.5 * edgeJ[y * 2 + 1]) + Math.min(0, tear) * 0.5;
         for (let xx = 0; xx < W; xx++) {
           const i = (y * W + xx) * 4;
-          if (xx < l || xx > r) { o[i + 3] = 0; continue; }
-          const wv = 22 * k * Math.sin(xx * 0.006 / k + y * 0.017 / k + ph[2]);
-          const sx = xx - dx - wv;
-          // map choice drifts in bands
-          const t = (sy * 0.0009 / k + 0.12 * Math.sin(xx * 0.0025 / k + ph[1]) + 10) * luts.length, m0 = Math.floor(t) % luts.length, m1 = (m0 + 1) % luts.length;
-          let f = t - Math.floor(t); f = f < 0.8 ? 0 : (f - 0.8) / 0.2;
-          const lr = sample(sx + CA, sy), lg = sample(sx, sy), lb = sample(sx - CA, sy);
-          const ch = (l0, c) => { const v = Math.max(0, Math.min(255, (l0 * 255) | 0)) * 4; return luts[m0][v + c] * (1 - f) + luts[m1][v + c] * f; };
-          let rr = ch(lr, 0), gg = ch(lg, 1), bb = ch(lb, 2);
+          let rr, gg, bb, on = !(xx < l || xx > r);
+          const fx = xx - jx, fi = (y * W + fx) * 4;
+          if (F && fx >= 0 && fx < W && F[fi + 3] > 110) { rr = F[fi]; gg = F[fi + 1]; bb = F[fi + 2]; on = true; }
+          else {
+            if (!on) { o[i + 3] = 0; continue; }
+            const wv = 22 * k * Math.sin(xx * 0.006 / k + y * 0.017 / k + ph[2]);
+            const sx = xx - dx - wv;
+            // map choice drifts in bands
+            const t = (sy * 0.0009 / k + 0.12 * Math.sin(xx * 0.0025 / k + ph[1]) + 10) * luts.length, m0 = Math.floor(t) % luts.length, m1 = (m0 + 1) % luts.length;
+            let f = t - Math.floor(t); f = f < 0.8 ? 0 : (f - 0.8) / 0.2;
+            const lr = sample(sx + CA, sy), lg = sample(sx, sy), lb = sample(sx - CA, sy);
+            const ch = (l0, c) => { const v = Math.max(0, Math.min(255, (l0 * 255) | 0)) * 4; return luts[m0][v + c] * (1 - f) + luts[m1][v + c] * f; };
+            rr = ch(lr, 0); gg = ch(lg, 1); bb = ch(lb, 2);
+          }
+          // static over everything
           const n = R();
-          if (isSnow) { const s = n * 255; rr = rr * 0.15 + s * 0.85; gg = gg * 0.15 + s * 0.85; bb = bb * 0.15 + s * 0.85; }
+          if (isSnow) { const s = n * 255; rr = rr * 0.25 + s * 0.75; gg = gg * 0.25 + s * 0.75; bb = bb * 0.25 + s * 0.75; }
           else { const g = (n - 0.5) * 70; rr += g; gg += g; bb += g; if (n > 0.99965) { rr = gg = bb = 255; } }
           o[i] = rr * dim; o[i + 1] = gg * dim; o[i + 2] = bb * dim; o[i + 3] = 255;
         }
       }
-      // dropout streaks: short white horizontal dashes
+      // dropout streaks: short white horizontal dashes, over everything
       for (let s = 0; s < 170; s++) { const yy = (R() * H) | 0, x0 = (R() * W) | 0, len = (20 + R() * 220) * k, th = Math.max(2, (2 + R() * 3) * k) | 0;
         for (let y = yy; y < Math.min(H, yy + th); y++) for (let xx = x0; xx < Math.min(W, x0 + len); xx++) { const i = (y * W + xx) * 4; if (o[i + 3]) { o[i] = o[i + 1] = o[i + 2] = 240; } } }
       x.putImageData(img, 0, 0); return out;
+    };
+    // sharp foreground: red / cyan fringe, dark keyline, then the fills (layers: [canvas mask, color])
+    window.foreground = (W, H, sil, layers, key, fringe, k) => {
+      const c = canvas(W, H), x = c.getContext('2d'), keyC = dilate(sil, W * 0.011 * k);
+      const t = (m, col) => { const z = canvas(W, H), zx = z.getContext('2d'); zx.drawImage(m, 0, 0); zx.globalCompositeOperation = 'source-in'; zx.fillStyle = col; zx.fillRect(0, 0, W, H); return z; };
+      x.drawImage(t(keyC, '#ff2a3d'), -fringe, 0); x.drawImage(t(keyC, '#00c8ff'), fringe, 0);
+      x.drawImage(t(keyC, key), 0, 0);
+      for (const [m, col] of layers) x.drawImage(t(m, col), 0, 0);
+      return c;
     };
   ` });
 
@@ -100,24 +121,22 @@ const MARK = {
   for (const [vid, v] of Object.entries(VERSIONS)) {
     const res = await page.evaluate(async ({ v, MARK, BOX_W }) => {
       const W = BOX_W, H = Math.round(W * 0.92);
-      // the picture: Saint mark over a swirling background
-      const mh = H * 0.86, mw = mh * 124 / 144, X = (W - mw) / 2, Y = (H - mh) / 2 + H * 0.01;
-      const lay = async s => { const i = await loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s.replace('__W__', mw).replace('__H__', mh))); const c = canvas(W, H); c.getContext('2d').drawImage(i, X, Y, mw, mh); return c; };
+      // the Saint, sharp, in the foreground
+      const mh = H * 0.8, mw = mh * 124 / 144, X = (W - mw) / 2, Y = (H - mh) / 2;
+      const lay = async (s, sc = 1) => { const i = await loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s.replace('__W__', mw * sc).replace('__H__', mh * sc))); const c = canvas(W, H); c.getContext('2d').drawImage(i, (W - mw * sc) / 2, (H - mh * sc) / 2, mw * sc, mh * sc); return c; };
       const tC = await lay(MARK.toast), hC = await lay(MARK.halo), dC = await lay(MARK.det);
-      const T = alphaOf(tC), Hm = alphaOf(hC), D = alphaOf(dC);
-      const all = canvas(W, H); all.getContext('2d').drawImage(tC, 0, 0); all.getContext('2d').drawImage(hC, 0, 0);
-      const K = alphaOf(dilate(all, W * 0.012));
+      const sil = canvas(W, H); sil.getContext('2d').drawImage(tC, 0, 0); sil.getContext('2d').drawImage(hC, 0, 0);
+      const fg = foreground(W, H, sil, [[tC, v.fg.toast], [hC, v.fg.halo], [dC, v.fg.face]], v.fg.key, W * 0.004, 1);
+      // the background: a swirling field with a big scrambled echo of the mark in it
+      const eT = alphaOf(await lay(MARK.toast, 1.3)), eH = alphaOf(await lay(MARK.halo, 1.3));
       const L = new Float32Array(W * H);
       for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
         const i = y * W + x;
         let l = 0.34 + 0.2 * Math.sin(x * 0.0042 + 1.3 * Math.sin(y * 0.0031)) * Math.cos(y * 0.0055 + x * 0.0012) + 0.1 * Math.sin((x + y) * 0.011);
-        if (K[i]) l = 0.05;
-        if (T[i]) l = 0.74 + 0.06 * Math.sin(y * 0.02 + x * 0.004);
-        if (Hm[i]) l = 0.98;
-        if (D[i]) l = 0.06;
+        if (eT[i] || eH[i]) l += 0.24;
         L[i] = l;
       }
-      const out = scramble(L, W, H, v.maps, 1, 1986);
+      const out = scramble(L, W, H, v.maps, 1, 1986, fg);
       return { png: out.toDataURL('image/png'), w: W, h: H };
     }, { v, MARK, BOX_W });
     const out = path.join(root, vid); fs.mkdirSync(out, { recursive: true });
@@ -127,10 +146,11 @@ const MARK = {
     const back = await page.evaluate(({ v, DPI }) => {
       const AREA_W = 12 * DPI, AREA_H = 16 * DPI, INSET = 0.1 * DPI, W = Math.round(7.2 * DPI), H = Math.round(1.25 * DPI), t = '$DAILY BREAD$';
       const c = canvas(W, H), x = c.getContext('2d'); x.font = '900 100px "Montserrat"';
-      const px = 100 * (W * 0.86) / x.measureText(t).width; x.font = `900 ${px}px "Montserrat"`; x.fillStyle = '#fff'; x.textAlign = 'center'; x.fillText(t, W / 2, H / 2 + px * 0.36);
-      const A = alphaOf(c), L = new Float32Array(W * H);
-      for (let y = 0; y < H; y++) for (let i = 0; i < W; i++) { const j = y * W + i; L[j] = A[j] ? 0.92 : 0.22 + 0.12 * Math.sin(i * 0.02 + Math.sin(y * 0.05) * 2); }
-      const art = scramble(L, W, H, v.maps, 0.35, 86), f = canvas(AREA_W, AREA_H);
+      const px = 100 * (W * 0.84) / x.measureText(t).width; x.font = `900 ${px}px "Montserrat"`; x.fillStyle = '#fff'; x.textAlign = 'center'; x.fillText(t, W / 2, H / 2 + px * 0.36);
+      const fg = foreground(W, H, c, [[c, v.fg.toast]], v.fg.key, W * 0.0025, 0.35);
+      const L = new Float32Array(W * H);
+      for (let y = 0; y < H; y++) for (let i = 0; i < W; i++) L[y * W + i] = 0.36 + 0.2 * Math.sin(i * 0.012 + Math.sin(y * 0.04) * 2) * Math.cos(y * 0.03 + i * 0.002);
+      const art = scramble(L, W, H, v.maps, 0.35, 86, fg), f = canvas(AREA_W, AREA_H);
       f.getContext('2d').drawImage(art, AREA_W - INSET - W, AREA_H - INSET - H);
       return { png: f.toDataURL('image/png'), w: W, h: H };
     }, { v, DPI });
