@@ -4,7 +4,8 @@
 // and violet). FOREGROUND: the Saint at the normal logo size, built like the Scanline concept: a dark body filled with
 // cream scan lines (gold on the halo), the face and inner crust line solid inside a clean gap, a dark keyline with a
 // red / cyan fringe, and VHS tracking slips with rose / teal ghosts; the scramble adds jitter slices and false-color
-// bands. STATIC over everything, logo included: grain, snow bands, white dropout streaks, dim scan lines.
+// bands. Hidden in the background: DAILY BREAD, ESTEEF, COMA TOAST and NYC, smeared by the scramble until hard to read.
+// STATIC over everything, logo included: grain, snow bands, white dropout streaks, dim scan lines.
 // Back: $DAILY BREAD$ (sharp, same treatment) on a small scrambled strip, bottom-right of the 12 x 16 in back area.
 // Size and placement: the mark is at the normal logo size (11.5 in tall, like the 12 in tall chest logos) in an
 // 11.5 x 12.6 in screen (fits the smallest front print area, XS-M 11.5 x 13.8 in), centered, top of the print 1 in
@@ -38,8 +39,8 @@ const MARK = {
   const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
   const browser = await chromium.launch(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {});
   const page = await browser.newPage();
-  await page.setContent('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=block"><body></body>');
-  await page.evaluate(async () => { await document.fonts.load('900 100px "Montserrat"', '$DAILY BREAD$'); });
+  await page.setContent('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=block"><body></body>');
+  await page.evaluate(async () => { await document.fonts.load('900 100px "Montserrat"', '$DAILY BREAD$'); await document.fonts.load('800 100px "Montserrat"', 'DAILY BREAD ESTEEF COMA TOAST NYC'); });
   await page.addScriptTag({ content: `
     window.loadImg = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
     window.canvas = (w, h) => { const c = document.createElement('canvas'); c.width = Math.ceil(w); c.height = Math.ceil(h); return c; };
@@ -148,11 +149,24 @@ const MARK = {
         slip(fg, snap(Y + mh * fy), P * n, W * d, v.fg.ghost[gi], -W * d * 0.5));
       // the background: a swirling field with a big scrambled echo of the mark in it
       const eT = alphaOf(await lay(MARK.toast, 1.12)), eH = alphaOf(await lay(MARK.top, 1.12));
+      // HIDDEN WORDS: DAILY BREAD, ESTEEF, COMA TOAST and NYC set into the background field (low contrast, partly behind
+      // the mark), so the waves, tears and false color smear them until they are hard to read
+      const words = canvas(W, H), wx = words.getContext('2d'); wx.fillStyle = '#fff'; wx.textBaseline = 'middle'; wx.textAlign = 'center';
+      const put = (t, cx, cy, w, rot, wt) => { wx.save(); wx.translate(cx, cy); wx.rotate(rot); wx.font = wt + ' 100px "Montserrat"';
+        const k = w / wx.measureText(t).width; wx.font = wt + ' ' + (100 * k) + 'px "Montserrat"'; wx.fillText(t, 0, 0); wx.restore(); };
+      put('DAILY BREAD', W * 0.5, H * 0.055, W * 0.96, 0, 900);
+      put('COMA TOAST', W * 0.5, H * 0.25, W * 1.02, 0, 900);
+      put('ESTEEF', W * 0.105, H * 0.7, H * 0.5, -Math.PI / 2, 800);
+      put('NYC', W * 0.885, H * 0.62, W * 0.22, 0, 900);
+      put('NYC', W * 0.885, H * 0.8, W * 0.22, 0, 900);
+      put('DAILY BREAD', W * 0.5, H * 0.965, W * 0.9, 0, 900);
+      const TX = alphaOf(words);
       const L = new Float32Array(W * H);
       for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
         const i = y * W + x;
         let l = 0.34 + 0.2 * Math.sin(x * 0.0042 + 1.3 * Math.sin(y * 0.0031)) * Math.cos(y * 0.0055 + x * 0.0012) + 0.1 * Math.sin((x + y) * 0.011);
         if (eT[i] || eH[i]) l += 0.24;
+        if (TX[i]) l += 0.2;
         L[i] = l;
       }
       const out = scramble(L, W, H, v.maps, 1, 1986, fg);

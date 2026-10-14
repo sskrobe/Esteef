@@ -1,17 +1,26 @@
 ---
 tags: [coma-toast, shirt, scrambled, printful]
 updated: 2026-10-13
-status: v4 (go-forward look, color version only), waiting on review
+status: v5 (go-forward look, hidden words), waiting on review
 ---
 # Scrambled
 
 Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]) as a full chest print of an **80s scrambled cable channel**: TV static plus the wavy, torn, false-colored picture of a premium channel you didn't pay for (after the user's scrambled-TV screenshots). Name is a working title. Replaces [[Scanline]] (rejected), keeping its scan-line / VHS idea.
 
-- **Status:** v1–v4 made 2026-10-13; **v4 is current**. The **color (Scrambled) version is the go-forward**; the black-and-white Static version is dropped (files removed, still in git history). Store name if published: "Scrambled King ComaToast Logo".
+- **Status:** v1–v5 made 2026-10-13; **v5 is current**. The **color (Scrambled) version is the go-forward**; the black-and-white Static version is dropped (files removed, still in git history). Store name if published: "Scrambled King ComaToast Logo".
 - **Local folder:** `G:\ComaToast\Scrambled\`
 - **Repo folder:** `tshirts/scrambled/`
 
-## v4 (current, go-forward): Saint in scan lines
+## v5 (current): hidden words in the background
+Feedback on v4: distort the words "daily bread", "Esteef", "coma toast" and "NYC" into the background waves; make them hard to discern.
+- The words are set into the background field **before** the scramble (Montserrat Black; ESTEEF in ExtraBold, the brand font), only slightly brighter than the field, so the waves, tears, rolls and false color smear them:
+  - **DAILY BREAD** across the top and again along the bottom edge,
+  - **COMA TOAST** across the upper middle (mostly behind the halo and crust, peeking out at the sides),
+  - **ESTEEF** running up the left side,
+  - **NYC** twice on the right side.
+- The logo and back are unchanged from v4.
+
+## v4: Saint in scan lines
 Feedback on v3: go back to the halo (Saint); the color version is the go-forward; add a little more static to the logo, more like the Scanline concept.
 - **Mark:** the **Saint** again, at the v3 size (11.5 in tall in the 11.5 × 12.6 in screen, top 1 in below the collar).
 - **Built like the [[Scanline]] concept:** a dark body filled with **cream scan lines** (gold `#ffe45c` lines on the halo), about 17 lines per inch; the **face and inner crust line solid cream** inside a clean dark gap; dark keyline with the red / cyan fringe.
@@ -64,6 +73,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **11.5 × 12.6 in**, centere
 `node tshirts/scrambled/scrambled.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Color maps are at the top; tear, roll, snow and wave amounts are in `scramble()`. Change the seed (1986) for a different scramble.
 
 ## Change log
+- **2026-10-13 — v5:** DAILY BREAD, ESTEEF, COMA TOAST and NYC hidden in the scrambled background, hard to read.
 - **2026-10-13 — v4:** back to the Saint; logo built from scan lines with a solid face (Scanline concept) and tracking slips; color version only (Static dropped).
 - **2026-10-13 — v3:** Saint swapped for the Little Devil; mark enlarged to the normal logo size (11.5 in tall in an 11.5 × 12.6 in screen, top 1 in below the collar); more jitter, false-color bands, snow and fringe over the logo.
 - **2026-10-13 — v2:** scramble moved to the background, the Saint sharp in the foreground, static over everything (logo included); back text sharp too.
