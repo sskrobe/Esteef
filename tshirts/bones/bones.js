@@ -1,8 +1,8 @@
-// Bones: the Saint mark (main halo logo) built entirely out of little dog bones.
+// Bones: the Saint mark (main halo logo) drawn in little dog bones: the outline is made of bones.
 //   - the toast's outline: bones laid end to end along the edge (keeps the shape crisp)
 //   - the face (X eyes, Soft Pulse mouth) and the inner crust line: bones laid along each stroke
 //   - the halo: a ring of bones
-//   - the fill: bones at random angles, packed without touching (dart throwing with capsule collisions)
+//   - the fill (v1 only; off since v2, the outline alone is made of bones): bones at random angles, packed
 // Versions: dark (bone white, red face, gold halo), light (black, red face, gold halo), brand (hot pink, white
 // face, lime halo; dark shirts). Back: $DAILY BREAD$ filled with tiny bones, bottom-right of the 12 x 16 in back
 // area (standing back print). Size and placement: chest standard (10.5 x 12 in box, top 1.5 in below collar).
@@ -21,7 +21,8 @@ const VERSIONS = {
 const DPI = 300, BOX_W = 10.5 * DPI, BOX_H = 12 * DPI;
 const saint = logos.find(l => l.id === 'saint');
 // Bone size in drawing units (the toast is about 116 units wide, so about 17 bones across).
-const BONE = { L: 6.8, r: 0.85, knob: 1.2, gap: 0.55 };
+// fill: false = only the outline (edge, inner crust line, face, halo) is made of bones (v2, the user's pick)
+const BONE = { L: 6.8, r: 0.85, knob: 1.2, gap: 0.55, fill: false };
 
 (async () => {
   const { chromium } = require(process.env.PLAYWRIGHT_PATH || 'playwright');
@@ -82,8 +83,8 @@ const BONE = { L: 6.8, r: 0.85, knob: 1.2, gap: 0.55 };
     { const b = haloPath.getBBox(), m = haloPath.getCTM(), c = new DOMPoint(b.x + b.width / 2, b.y + b.height / 2).matrixTransform(m);
       const rx = b.width / 2 * (1 + 28 / 38) / 2, ry = b.height / 2 * (1 + 4.5 / 9) / 2, per = Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)));
       const n = Math.round(per / (B.L * 0.9)); for (let i = 0; i < n; i++) { const t = i / n * Math.PI * 2, x = c.x + rx * Math.cos(t), y = c.y + ry * Math.sin(t); add(x, y, Math.atan2(ry * Math.cos(t), -rx * Math.sin(t)), 'halo', B.L * 0.9, true); } }
-    // the fill: random bones inside the toast, all of the bone inside the shape, none touching
-    { const el = toastPath, inv = el.getCTM().inverse(), b = el.getBBox(), m = el.getCTM();
+    // the fill: random bones inside the toast, all of the bone inside the shape, none touching (off in v2)
+    if (B.fill) { const el = toastPath, inv = el.getCTM().inverse(), b = el.getBBox(), m = el.getCTM();
       const p0 = new DOMPoint(b.x, b.y).matrixTransform(m), p1 = new DOMPoint(b.x + b.width, b.y + b.height).matrixTransform(m);
       const inside = (x, y) => { const q = new DOMPoint(x, y).matrixTransform(inv); return el.isPointInFill(new DOMPoint(q.x, q.y)); };
       for (let i = 0; i < 26000; i++) {

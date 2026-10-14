@@ -1,17 +1,20 @@
 ---
 tags: [coma-toast, shirt, bones, printful]
 updated: 2026-10-13
-status: v1 samples (3 versions), waiting on review
+status: v2 (outline made of bones), waiting on review
 ---
 # Bones
 
 Part of [[Coma Toast]]. The **Saint** mark (main halo logo, see [[Logo Marks]]) built entirely out of **little dog bones**. Name is a working title.
 
-- **Status:** v1 made 2026-10-13.
+- **Status:** v1 and v2 made 2026-10-13; v2 is current.
 - **Local folder:** `G:\ComaToast\Bones\`
 - **Repo folder:** `tshirts/bones/`
 
-## Look
+## v2 (current): the outline is made of bones
+Feedback on v1: the packed random fill wasn't good; make the outline out of the bones. v2 drops the fill: only the toast's edge, the inner crust line, the face (X eyes, mouth) and the halo are made of bones (about 161), so the shape reads clean. Render option: `BONE.fill` (false).
+
+## Look (v1)
 About 255 bones (each about 0.6 in long on the shirt):
 - **Outline:** bones laid end to end along the toast's edge, nudged just inside it, so the silhouette stays crisp.
 - **Inner crust line:** bones along the line, in the body color.
@@ -44,6 +47,8 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **10.17 × 12 in**, centered
 
 ## Change log
 - **2026-10-13 — v1:** Saint built from dog bones (outline, face, halo, packed fill), dark / light / brand versions, with a bone-filled `$Daily Bread$` back.
+
+- **v2:** fill removed; the outline (edge, inner crust line, face, halo) alone is made of bones.
 
 ## Open items
 - [ ] Review; pick a version; confirm the name.

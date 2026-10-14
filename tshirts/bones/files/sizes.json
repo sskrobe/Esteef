@@ -1,6 +1,6 @@
 {
   "dark": {
-    "bones": 255,
+    "bones": 161,
     "backBones": 437,
     "front": {
       "wIn": 10.17,
@@ -12,7 +12,7 @@
     }
   },
   "light": {
-    "bones": 255,
+    "bones": 161,
     "backBones": 437,
     "front": {
       "wIn": 10.17,
@@ -24,7 +24,7 @@
     }
   },
   "brand": {
-    "bones": 255,
+    "bones": 161,
     "backBones": 437,
     "front": {
       "wIn": 10.17,

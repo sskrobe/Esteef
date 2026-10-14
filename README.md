@@ -47,7 +47,9 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `tshirts/benday-logo/` is the Benday Logo tee: a single chest graphic, the official mark in bold comic inking on a rough blue Ben-Day stipple paint swatch (black, white, blue), on a transparent background. `files/` has a 300 dpi PNG and an SVG per mark (sized to a 10.5 x 12 in box, placed 1.5 in below the collar) and `benday-logo-samples.png` shows all five at true scale. `files/back-daily-bread.png` is the 12 x 16 in back print with ` Bread$` in the bottom-right corner in the same style. Re-render with `node tshirts/benday-logo/make.js`, `back.js`, then `mockup.js` (needs Playwright). The women's version (Bella+Canvas 6400, Hot Pink / Blush / Lilac) is in `women/<palette>/`: `node tshirts/benday-logo/women.js` then `mockup-women.js`.
 
-- `tshirts/bones/` is Bones: the Saint mark built out of little dog bones (outline, face, halo and a packed fill), in dark, light and brand versions, with a bone-filled ` BREAD$` back. Re-render with `node tshirts/bones/bones.js` (needs Playwright).
+- `tshirts/equalizer/` is Equalizer: a pixel audio-equalizer of tiles in a gradient with all five marks showing through the tiles (Sunset and Brand colorways), DAILY BREAD under it, and a tiled ` BREAD$` back. Re-render with `node tshirts/equalizer/equalizer.js` (needs Playwright).
+
+- `tshirts/bones/` is Bones: the Saint mark with its outline (edge, inner crust, face, halo) made of little dog bones, in dark, light and brand versions, with a bone-filled ` BREAD$` back. Re-render with `node tshirts/bones/bones.js` (needs Playwright).
 
 - `tshirts/3d/` is 3D: the red/blue 3D-movie look, a stacked DAILY / BREAD block in offset red and cyan behind the solid Saint mark, in light- and dark-shirt versions, with a matching ` BREAD$` back. Re-render with `node tshirts/3d/3d.js` (needs Playwright).
 
