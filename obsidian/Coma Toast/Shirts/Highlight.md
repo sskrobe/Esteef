@@ -1,13 +1,13 @@
 ---
 tags: [coma-toast, shirt, highlight, printful]
 updated: 2026-10-13
-status: v1 sample, waiting on review
+status: approved (user likes it), ready for Printful
 ---
 # Highlight
 
 Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]), large in the normal chest spot, filled with **layered highlighter strokes** under black fine-liner pen line art, after a pen-and-highlighter eye drawing the user shared. Named "Highlight" by the user. Store name if published: "Highlight King ComaToast Logo".
 
-- **Status:** v1 made 2026-10-13.
+- **Status:** v1 made and **approved** 2026-10-13 ("i like this one!"). Ready to set up in Printful.
 - **Local folder:** `G:\ComaToast\Highlight\`
 - **Repo folder:** `tshirts/highlight/`
 
@@ -43,4 +43,6 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 - **2026-10-13 — v1:** first pass (many short strokes in three directions) read as confetti and spiked too far past the outline; reworked into edge-to-edge parallel lanes with partial crossing passes, a paper base, and a clean halo center.
 
 ## Open items
-- [ ] Review; pick the shirt color(s); women's version?
+- [ ] Pick the shirt color(s) to offer (recommended: black).
+- [ ] Set up in Printful as "Highlight King ComaToast Logo".
+- [ ] Women's (Queen) version?
