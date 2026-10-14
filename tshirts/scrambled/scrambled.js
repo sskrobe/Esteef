@@ -1,13 +1,15 @@
-// Scrambled: the Saint mark (halo logo), full chest, as an 80s scrambled cable channel. v2: the scramble is the
-// BACKGROUND only (a swirling field with a big echo of the mark, pushed through a lost-sync pass: sine-wave line
-// shoves, hard tearing bands, rolling bands, red / blue channel split, false color drifting in bands of acid green,
-// magenta and violet). The Saint sits on top SHARP and undistorted (cream toast, gold halo, black face, dark
-// keyline with a thin red / cyan fringe), except a few thin jitter slices. The STATIC goes over everything, logo
-// included: grain, snow bands, white dropout streaks and dim scan lines. Screen edges fray row by row.
-// Versions: "scrambled" (false color) and "static" (black and white with red / cyan fringes).
+// Scrambled: the Little Devil mark (horns, no wings) as an 80s scrambled cable channel. v3. The scramble is the
+// BACKGROUND (a swirling field with a big echo of the mark, pushed through a lost-sync pass: sine-wave line shoves,
+// hard tearing bands, rolling bands, red / blue channel split, false color drifting in bands of acid green, magenta
+// and violet). The Little Devil sits on top, sharp (cream toast, red horns, black face, dark keyline with a red /
+// cyan fringe), but the signal still gets to it: thin jitter slices shove parts of it sideways and a few bands
+// flip it into false color. The STATIC goes over everything, logo included: grain, snow bands, white dropout
+// streaks and dim scan lines. Screen edges fray row by row.
+// Versions: "scrambled" (false color) and "static" (black and white with red / cyan fringes, white horns).
 // Back: $DAILY BREAD$ (sharp, same treatment) on a small scrambled strip, bottom-right of the 12 x 16 in back area.
-// Size and placement (chest standard, Bella+Canvas 3001): fits a 10.5 x 12 in box, centered, top 1.5 in below
-// the collar seam. Full-color raster (DTG), no partial transparency.
+// Size and placement: the mark is at the normal logo size (11.5 in tall, like the 12 in tall chest logos) in an
+// 11.5 x 12.6 in screen (fits the smallest front print area, XS-M 11.5 x 13.8 in), centered, top of the print 1 in
+// below the collar seam (puts the mark where our logo normally sits). Full-color raster (DTG).
 // Outputs: files/<scrambled|static>/front.png, back.png; scrambled-samples.png.
 // Run: node tshirts/scrambled/scrambled.js   (needs Playwright; PLAYWRIGHT_PATH / BROWSER_CHANNEL as elsewhere)
 const fs = require('fs');
@@ -16,24 +18,24 @@ const { logos } = require('../../logos/final/logos');
 const { setDpi } = require('../paintshop/printful');
 
 const VERSIONS = {
-  scrambled: { name: 'Scrambled', shirts: ['black', 'white'], fg: { toast: '#fbf6ea', halo: '#ffe45c', face: '#0b0b0b', key: '#0b0b0b' }, maps: [
+  scrambled: { name: 'Scrambled', shirts: ['black', 'white'], fg: { toast: '#fbf6ea', top: '#ff3b4a', face: '#0b0b0b', key: '#0b0b0b' }, maps: [
     [[0, '#040a06'], [0.3, '#0f5a1e'], [0.55, '#3fd13a'], [0.8, '#c8ff3c'], [1, '#fffde0']],   // acid green
     [[0, '#0a0010'], [0.3, '#4b0f6e'], [0.55, '#d0207a'], [0.8, '#ff7ab8'], [1, '#fff0f6']],   // magenta
     [[0, '#03030f'], [0.35, '#1a2a8a'], [0.6, '#7a3cff'], [0.85, '#5ff0ff'], [1, '#ffffff']],  // violet
   ] },
-  static: { name: 'Static', shirts: ['black', 'white'], fg: { toast: '#f2f2f2', halo: '#ffffff', face: '#0b0b0b', key: '#0b0b0b' }, maps: [
+  static: { name: 'Static', shirts: ['black', 'white'], fg: { toast: '#f2f2f2', top: '#ffffff', face: '#0b0b0b', key: '#0b0b0b' }, maps: [
     [[0, '#000000'], [0.5, '#7a7a7a'], [1, '#ffffff']],
   ] },
 };
-const DPI = 300, BOX_W = 10.5 * DPI, BOX_H = 12 * DPI;
-const saint = logos.find(l => l.id === 'saint');
+const DPI = 300, ART_W = 11.5 * DPI, ART_H = 12.6 * DPI, MARK_H = 11.5 * DPI, TOP_IN = 1;
+const devil = logos.find(l => l.id === 'little-devil');
 const VB = '38 44 124 144';
 const svg = inner => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VB}" width="__W__" height="__H__">${inner}</svg>`;
 const isToast = p => p.shape.includes('scale(0.78)');
 const MARK = {
-  toast: svg(saint.parts.filter(isToast).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
-  halo: svg(saint.parts.filter(p => !isToast(p)).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
-  det: svg(saint.parts.map(p => (p.detail || '').replace(/#000/g, '#fff')).join('')),
+  toast: svg(devil.parts.filter(isToast).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
+  top: svg(devil.parts.filter(p => !isToast(p)).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
+  det: svg(devil.parts.map(p => (p.detail || '').replace(/#000/g, '#fff')).join('')),
 };
 
 (async () => {
@@ -60,8 +62,9 @@ const MARK = {
       const tears = [], rolls = [], snow = [], jit = [];
       for (let i = 0; i < 7; i++) { const y0 = R() * H, h = (30 + R() * 160) * k; tears.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (60 + R() * 260) * k, (R() - 0.5) * 1.2]); }
       for (let i = 0; i < 2; i++) { const y0 = R() * H, h = (60 + R() * 140) * k; rolls.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (80 + R() * 200) * k]); }
-      for (let i = 0; i < 5; i++) { const y0 = R() * H, h = (4 + R() * 22) * k; snow.push([y0, y0 + h]); }
-      for (let i = 0; i < 4; i++) { const y0 = H * (0.15 + 0.7 * R()), h = (5 + R() * 12) * k; jit.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (12 + R() * 22) * k]); }
+      for (let i = 0; i < 7; i++) { const y0 = R() * H, h = (4 + R() * 24) * k; snow.push([y0, y0 + h]); }
+      for (let i = 0; i < 10; i++) { const y0 = H * (0.08 + 0.84 * R()), h = (5 + R() * 22) * k; jit.push([y0, y0 + h, (R() < 0.5 ? -1 : 1) * (14 + R() * 40) * k]); }
+      const fcb = []; for (let i = 0; i < 3; i++) { const y0 = H * (0.2 + 0.6 * R()), h = (16 + R() * 44) * k; fcb.push([y0, y0 + h, i]); }   // false-color glitch bands on the logo
       const ph = [R() * 6.28, R() * 6.28, R() * 6.28];
       const sample = (sx, sy) => { sx = Math.max(0, Math.min(W - 1, sx | 0)); sy = Math.max(0, Math.min(H - 1, sy | 0)); return L[sy * W + sx]; };
       const CA = 16 * k;   // chroma split
@@ -73,16 +76,18 @@ const MARK = {
         for (const [a, b, off, sl] of tears) if (y >= a && y < b) { tear = off + sl * (y - a); }
         for (const [a, b, r] of rolls) if (y >= a && y < b) sy = y + r;
         for (const [a, b, j] of jit) if (y >= a && y < b) jx = j | 0;
+        let fc = -1; for (const [a, b, m] of fcb) if (y >= a && y < b) fc = m % luts.length;
         dx += tear;
         let isSnow = false; for (const [a, b] of snow) if (y >= a && y < b) isSnow = true;
         const dim = (y % Math.max(3, (6 * k) | 0)) < Math.max(1, (2 * k) | 0) ? 0.74 : 1;   // scan lines
         // frayed screen edges, pushed by the tear
-        const pad = 150 * k, l = pad * (0.15 + 0.5 * edgeJ[y * 2]) + Math.max(0, tear) * 0.5, r = W - pad * (0.15 + 0.5 * edgeJ[y * 2 + 1]) + Math.min(0, tear) * 0.5;
+        const pad = 90 * k, l = pad * (0.15 + 0.5 * edgeJ[y * 2]) + Math.max(0, tear) * 0.5, r = W - pad * (0.15 + 0.5 * edgeJ[y * 2 + 1]) + Math.min(0, tear) * 0.5;
         for (let xx = 0; xx < W; xx++) {
           const i = (y * W + xx) * 4;
           let rr, gg, bb, on = !(xx < l || xx > r);
           const fx = xx - jx, fi = (y * W + fx) * 4;
-          if (F && fx >= 0 && fx < W && F[fi + 3] > 110) { rr = F[fi]; gg = F[fi + 1]; bb = F[fi + 2]; on = true; }
+          if (F && fx >= 0 && fx < W && F[fi + 3] > 110) { rr = F[fi]; gg = F[fi + 1]; bb = F[fi + 2]; on = true;
+            if (fc >= 0) { const v = Math.min(255, ((rr + gg + bb) / 3) | 0) * 4; rr = luts[fc][v]; gg = luts[fc][v + 1]; bb = luts[fc][v + 2]; } }
           else {
             if (!on) { o[i + 3] = 0; continue; }
             const wv = 22 * k * Math.sin(xx * 0.006 / k + y * 0.017 / k + ph[2]);
@@ -97,7 +102,7 @@ const MARK = {
           // static over everything
           const n = R();
           if (isSnow) { const s = n * 255; rr = rr * 0.25 + s * 0.75; gg = gg * 0.25 + s * 0.75; bb = bb * 0.25 + s * 0.75; }
-          else { const g = (n - 0.5) * 70; rr += g; gg += g; bb += g; if (n > 0.99965) { rr = gg = bb = 255; } }
+          else { const g = (n - 0.5) * 84; rr += g; gg += g; bb += g; if (n > 0.99965) { rr = gg = bb = 255; } }
           o[i] = rr * dim; o[i + 1] = gg * dim; o[i + 2] = bb * dim; o[i + 3] = 255;
         }
       }
@@ -119,16 +124,16 @@ const MARK = {
 
   const root = path.join(__dirname, 'files'), sizes = {};
   for (const [vid, v] of Object.entries(VERSIONS)) {
-    const res = await page.evaluate(async ({ v, MARK, BOX_W }) => {
-      const W = BOX_W, H = Math.round(W * 0.92);
-      // the Saint, sharp, in the foreground
-      const mh = H * 0.8, mw = mh * 124 / 144, X = (W - mw) / 2, Y = (H - mh) / 2;
+    const res = await page.evaluate(async ({ v, MARK, ART_W, ART_H, MARK_H }) => {
+      const W = ART_W, H = ART_H;
+      // the Little Devil, sharp, in the foreground, at the normal logo size
+      const mh = MARK_H, mw = mh * 124 / 144, X = (W - mw) / 2, Y = (H - mh) / 2;
       const lay = async (s, sc = 1) => { const i = await loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s.replace('__W__', mw * sc).replace('__H__', mh * sc))); const c = canvas(W, H); c.getContext('2d').drawImage(i, (W - mw * sc) / 2, (H - mh * sc) / 2, mw * sc, mh * sc); return c; };
-      const tC = await lay(MARK.toast), hC = await lay(MARK.halo), dC = await lay(MARK.det);
+      const tC = await lay(MARK.toast), hC = await lay(MARK.top), dC = await lay(MARK.det);
       const sil = canvas(W, H); sil.getContext('2d').drawImage(tC, 0, 0); sil.getContext('2d').drawImage(hC, 0, 0);
-      const fg = foreground(W, H, sil, [[tC, v.fg.toast], [hC, v.fg.halo], [dC, v.fg.face]], v.fg.key, W * 0.004, 1);
+      const fg = foreground(W, H, sil, [[hC, v.fg.top], [dilate(tC, W * 0.006), v.fg.key], [tC, v.fg.toast], [dC, v.fg.face]], v.fg.key, W * 0.006, 1);   // horns behind the toast, keyline between
       // the background: a swirling field with a big scrambled echo of the mark in it
-      const eT = alphaOf(await lay(MARK.toast, 1.3)), eH = alphaOf(await lay(MARK.halo, 1.3));
+      const eT = alphaOf(await lay(MARK.toast, 1.12)), eH = alphaOf(await lay(MARK.top, 1.12));
       const L = new Float32Array(W * H);
       for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
         const i = y * W + x;
@@ -138,7 +143,7 @@ const MARK = {
       }
       const out = scramble(L, W, H, v.maps, 1, 1986, fg);
       return { png: out.toDataURL('image/png'), w: W, h: H };
-    }, { v, MARK, BOX_W });
+    }, { v, MARK, ART_W, ART_H, MARK_H });
     const out = path.join(root, vid); fs.mkdirSync(out, { recursive: true });
     fs.writeFileSync(path.join(out, 'front.png'), setDpi(Buffer.from(res.png.split(',')[1], 'base64'), true));
 
@@ -166,7 +171,7 @@ const MARK = {
   const cells = [];
   for (const [vid, v] of Object.entries(VERSIONS)) for (const sn of v.shirts) {
     const z = sizes[vid].front, [c, collar] = SH[sn];
-    cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE}" fill="${c}"/><path d="M-3.6,0 Q0,6 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${href(path.join(root, vid, 'front.png'))}" x="${-z.wIn / 2}" y="4.5" width="${z.wIn}" height="${z.hIn}"/></svg><figcaption>${v.name} on ${sn} · front · ${z.wIn} × ${z.hIn} in</figcaption></figure>`);
+    cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE}" fill="${c}"/><path d="M-3.6,0 Q0,6 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${href(path.join(root, vid, 'front.png'))}" x="${-z.wIn / 2}" y="${3 + TOP_IN}" width="${z.wIn}" height="${z.hIn}"/></svg><figcaption>${v.name} on ${sn} · front · ${z.wIn} × ${z.hIn} in</figcaption></figure>`);
     cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE.replace('Q0,6', 'Q0,2')}" fill="${c}"/><path d="M-3.6,0 Q0,2 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${href(path.join(root, vid, 'back.png'))}" x="-6" y="3" width="12" height="16"/></svg><figcaption>back</figcaption></figure>`);
     cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><div style="background:${c};padding:14px;width:${33 * PX - 28}px;height:${33.5 * PX - 28}px;display:flex;align-items:center;justify-content:center"><img src="${href(path.join(root, vid, 'front.png'))}" style="max-width:100%;max-height:100%"></div><figcaption>close-up</figcaption></figure>`);
   }

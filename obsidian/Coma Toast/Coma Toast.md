@@ -22,12 +22,12 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | Shirt | Status | Note |
 |---|---|---|
 | PaintShop | v10 files ready for Printful (Hot Wire, Toxic, Riot) | [[PaintShop]] |
-| Benday Logo | Women's final: Saint in Hot Pink, with ` Bread$` back. Men's (blue) waiting on mark pick | [[Benday Logo]] |
+| Benday Logo | Women's final: Saint in Hot Pink, with `$Daily Bread$` back. Men's (blue) waiting on mark pick | [[Benday Logo]] |
 | Argyle and Houndstooth | Argyle v2 (calmer, one outline) and houndstooth v1, Classic / Brand; waiting on pick | [[Argyle and Houndstooth]] |
 | Blurry | v1: Saint in double-vision line art + large DAILY / BREAD block back, 4 colorways × single/double line; waiting on pick | [[Blurry]] |
 | 3D | v1: anaglyph DAILY / BREAD block behind the Saint mark, light and dark shirt versions | [[3D]] |
 | Bones | Rejected | [[Bones]] |
-| Scrambled | v2: sharp Saint over a scrambled 80s cable background, static over all, Scrambled / Static | [[Scrambled]] |
+| Scrambled | v3: sharp Little Devil (horns) at the normal logo size over a scrambled 80s cable background, glitch and static over the logo, Scrambled / Static | [[Scrambled]] |
 | Scanline | Rejected | [[Scanline]] |
 | Retro | Rejected (too obvious) | [[Retro]] |
 | Equalizer | Rejected | [[Equalizer]] |
@@ -36,6 +36,8 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | Desk Tee | Rejected | [[Desk Tee]] |
 | Inside label | Final: DAILY / BREAD in Montserrat outline, tall square block | [[Labels]] |
 | S-Chain | Concept only | Cool S doodle as chain links over soda-can stripes (`tshirts/s-chain/`) |
+## Live store (Esteef.co)
+[esteef.printful.me](https://esteef.printful.me/), checked 2026-10-13. Published: **3D King**, **Stippleton King** and **Stippleton Queen** (the [[Benday Logo]] tee), **Argyle King**, **Blurry King** (all named "<Design> King/Queen ComaToast Logo", from $20; Blurry $25), and **Paint Shop** Toxic, Riot and Hot Wire (from $30). King = men's, Queen = women's.
 
 ## Where things live
 - **GitHub:** `sskrobe/esteef`, branch `claude/clothing-logo-concepts-px7cfu`.
