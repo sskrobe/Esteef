@@ -1,13 +1,13 @@
 ---
 tags: [coma-toast, shirt, equalizer, printful]
 updated: 2026-10-13
-status: v1 samples (2 colorways), waiting on review
+status: rejected
 ---
 # Equalizer
 
 Part of [[Coma Toast]]. A pixel **audio equalizer** of square tiles in a gradient, with **all five Coma Toast marks** (plain, Saint, Little Devil, Heaven Sent, Raising Hell, see [[Logo Marks]]) standing in the bars and showing through the tiles, after a Psycho Bunny equalizer tee. Name is a working title.
 
-- **Status:** v1 made 2026-10-13.
+- **Status:** **rejected** 2026-10-13 (the user didn't like v1). Replaced by [[Retro]]. Files kept for reference.
 - **Local folder:** `G:\ComaToast\Equalizer\`
 - **Repo folder:** `tshirts/equalizer/`
 
@@ -41,7 +41,8 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **10.5 × 6.85 in**, centere
 `node tshirts/equalizer/equalizer.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Bar heights, mark positions and colors are at the top of the script.
 
 ## Change log
+- **2026-10-13 — rejected:** scrapped by the user; replaced by [[Retro]].
 - **2026-10-13 — v1:** first pass had the marks huge and overlapping (one blob) in colors too close to the bars; reworked to smaller, spaced, staggered marks in contrasting colors.
 
 ## Open items
-- [ ] Review; pick a colorway; confirm the name.
+- None (rejected).
