@@ -11,6 +11,12 @@ Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]), larg
 - **Local folder:** `G:\ComaToast\Highlight\`
 - **Repo folder:** `tshirts/highlight/`
 
+## Rainbow back: mashup of all five marks (`mashup.js`)
+The user asked for a back that mashes up all of the logo designs in the rainbow color pattern.
+- **The stickers:** all five marks (plain Coma Toast, Saint, Little Devil, Heaven Sent, Raising Hell), each shaded in the rainbow three-marker style (rainbow light layer, violet medium and dark shadows, bare-paper highlights, rain dashes, a cast shadow on a white sticker matte, pen outlines). Horns and wings sit behind the toast, with the toast shading them; halo marks get the open, cut-through halo. Saved one by one in `files/rainbow-products/stickers/<mark>.png` (about 6 in tall, 300 dpi), handy for other products.
+- **The mashup** (`back-mashup.png`, whole 12 × 16 in back area): 30 stickers from 4 in down to 2.3 in tall, the five marks used equally, turned up to about ±24°, overlapping like a sticker-bombed laptop (biggest first, so smaller ones land on top), all inside the area. `$DAILY BREAD$` sits on top at the bottom right.
+- Works on the tee, long sleeve and hoodie backs. Mockups: `mashup-samples.png`.
+
 ## Rainbow: long sleeves and hoodies (`products.js`)
 The user asked for the Rainbow design on long sleeves, back patterns and hoodies. `products.js` builds a shared set of print files from the Rainbow front (run `shade.js` first), all shaded the same way, in `files/rainbow-products/` (300 dpi, transparent):
 
@@ -19,6 +25,7 @@ The user asked for the Rainbow design on long sleeves, back patterns and hoodies
 | `front.png` | the Rainbow front | 10.16 × 12 in (tee / long sleeve); set it **7.62 × 9 in** on the hoodie |
 | `back-small.png` | standard back: `$DAILY BREAD$` bottom-right | whole 12 × 16 in back area |
 | `back-pattern.png` | "sticker bomb": 25 tossed rainbow toast stickers (1.9 to 3.1 in, turned up to about ±26°, no overlaps), bottom-right corner kept clear for `$DAILY BREAD$` | whole 12 × 16 in back area |
+| `back-mashup.png` | **mashup of all five marks** as overlapping rainbow stickers, `$DAILY BREAD$` on top bottom-right (from `mashup.js`) | whole 12 × 16 in back area |
 | `back-big.png` | one big toast (8.46 × 10 in) on the upper back, top 1 in down, plus `$DAILY BREAD$` bottom-right | whole 12 × 16 in back area |
 | `sleeve-left.png` | a small toast sticker at the shoulder, then **DAILY BREAD** running down the arm | 2.03 × 14.92 in |
 | `sleeve-right.png` | the same with **COMA TOAST** | 2.03 × 15.01 in |
@@ -84,6 +91,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 `node tshirts/highlight/highlight.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Highlighter colors, zones, stroke width and passes are in the script; change the seed (1219) for a different stroke layout.
 
 ## Change log
+- **2026-10-13 — Rainbow mashup back:** all five marks as shaded rainbow stickers, overlapped across the back; individual sticker files too.
 - **2026-10-13 — Rainbow products:** long sleeve and hoodie files (sleeve prints, sticker-pattern back, big-toast back, hoodie front size); clean pen outline on all text.
 - **2026-10-13 — v3.1:** all of Blue, Pink, Rainbow go forward, plus Mint, Lavender, Tangerine; transparent oval cut through the halo with a shaded inner edge.
 - **2026-10-13 — v3:** three-marker light and shadow (light / medium / dark layers of one color family, light from the halo, cast shadows), on the sticker matte; Blue, Pink and Rainbow colorways. The small white gaps where marker strokes meet ("rain dashes") are kept on purpose: the user likes them (a solid-fill variant was tried and dropped).
