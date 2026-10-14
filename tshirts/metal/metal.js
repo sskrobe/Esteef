@@ -2,8 +2,8 @@
 // The tiny type (rows of COMA TOAST ✕ DAILY BREAD ✕ in a blackletter face) fills the art box: dark gray outside the
 // mark, blood red inside the toast, so the mark is drawn by the change in color of the text; it fades out toward the
 // box edges (the subtle-background technique), with a clean gap kept around the outline. The halo is solid bone with
-// thorn spikes all around it; blood drips hang from the bottom of the toast; a metal-band style COMA TOAST wordmark
-// (Metal Mania) sits underneath, bone white with a red drop.
+// thorn spikes all around it; blood drips hang from the bottom of the toast. (v1 had a big COMA TOAST band wordmark
+// under the mark; dropped in v2 as too much.)
 // Colorways: blood (red text inside, red drips and drop) and ash (all grays and bone).
 // Back: $DAILY BREAD$ in the band font, bone with the red (or gray) drop, bottom-right of the 12 x 16 in back area.
 // Size and placement (chest standard, Bella+Canvas 3001): fits a 10.5 x 12 in box, centered, top 1.5 in below the
@@ -53,11 +53,11 @@ const SVGS = cw => ({
   const root = path.join(__dirname, 'files'), sizes = {};
   for (const [cid, cw] of Object.entries(COLORWAYS)) {
     const res = await page.evaluate(async ({ cw, S, VB, TEXT, BOX_W, BOX_H }) => {
-      const IN = 300, W = BOX_W, H = BOX_H;
+      const IN = 300, W = BOX_W, H = Math.round(10.7 * IN);   // the mark plus a margin of text wall all around
       const canvas = (w, h) => { const c = document.createElement('canvas'); c.width = Math.ceil(w); c.height = Math.ceil(h); return c; };
       const load = s => new Promise(ok => { const i = new Image(); i.onload = () => ok(i); i.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s); });
-      // the mark: 9.4 in tall, centered, near the top; the wordmark goes under it
-      const MH = 9.4 * IN, MW = MH * VB[2] / VB[3], MX = (W - MW) / 2, MY = 0.05 * IN;
+      // the mark: 9.4 in tall, centered, with the text wall around it
+      const MH = 9.4 * IN, MW = MH * VB[2] / VB[3], MX = (W - MW) / 2, MY = 0.65 * IN;
       const lay = async s => { const c = canvas(W, H); c.getContext('2d').drawImage(await load(s.replace('__W__', MW).replace('__H__', MH)), MX, MY, MW, MH); return c; };
       const sil = await lay(S.sil), toast = await lay(S.toast), gap = await lay(S.gap), art = await lay(S.art);
       // the text wall: rows over the whole box; outside the mark it fades out toward the edges (word by word)
@@ -79,13 +79,6 @@ const SVGS = cw => ({
       // a clean gap around every line, then the bone line art, halo, spikes and drips
       o.globalCompositeOperation = 'destination-out'; o.drawImage(gap, 0, 0); o.globalCompositeOperation = 'source-over';
       o.drawImage(art, 0, 0);
-      // the wordmark under the mark: band-logo style, bone with a red drop
-      const wm = 'COMA TOAST', wy = MY + MH + 1.25 * IN; o.font = '100px "Metal Mania"'; const k = (W * 0.86) / o.measureText(wm).width; o.font = (100 * k) + 'px "Metal Mania"'; o.textAlign = 'center';
-      o.lineJoin = 'round';
-      // keep the wall clear behind it
-      o.globalCompositeOperation = 'destination-out'; o.strokeStyle = '#000'; o.lineWidth = 0.18 * IN; o.strokeText(wm, W / 2, wy); o.fillText(wm, W / 2, wy); o.strokeText(wm, W / 2 + 0.07 * IN, wy + 0.07 * IN); o.globalCompositeOperation = 'source-over';
-      o.fillStyle = cw.drop; o.fillText(wm, W / 2 + 0.07 * IN, wy + 0.07 * IN);
-      o.fillStyle = cw.bone; o.fillText(wm, W / 2, wy);
       // trim, fit the box, no partial transparency
       const d0 = o.getImageData(0, 0, W, H); for (let i = 3; i < d0.data.length; i += 4) d0.data[i] = d0.data[i] > 110 ? 255 : 0; o.putImageData(d0, 0, 0);
       let x0 = W, y0 = H, x1 = 0, y1 = 0; for (let y = 0; y < H; y += 2) for (let x = 0; x < W; x += 2) if (d0.data[(y * W + x) * 4 + 3]) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
