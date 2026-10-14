@@ -47,6 +47,8 @@ Clothing brand workspace (t-shirts and sweatshirts to start).
 
 - `tshirts/benday-logo/` is the Benday Logo tee: a single chest graphic, the official mark in bold comic inking on a rough blue Ben-Day stipple paint swatch (black, white, blue), on a transparent background. `files/` has a 300 dpi PNG and an SVG per mark (sized to a 10.5 x 12 in box, placed 1.5 in below the collar) and `benday-logo-samples.png` shows all five at true scale. `files/back-daily-bread.png` is the 12 x 16 in back print with ` Bread$` in the bottom-right corner in the same style. Re-render with `node tshirts/benday-logo/make.js`, `back.js`, then `mockup.js` (needs Playwright). The women's version (Bella+Canvas 6400, Hot Pink / Blush / Lilac) is in `women/<palette>/`: `node tshirts/benday-logo/women.js` then `mockup-women.js`.
 
+- `tshirts/3d/` is 3D: the red/blue 3D-movie look, a stacked DAILY / BREAD block in offset red and cyan behind the solid Saint mark, in light- and dark-shirt versions, with a matching ` BREAD$` back. Re-render with `node tshirts/3d/3d.js` (needs Playwright).
+
 - `tshirts/blurry/` is Blurry: the Saint mark as double-vision line art (two off-register copies, overlap color where they cross) in Anaglyph, Brand and Mono colorways, single or double line, with a matching ` BREAD$` back. Re-render with `node tshirts/blurry/blurry.js` (needs Playwright).
 
 - `tshirts/patterns/` holds Argyle and Houndstooth: the Saint mark with its face filled with an argyle or a (true woven) houndstooth pattern, Classic and Brand colorways, with a Bodoni ` Bread$` back over a pattern tape. Re-render with `node tshirts/patterns/patterns.js` (needs Playwright).

@@ -25,6 +25,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | Benday Logo | Women's final: Saint in Hot Pink, with ` Bread$` back. Men's (blue) waiting on mark pick | [[Benday Logo]] |
 | Argyle and Houndstooth | Argyle v2 (calmer, one outline) and houndstooth v1, Classic / Brand; waiting on pick | [[Argyle and Houndstooth]] |
 | Blurry | v1: Saint in double-vision line art + large DAILY / BREAD block back, 4 colorways × single/double line; waiting on pick | [[Blurry]] |
+| 3D | v1: anaglyph DAILY / BREAD block behind the Saint mark, light and dark shirt versions | [[3D]] |
 | Looney | Rejected | [[Looney]] |
 | Store logo (Esteef.co) | v1: mark / halo / tagline options; waiting on pick | [[Store Logo]] |
 | Desk Tee | Rejected | [[Desk Tee]] |
