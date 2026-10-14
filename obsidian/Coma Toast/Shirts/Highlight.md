@@ -11,6 +11,16 @@ Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]), larg
 - **Local folder:** `G:\ComaToast\Highlight\`
 - **Repo folder:** `tshirts/highlight/`
 
+## Sticker-pattern back: subtle background options (`backgrounds.js`)
+The user likes the tossed rainbow Saint sticker back (`back-pattern.png`) on the hoodie but wants a little something behind it to dress it up: not solid colors, something subtle like a pattern or texture. Six options, each in dark muted tones (reads as texture on a black shirt), filling a panel inset 0.35 in from the print area and fading out over about 1.6 in toward its edge (by shrinking or thinning out), so there is no hard rectangle. Files: `files/rainbow-products/back-pattern-<option>.png` (whole 12 × 16 in back area). Mockups: `backgrounds-samples.png`.
+1. **Halftone** (`halftone`): a 45° dot screen in dark violet `#43376a`; the dots shrink toward the edges and gently swell and shrink across the panel. The most visible of the six.
+2. **Pen hatch** (`hatch`): scattered clusters of fine-liner hatching in slate `#3d3e52`, like the pen work in the stickers.
+3. **Rain dashes** (`rain`): scattered short marker dashes on the marker diagonal, in dark pink, teal, gold and violet; echoes the rain dashes.
+4. **Face icons** (`icons`): tone-on-tone repeat of tiny halos, X eyes and heartbeat squiggles in slate.
+5. **Sparkles** (`sparkle`): scattered four-point sparkles and dots in dim gold `#6b582b` and violet; heavenly.
+6. **Tiny type** (`type`): rows of tiny COMA TOAST · DAILY BREAD (Montserrat Bold) in slate, on an angle.
+- Dark ink on a black shirt prints a touch darker than it looks on screen; the colors were brightened one notch so they stay visible but quiet.
+
 ## Mashup back v2 (current): mixed colors on a highlighter background
 Feedback on v1: mix up the colors (not all rainbow); fewer stickers so each reads better, but still busy; a background of wide, overlapping highlighter swipes (color bands and variances), stylish, covering the entire print area; make the stickers pop off the background.
 - **Stickers:** 16 (2.5 to 3.9 in tall), all five marks used, each in one of the six colorways (Blue, Pink, Rainbow, Mint, Lavender, Tangerine) so every mark/color pair is different. Files: `stickers/<mark>-<colorway>.png`.
@@ -98,6 +108,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 `node tshirts/highlight/highlight.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Highlighter colors, zones, stroke width and passes are in the script; change the seed (1219) for a different stroke layout.
 
 ## Change log
+- **2026-10-13 — sticker-pattern back options:** six subtle background textures (halftone, pen hatch, rain dashes, face icons, sparkles, tiny type) behind the tossed sticker back.
 - **2026-10-13 — mashup v2.1:** background pulled in from the edges with ragged, bleeding swipe ends (organic on the shirt) instead of a full crisp rectangle.
 - **2026-10-13 — mashup v2:** mixed colorways, 16 stickers instead of 30, a full-area wide-highlighter-swipe background, dark matte edges and drop shadows so the stickers pop.
 - **2026-10-13 — Rainbow mashup back:** all five marks as shaded rainbow stickers, overlapped across the back; individual sticker files too.
@@ -110,6 +121,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 ## Open items
 - [ ] Set up the six colorways in Printful.
 - [ ] Set up the Rainbow long sleeve and hoodie in Printful (pick the back option).
+- [ ] Pick a background texture for the sticker-pattern back (1–6).
 - [ ] Pick the shirt color(s) to offer (recommended: black).
 - [ ] Set up in Printful as "Highlight King ComaToast Logo".
 - [ ] Women's (Queen) version?
