@@ -2,8 +2,9 @@
 // shaded marker stickers in MIXED colorways (Blue, Pink, Rainbow, Mint, Lavender, Tangerine: three-marker light /
 // medium / dark layers, light from the upper left, bare-paper highlights, rain dashes, cast shadow on a white matte,
 // pen outlines, open halos), about 20 of them overlapped across the back, over a BACKGROUND of wide highlighter swipes
-// that covers the whole 12 x 16 in area (overlapping diagonal bands, so the crossings make new color bands, plus a few
-// crossing accents). To pop off the background, each sticker has a dark edge around its white matte and a soft drop
+// in a panel inset about 0.6 in from the 12 x 16 in print area, its swipe ends stopping short of or bleeding past the
+// panel edge so the edge is ragged and organic (overlapping diagonal bands, so the crossings make new color bands, plus
+// a few crossing accents). To pop off the background, each sticker has a dark edge around its white matte and a soft drop
 // shadow. $DAILY BREAD$ on top at the bottom right.
 // Reuses the marker helpers from shade.js (run shade.js and products.js first).
 // Outputs: files/rainbow-products/back-mashup.png and stickers/<mark>-<colorway>.png; mashup-samples.png.
@@ -25,7 +26,7 @@ const COLORWAYS = {
 };
 const CW = COLORWAYS.rainbow;   // the $DAILY BREAD$ tag
 // background: wide highlighter swipes
-const BG = { colors: ['#ff4fa3', '#ffe23d', '#ff9a3c', '#3fd8ec', '#a98bff'], w: 1.3, angle: -0.38, seed: 404 };
+const BG = { colors: ['#ff4fa3', '#ffe23d', '#ff9a3c', '#3fd8ec', '#a98bff'], w: 1.3, angle: -0.38, margin: 0.6, seed: 404 };   // margin: the swipe panel's inset from the print-area edges (in)
 const IDS = ['plain', 'saint', 'little-devil', 'heaven-sent', 'raising-hell'];
 const CWIDS = ['blue', 'pink', 'rainbow', 'mint', 'lavender', 'tangerine'];
 // sticker i: mark i mod 5, colorway i mod 6 (so the pairs keep changing)
@@ -144,31 +145,47 @@ const href = p => 'file:///' + p.replace(/\\/g, '/');
       }
       placed.push({ id, cx: best.cx, cy: best.cy, w, h, rot, r: Math.min(w, h) / 2 });
     }
-    // BACKGROUND: wide highlighter swipes over the whole area. Lanes on one diagonal, closer together than a swipe is
-    // wide, so neighbors overlap in darker bands; the swipes are multiplied (ink on paper); small gaps where swipes meet
-    // leave rain dashes. Then a few crossing swipes for variance.
-    const c = canvas(AW, AH), x = c.getContext('2d'); x.fillStyle = '#ffffff'; x.fillRect(0, 0, AW, AH);
-    { const RB = rng(BG.seed), w = BG.w * IN, D = Math.hypot(AW, AH);
+    // BACKGROUND: wide highlighter swipes in a panel inset from the print-area edges. Lanes on one diagonal, closer
+    // together than a swipe is wide, so neighbors overlap in darker bands; the swipes are multiplied (ink on paper).
+    // Each lane runs to the panel edge give or take: its ends stop a little short or bleed a little past it, chisel
+    // tips showing, so the edge is ragged and organic, not a cut rectangle. Gaps where swipes meet (rain dashes) and
+    // everything outside the swipes are left open, so the shirt shows. Then a few crossing swipes for variance.
+    const col = canvas(AW, AH), cx2 = col.getContext('2d'); cx2.fillStyle = '#ffffff'; cx2.fillRect(0, 0, AW, AH);
+    const mask = canvas(AW, AH), mx2 = mask.getContext('2d');
+    { const RB = rng(BG.seed), w = BG.w * IN, D = Math.hypot(AW, AH), M = BG.margin * IN;
       const pass = (ang, gap, keep, alpha, cols) => { const ux = Math.cos(ang), uy = Math.sin(ang), nx = -uy, ny = ux; let last = -1;
         for (let s = -D / 2; s < D / 2; s += w * gap) { let ci; do { ci = (RB() * cols.length) | 0; } while (ci === last && cols.length > 1); last = ci;
-          if (RB() > keep) continue; let p = -D / 2 - RB() * w * 3;
-          while (p < D / 2) { const l = (3 + RB() * 6) * IN, a = [AW / 2 + nx * s + ux * p, AH / 2 + ny * s + uy * p], b = [a[0] + ux * l, a[1] + uy * l];
-            x.save(); x.globalCompositeOperation = 'multiply'; marker(x, a[0], a[1], b[0], b[1], w * (0.92 + RB() * 0.16), cols[RB() < 0.15 ? (RB() * cols.length) | 0 : ci], RB, alpha * (0.85 + RB() * 0.3)); x.restore();
+          if (RB() > keep) continue;
+          // where this lane crosses the inset panel
+          const ox = AW / 2 + nx * s, oy = AH / 2 + ny * s; let t0 = -Infinity, t1 = Infinity;
+          for (const [o, u, lo, hi] of [[ox, ux, M, AW - M], [oy, uy, M, AH - M]]) {
+            if (Math.abs(u) < 1e-9) { if (o < lo || o > hi) { t0 = 1; t1 = 0; } continue; }
+            const ta = (lo - o) / u, tb = (hi - o) / u; t0 = Math.max(t0, Math.min(ta, tb)); t1 = Math.min(t1, Math.max(ta, tb)); }
+          if (t1 - t0 < w * 0.6) continue;
+          const bleed = () => (-0.25 + RB() * 0.8) * IN;   // stop short (up to 0.25 in) or bleed past (up to 0.55 in)
+          let p = t0 - bleed(); const end = t1 + bleed();
+          while (p < end - w * 0.3) { const l = Math.min((3 + RB() * 6) * IN, end - p), sd = (RB() * 1e9) | 0;
+            const A = [ox + ux * p, oy + uy * p], B = [A[0] + ux * l, A[1] + uy * l], k = w * (0.92 + RB() * 0.16), cc = cols[RB() < 0.15 ? (RB() * cols.length) | 0 : ci], al = alpha * (0.85 + RB() * 0.3);
+            cx2.save(); cx2.globalCompositeOperation = 'multiply'; marker(cx2, A[0], A[1], B[0], B[1], k, cc, rng(sd), al); cx2.restore();
+            marker(mx2, A[0], A[1], B[0], B[1], k, '#ffffff', rng(sd), 1);
             p += l - w * 0.22; } } };
       pass(BG.angle, 0.64, 1, 0.62, BG.colors);
       pass(BG.angle + 1.25, 1.9, 0.3, 0.36, BG.colors); }
+    hard(mask);
+    const c = and(col, mask), x = c.getContext('2d'); x.globalCompositeOperation = 'source-over';   // and() leaves its canvas in destination-in mode
     x.imageSmoothingQuality = 'high';
-    // stickers: soft drop shadow first, then the sticker
+    // stickers: soft drop shadow first (only where there is already art under it, so it never prints on bare shirt),
+    // then the sticker
     const shadowOf = img => { const t = canvas(img.width, img.height), tx = t.getContext('2d'); tx.drawImage(img, 0, 0); tx.globalCompositeOperation = 'source-in'; tx.fillStyle = '#1b1030'; tx.fillRect(0, 0, t.width, t.height); return t; };
     const shadows = {}; for (const k of Object.keys(imgs)) shadows[k] = shadowOf(imgs[k]);
     for (const q of placed) {
-      x.save(); x.translate(q.cx + 0.08 * IN, q.cy + 0.12 * IN); x.rotate(q.rot); x.filter = 'blur(' + (0.05 * IN) + 'px)'; x.globalAlpha = 0.55; x.drawImage(shadows[q.id], -q.w / 2, -q.h / 2, q.w, q.h); x.restore();
+      x.save(); x.globalCompositeOperation = 'source-atop'; x.translate(q.cx + 0.08 * IN, q.cy + 0.12 * IN); x.rotate(q.rot); x.filter = 'blur(' + (0.05 * IN) + 'px)'; x.globalAlpha = 0.55; x.drawImage(shadows[q.id], -q.w / 2, -q.h / 2, q.w, q.h); x.restore();
       x.save(); x.translate(q.cx, q.cy); x.rotate(q.rot); x.drawImage(imgs[q.id], -q.w / 2, -q.h / 2, q.w, q.h); x.restore();
     }
     { const tx0 = AW - INSET - tagT.width, ty0 = AH - INSET - tagT.height, sh = shadowOf(tagT);
-      x.save(); x.filter = 'blur(' + (0.04 * IN) + 'px)'; x.globalAlpha = 0.55; x.drawImage(sh, tx0 + 0.06 * IN, ty0 + 0.09 * IN); x.restore();
+      x.save(); x.globalCompositeOperation = 'source-atop'; x.filter = 'blur(' + (0.04 * IN) + 'px)'; x.globalAlpha = 0.55; x.drawImage(sh, tx0 + 0.06 * IN, ty0 + 0.09 * IN); x.restore();
       x.drawImage(tagT, tx0, ty0); }
-    { const d = x.getImageData(0, 0, AW, AH); for (let i = 3; i < d.data.length; i += 4) d.data[i] = 255; x.putImageData(d, 0, 0); }   // fully opaque (DTG)
+    hard(c);   // no partial transparency (DTG)
     return { png: c.toDataURL('image/png'), count: placed.length };
   }, { stickers, PLAN, MASH, HL, CW, BG });
   fs.writeFileSync(path.join(out, 'back-mashup.png'), setDpi(Buffer.from(back.png.split(',')[1], 'base64'), true));

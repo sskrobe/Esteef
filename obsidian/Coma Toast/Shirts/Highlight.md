@@ -16,7 +16,7 @@ Feedback on v1: mix up the colors (not all rainbow); fewer stickers so each read
 - **Stickers:** 16 (2.5 to 3.9 in tall), all five marks used, each in one of the six colorways (Blue, Pink, Rainbow, Mint, Lavender, Tangerine) so every mark/color pair is different. Files: `stickers/<mark>-<colorway>.png`.
 - **Background:** wide (1.3 in) highlighter swipes covering the whole 12 × 16 in area: diagonal lanes closer together than a swipe is wide, so neighbors overlap into darker color bands (multiplied like ink), rain dashes where swipes meet, plus a few crossing swipes for variance. Colors: hot pink `#ff4fa3`, yellow `#ffe23d`, orange `#ff9a3c`, aqua `#3fd8ec`, violet `#a98bff`.
 - **Pop:** each sticker (and the `$DAILY BREAD$` tag) has a dark edge around its white matte and a soft drop shadow down and to the right.
-- The print is now a full, opaque 12 × 16 in rectangle (the background fills the whole back print area).
+- **Organic edge (v2.1):** the swipe panel is inset about 0.6 in from the print-area edges, and each swipe stops a little short of or bleeds up to about 0.55 in past the panel edge with its chisel tip showing, so the edge is ragged, not a cut rectangle. The shirt shows around the panel and through the rain-dash gaps. Drop shadows only print over art (never on bare shirt); no partial transparency.
 
 ## Rainbow back: mashup of all five marks (`mashup.js`, v1)
 The user asked for a back that mashes up all of the logo designs in the rainbow color pattern.
@@ -98,6 +98,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 `node tshirts/highlight/highlight.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Highlighter colors, zones, stroke width and passes are in the script; change the seed (1219) for a different stroke layout.
 
 ## Change log
+- **2026-10-13 — mashup v2.1:** background pulled in from the edges with ragged, bleeding swipe ends (organic on the shirt) instead of a full crisp rectangle.
 - **2026-10-13 — mashup v2:** mixed colorways, 16 stickers instead of 30, a full-area wide-highlighter-swipe background, dark matte edges and drop shadows so the stickers pop.
 - **2026-10-13 — Rainbow mashup back:** all five marks as shaded rainbow stickers, overlapped across the back; individual sticker files too.
 - **2026-10-13 — Rainbow products:** long sleeve and hoodie files (sleeve prints, sticker-pattern back, big-toast back, hoodie front size); clean pen outline on all text.
