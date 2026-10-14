@@ -1,7 +1,7 @@
 ---
 tags: [coma-toast, shirt, highlight, printful]
 updated: 2026-10-13
-status: v3 (three-marker shading), waiting on pick
+status: v3.1 (all six colorways go forward, open halo)
 ---
 # Highlight
 
@@ -10,6 +10,12 @@ Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]), larg
 - **Status:** v1 approved 2026-10-13 ("i like this one!"); v2 adds a matte for dark shirts in two styles, waiting on the pick.
 - **Local folder:** `G:\ComaToast\Highlight\`
 - **Repo folder:** `tshirts/highlight/`
+
+## v3.1 (current): six colorways, open halo
+Feedback on v3: keep all three colorways plus three more; cut a little transparent oval inside the halo so the background comes through, keeping the 3D look.
+- **Colorways (all go forward):** Blue, Pink, Rainbow, plus **Mint** (`#c8f5df` / `#6fd6a8` / `#23926a`), **Lavender** (`#e3d6ff` / `#b294f5` / `#6a45c4`) and **Tangerine** (`#ffdcb8` / `#ffa45a` / `#dc5f16`). Files in `files/shade-<colorway>/`.
+- **Open halo:** a transparent oval is cut through the halo's center, keeping a thin (0.1 in) white matte rim inside it. To keep it 3D, the ring's back inner edge (just above the opening) gets the medium and dark layers, and the halo shades the top of that inner rim.
+- Sample sheet `shade-samples.png`: each colorway front and back on a black shirt, plus close-ups on black and white.
 
 ## v3: three-marker light and shadow (`shade.js`)
 The user shared a marker tutorial ("Easiest Light and Shadows Tutorial With THREE Markers", Katie's Color Therapy) for the style they want: **layers of one color family build the shadows**. The technique: a light marker over everything (bare paper left where the light hits), a medium marker over the shadow areas, the darkest marker only in the deepest shadows, with flat, hard-edged cast shadows all falling the same way.
@@ -59,12 +65,13 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 `node tshirts/highlight/highlight.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Highlighter colors, zones, stroke width and passes are in the script; change the seed (1219) for a different stroke layout.
 
 ## Change log
+- **2026-10-13 — v3.1:** all of Blue, Pink, Rainbow go forward, plus Mint, Lavender, Tangerine; transparent oval cut through the halo with a shaded inner edge.
 - **2026-10-13 — v3:** three-marker light and shadow (light / medium / dark layers of one color family, light from the halo, cast shadows), on the sticker matte; Blue, Pink and Rainbow colorways. The small white gaps where marker strokes meet ("rain dashes") are kept on purpose: the user likes them (a solid-fill variant was tried and dropped).
 - **2026-10-13 — v2:** matte for dark shirts in two styles (sticker: color trimmed to just past the lines on a die-cut white matte; page: a torn-edge sketchbook page with a paler wash across it); back on a paper matte, pen outline fixed.
 - **2026-10-13 — v1:** first pass (many short strokes in three directions) read as confetti and spiked too far past the outline; reworked into edge-to-edge parallel lanes with partial crossing passes, a paper base, and a clean halo center.
 
 ## Open items
-- [ ] Pick v3 colorway (Blue / Pink / Rainbow), or v2 sticker / page.
+- [ ] Set up the six colorways in Printful.
 - [ ] Pick the shirt color(s) to offer (recommended: black).
 - [ ] Set up in Printful as "Highlight King ComaToast Logo".
 - [ ] Women's (Queen) version?

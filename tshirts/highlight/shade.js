@@ -10,7 +10,9 @@
 //   - the toast's cast shadow on the white sticker matte (it makes the mark stand up off the shirt).
 // Each layer is a flat marker fill with visible stroke streaks, multiplied over the layer below (ink on paper).
 // Black fine-liner pen line art on top. Sticker matte (white, 0.3 in border) for dark shirts.
-// Colorways: blue (like the video), pink, rainbow (the v1 highlighter colors as the base, violet shadow layers).
+// Colorways: blue (like the video), pink, rainbow (the v1 highlighter colors as the base, violet shadow layers), mint,
+// lavender, tangerine. A transparent oval is cut through the halo's center (a thin matte rim kept inside it); the ring's
+// back inner edge is shaded and the halo shades the top of that rim, so it still reads as a 3D ring.
 // Back: $DAILY BREAD$ shaded the same way on a small matte, bottom-right of the 12 x 16 in back area.
 // Size and placement (chest standard): fits a 10.5 x 12 in box, centered, top 1.5 in below the collar seam.
 // Outputs: files/shade-<colorway>/front.png, back.png; shade-samples.png.
@@ -25,6 +27,9 @@ const COLORWAYS = {
   blue: { name: 'Blue', light: '#bfe3f7', mid: '#74b4e3', dark: '#2f6fb3', cast: '#cfe3f2' },
   pink: { name: 'Pink', light: '#ffd3e6', mid: '#ff92c0', dark: '#d9467f', cast: '#f6d9e6' },
   rainbow: { name: 'Rainbow', rainbow: true, mid: '#c9b6ff', dark: '#8b6fe0', cast: '#e2dcf5' },
+  mint: { name: 'Mint', light: '#c8f5df', mid: '#6fd6a8', dark: '#23926a', cast: '#d6efe3' },
+  lavender: { name: 'Lavender', light: '#e3d6ff', mid: '#b294f5', dark: '#6a45c4', cast: '#e6dff5' },
+  tangerine: { name: 'Tangerine', light: '#ffdcb8', mid: '#ffa45a', dark: '#dc5f16', cast: '#f6e2cf' },
 };
 const HL = { pink: '#ff6eb4', orange: '#ffa24a', yellow: '#ffec4a', cyan: '#55dcf0', blue: '#6aa8ff', purple: '#b388ff' };
 const ZONES = [['yellow', 'orange'], ['pink', 'orange'], ['orange', 'yellow', 'pink'], ['cyan', 'blue', 'purple']];
@@ -42,6 +47,7 @@ const SVGS = {
   halo: svg(`<g fill="#fff">${haloPart.shape}</g>`),
   crumb: svg(`${TG}<path d="${crustD}" fill="#fff"/></g>`),   // inside the crust line
   face: svg(toastPart.detail.replace(crustRe, '').replace(/#000/g, '#fff')),   // X eyes and mouth
+  haloFull: svg('<g fill="#fff">' + haloPart.shape.replace(/fill-rule="evenodd"/g, '') + '</g>'),
 };
 const outline = (w, extra = '') => saint.parts.map(p => `<g fill="none" stroke="${INK}" stroke-width="${isToast(p) ? w / 0.78 : w}" stroke-linejoin="round" ${extra}>${p.shape.replace(/fill-rule="evenodd"/g, '')}</g>`).join('');
 const DETAIL = saint.parts.map(p => (p.detail || '').replace(/stroke="#000"/g, `stroke="${INK}"`).replace(/stroke-width="([\d.]+)"/g, (m, n) => `stroke-width="${(n * 0.62).toFixed(2)}"`)).join('');
@@ -95,7 +101,7 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
       const IN = 300, MH = 13.2 * IN, MW = MH * 140 / 160, PM = 0.7 * IN, W = Math.ceil(MW + 2 * PM), H = Math.ceil(MH + 2 * PM), R = rng(2024);
       const place = async s => { const i = await loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s.replace('__W__', MW).replace('__H__', MH)));
         const c = canvas(W, H); c.getContext('2d').drawImage(i, PM, PM, MW, MH); return hard(c); };
-      const toast = await place(SVGS.toast), halo = await place(SVGS.halo), crumb = await place(SVGS.crumb), face = await place(SVGS.face);
+      const haloFull = await place(SVGS.haloFull), toast = await place(SVGS.toast), halo = await place(SVGS.halo), crumb = await place(SVGS.crumb), face = await place(SVGS.face);
       const sil = or(toast, halo);
       // light from the upper left: shadows fall along v (down and to the right)
       const vx = 0.62, vy = 0.78, sh = d => [vx * d * IN, vy * d * IN];
@@ -103,6 +109,10 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
       const toward = (m, d) => { const [dx, dy] = sh(d); return minus(m, shift(m, dx, dy)); };  // band along the edges facing the light
       const cast = (m, d) => { const [dx, dy] = sh(d); return shift(m, dx, dy); };
       const rim = minus(toast, crumb);
+      const hole = minus(haloFull, halo);
+      const shrink = (m, r) => { const inv = canvas(W, H), ix = inv.getContext('2d'); ix.fillStyle = '#fff'; ix.fillRect(0, 0, W, H); ix.globalCompositeOperation = 'destination-out'; ix.drawImage(m, 0, 0); return minus(m, grow(inv, r)); };
+      const holeCut = shrink(hole, 0.1 * IN), holeRim = minus(hole, holeCut);
+      const down = (m, d) => shift(m, 0, -d * IN);   // p is in down(m, d) when the point d below p is in m
       // highlight: bare paper along the lit edges of the crust rim and the halo
       const highlight = or(and(toward(toast, 0.13), rim), toward(halo, 0.06));
       // medium shadows
@@ -111,12 +121,14 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
         and(toward(crumb, 0.42), crumb),           // the rim shading the inside of the slice
         away(halo, 0.16),                          // the halo's own shadow side
         and(minus(cast(halo, 1.25), halo), toast), // the halo's cast shadow on the toast
+        and(down(hole, 0.16), halo),               // the ring's back inner edge, seen through the hole
       );
       // darkest shadows
       const dark = or(
         away(toast, 0.3),
         and(toward(crumb, 0.13), crumb),
         and(minus(cast(face, 0.11), face), toast), // under the X eyes and the mouth
+        and(down(hole, 0.055), halo),              // the deepest part of that inner edge
       );
       // paper: the sticker matte, grown around the mark and its cast shadow on the matte
       const castOnMatte = minus(cast(sil, 0.32), sil);
@@ -128,11 +140,14 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
       const w = 0.42 * IN;
       layer(paper, minus(sil, highlight), cw.rainbow ? zone : () => cw.light, R, -0.62, w);
       layer(paper, castOnMatte, () => cw.cast, R, -0.62, w);
+      layer(paper, and(shift(halo, 0, 0.12 * IN), holeRim), () => cw.cast, R, -0.62, w);   // the halo shading the top of the inner rim
       layer(paper, mid, () => cw.mid, R, -0.62, w);
       layer(paper, dark, () => cw.dark, R, -0.62, w * 0.8);
       // pen line art on top
       const pen = canvas(W, H); { const i = await loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(SVGS.pen.replace('__W__', MW).replace('__H__', MH))); pen.getContext('2d').drawImage(i, PM, PM, MW, MH); }
       p.drawImage(pen, 0, 0);
+      // cut the oval through: the shirt shows inside the halo
+      p.globalCompositeOperation = 'destination-out'; p.drawImage(holeCut, 0, 0); p.globalCompositeOperation = 'source-over';
       const art = trim(paper), f = Math.min(BOX_W / art.width, BOX_H / art.height), r = canvas(Math.round(art.width * f), Math.round(art.height * f));
       const rx = r.getContext('2d'); rx.imageSmoothingQuality = 'high'; rx.drawImage(art, 0, 0, r.width, r.height); hard(r);
       return { png: r.toDataURL('image/png'), w: r.width, h: r.height };
@@ -169,17 +184,17 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
   // Sheet: each colorway, front and back on black and white shirts (size L, true scale), plus a close-up.
   const PX = 13, href = p => 'file:///' + p.replace(/\\/g, '/');
   const TEE = 'M-3.6,0 L-9.8,1.2 L-15.6,7.6 L-12.6,10.8 L-11,9.3 L-11,30 L11,30 L11,9.3 L12.6,10.8 L15.6,7.6 L9.8,1.2 L3.6,0 Q0,6 -3.6,0 Z';
-  const SH = { black: ['#17171a', '#26262a'], white: ['#f7f7f5', '#e4e4e2'] };
-  const cells = [];
-  for (const [cid, cw] of Object.entries(COLORWAYS)) for (const [sn, [c, collar]] of Object.entries(SH)) {
+  const cells = [], fig = (inner, cap) => `<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333">${inner}<figcaption>${cap}</figcaption></figure>`;
+  const BK = '#17171a', BKC = '#26262a';
+  for (const [cid, cw] of Object.entries(COLORWAYS)) {
     const z = sizes[cid].front, fp = href(path.join(root, 'shade-' + cid, 'front.png')), bp = href(path.join(root, 'shade-' + cid, 'back.png'));
-    cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE}" fill="${c}"/><path d="M-3.6,0 Q0,6 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${fp}" x="${-z.wIn / 2}" y="4.5" width="${z.wIn}" height="${z.hIn}"/></svg><figcaption>${cw.name} on ${sn} · front · ${z.wIn} × ${z.hIn} in</figcaption></figure>`);
-    cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE.replace('Q0,6', 'Q0,2')}" fill="${c}"/><path d="M-3.6,0 Q0,2 3.6,0" fill="none" stroke="${collar}" stroke-width="0.75"/><image href="${bp}" x="-6" y="3" width="12" height="16"/></svg><figcaption>back</figcaption></figure>`);
-    cells.push(`<figure style="margin:0;text-align:center;font:600 13px system-ui;color:#333"><div style="background:${c};padding:14px;width:${33 * PX - 28}px;height:${33.5 * PX - 28}px;display:flex;align-items:center;justify-content:center"><img src="${fp}" style="max-width:100%;max-height:100%"></div><figcaption>close-up</figcaption></figure>`);
+    cells.push(fig(`<svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE}" fill="${BK}"/><path d="M-3.6,0 Q0,6 3.6,0" fill="none" stroke="${BKC}" stroke-width="0.75"/><image href="${fp}" x="${-z.wIn / 2}" y="4.5" width="${z.wIn}" height="${z.hIn}"/></svg>`, `${cw.name} on black · front · ${z.wIn} × ${z.hIn} in`));
+    cells.push(fig(`<svg viewBox="-16.5 -2 33 33.5" width="${33 * PX}" height="${33.5 * PX}"><path d="${TEE.replace('Q0,6', 'Q0,2')}" fill="${BK}"/><path d="M-3.6,0 Q0,2 3.6,0" fill="none" stroke="${BKC}" stroke-width="0.75"/><image href="${bp}" x="-6" y="3" width="12" height="16"/></svg>`, 'back'));
+    for (const c of [BK, '#f7f7f5']) cells.push(fig(`<div style="background:${c};padding:14px;width:${33 * PX - 28}px;height:${33.5 * PX - 28}px;display:flex;align-items:center;justify-content:center"><img src="${fp}" style="max-width:100%;max-height:100%"></div>`, c === BK ? 'close-up on black' : 'close-up on white'));
   }
   const tmp = path.join(root, '_sheet.html');
-  fs.writeFileSync(tmp, `<body style="margin:0;padding:10px;background:#ececea;display:grid;grid-template-columns:repeat(3,auto);gap:8px 12px">${cells.join('')}</body>`);
-  await page.setViewportSize({ width: 3 * (33 * PX + 12) + 30, height: 400 });
+  fs.writeFileSync(tmp, `<body style="margin:0;padding:10px;background:#ececea;display:grid;grid-template-columns:repeat(4,auto);gap:8px 12px">${cells.join('')}</body>`);
+  await page.setViewportSize({ width: 4 * (33 * PX + 12) + 30, height: 400 });
   await page.goto(href(tmp)); await page.waitForTimeout(1500);
   await page.screenshot({ path: path.join(__dirname, 'shade-samples.png'), fullPage: true });
   fs.unlinkSync(tmp);

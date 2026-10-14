@@ -28,5 +28,35 @@
       "wIn": 7.16,
       "hIn": 0.95
     }
+  },
+  "mint": {
+    "front": {
+      "wIn": 10.16,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.16,
+      "hIn": 0.95
+    }
+  },
+  "lavender": {
+    "front": {
+      "wIn": 10.16,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.16,
+      "hIn": 0.95
+    }
+  },
+  "tangerine": {
+    "front": {
+      "wIn": 10.16,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.16,
+      "hIn": 0.95
+    }
   }
 }

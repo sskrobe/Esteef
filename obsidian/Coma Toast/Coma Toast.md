@@ -27,7 +27,7 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | Blurry | v1: Saint in double-vision line art + large DAILY / BREAD block back, 4 colorways × single/double line; waiting on pick | [[Blurry]] |
 | 3D | v1: anaglyph DAILY / BREAD block behind the Saint mark, light and dark shirt versions | [[3D]] |
 | Bones | Rejected | [[Bones]] |
-| Highlight | v3: Saint shaded with three marker layers (light / medium / dark, light from the halo) on a sticker matte, Blue / Pink / Rainbow (waiting on pick) | [[Highlight]] |
+| Highlight | v3.1 (go forward): Saint shaded with three marker layers on a sticker matte, open halo; Blue / Pink / Rainbow / Mint / Lavender / Tangerine | [[Highlight]] |
 | Scrambled | v5 (go-forward look: color; DAILY BREAD / ESTEEF / COMA TOAST / NYC hidden in the background): Saint in scan lines (Scanline concept) at the normal logo size over a scrambled 80s cable background, static over all | [[Scrambled]] |
 | Scanline | Rejected | [[Scanline]] |
 | Retro | Rejected (too obvious) | [[Retro]] |
