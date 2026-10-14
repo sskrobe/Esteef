@@ -1,16 +1,15 @@
-// Scrambled: the Little Devil mark (horns, no wings) as an 80s scrambled cable channel. v3. The scramble is the
-// BACKGROUND (a swirling field with a big echo of the mark, pushed through a lost-sync pass: sine-wave line shoves,
+// Scrambled: the Saint mark (halo logo) as an 80s scrambled cable channel. v4 (go-forward: the color version).
+// BACKGROUND: a swirling field with a big echo of the mark, pushed through a lost-sync pass (sine-wave line shoves,
 // hard tearing bands, rolling bands, red / blue channel split, false color drifting in bands of acid green, magenta
-// and violet). The Little Devil sits on top, sharp (cream toast, red horns, black face, dark keyline with a red /
-// cyan fringe), but the signal still gets to it: thin jitter slices shove parts of it sideways and a few bands
-// flip it into false color. The STATIC goes over everything, logo included: grain, snow bands, white dropout
-// streaks and dim scan lines. Screen edges fray row by row.
-// Versions: "scrambled" (false color) and "static" (black and white with red / cyan fringes, white horns).
+// and violet). FOREGROUND: the Saint at the normal logo size, built like the Scanline concept: a dark body filled with
+// cream scan lines (gold on the halo), the face and inner crust line solid inside a clean gap, a dark keyline with a
+// red / cyan fringe, and VHS tracking slips with rose / teal ghosts; the scramble adds jitter slices and false-color
+// bands. STATIC over everything, logo included: grain, snow bands, white dropout streaks, dim scan lines.
 // Back: $DAILY BREAD$ (sharp, same treatment) on a small scrambled strip, bottom-right of the 12 x 16 in back area.
 // Size and placement: the mark is at the normal logo size (11.5 in tall, like the 12 in tall chest logos) in an
 // 11.5 x 12.6 in screen (fits the smallest front print area, XS-M 11.5 x 13.8 in), centered, top of the print 1 in
 // below the collar seam (puts the mark where our logo normally sits). Full-color raster (DTG).
-// Outputs: files/<scrambled|static>/front.png, back.png; scrambled-samples.png.
+// Outputs: files/scrambled/front.png, back.png; scrambled-samples.png.
 // Run: node tshirts/scrambled/scrambled.js   (needs Playwright; PLAYWRIGHT_PATH / BROWSER_CHANNEL as elsewhere)
 const fs = require('fs');
 const path = require('path');
@@ -18,24 +17,21 @@ const { logos } = require('../../logos/final/logos');
 const { setDpi } = require('../paintshop/printful');
 
 const VERSIONS = {
-  scrambled: { name: 'Scrambled', shirts: ['black', 'white'], fg: { toast: '#fbf6ea', top: '#ff3b4a', face: '#0b0b0b', key: '#0b0b0b' }, maps: [
+  scrambled: { name: 'Scrambled', shirts: ['black', 'white'], fg: { toast: '#fbf6ea', top: '#ffe45c', face: '#fbf6ea', key: '#0b0b0b', ghost: ['#d0607f', '#3fa3a0'] }, maps: [
     [[0, '#040a06'], [0.3, '#0f5a1e'], [0.55, '#3fd13a'], [0.8, '#c8ff3c'], [1, '#fffde0']],   // acid green
     [[0, '#0a0010'], [0.3, '#4b0f6e'], [0.55, '#d0207a'], [0.8, '#ff7ab8'], [1, '#fff0f6']],   // magenta
     [[0, '#03030f'], [0.35, '#1a2a8a'], [0.6, '#7a3cff'], [0.85, '#5ff0ff'], [1, '#ffffff']],  // violet
   ] },
-  static: { name: 'Static', shirts: ['black', 'white'], fg: { toast: '#f2f2f2', top: '#ffffff', face: '#0b0b0b', key: '#0b0b0b' }, maps: [
-    [[0, '#000000'], [0.5, '#7a7a7a'], [1, '#ffffff']],
-  ] },
 };
 const DPI = 300, ART_W = 11.5 * DPI, ART_H = 12.6 * DPI, MARK_H = 11.5 * DPI, TOP_IN = 1;
-const devil = logos.find(l => l.id === 'little-devil');
+const saint = logos.find(l => l.id === 'saint');
 const VB = '38 44 124 144';
 const svg = inner => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${VB}" width="__W__" height="__H__">${inner}</svg>`;
 const isToast = p => p.shape.includes('scale(0.78)');
 const MARK = {
-  toast: svg(devil.parts.filter(isToast).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
-  top: svg(devil.parts.filter(p => !isToast(p)).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
-  det: svg(devil.parts.map(p => (p.detail || '').replace(/#000/g, '#fff')).join('')),
+  toast: svg(saint.parts.filter(isToast).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
+  top: svg(saint.parts.filter(p => !isToast(p)).map(p => `<g fill="#fff">${p.shape}</g>`).join('')),
+  det: svg(saint.parts.map(p => (p.detail || '').replace(/#000/g, '#fff')).join('')),
 };
 
 (async () => {
@@ -111,13 +107,21 @@ const MARK = {
         for (let y = yy; y < Math.min(H, yy + th); y++) for (let xx = x0; xx < Math.min(W, x0 + len); xx++) { const i = (y * W + xx) * 4; if (o[i + 3]) { o[i] = o[i + 1] = o[i + 2] = 240; } } }
       x.putImageData(img, 0, 0); return out;
     };
+    window.raster = (mask, pitch, line) => { const c = canvas(mask.width, mask.height), x = c.getContext('2d'); x.fillStyle = '#fff';
+      for (let y = 0; y < c.height; y += pitch) x.fillRect(0, Math.round(y), c.width, Math.round(line));
+      x.globalCompositeOperation = 'destination-in'; x.drawImage(mask, 0, 0); x.globalCompositeOperation = 'source-over'; return c; };
+    window.cutOut = (c, m) => { const x = c.getContext('2d'); x.globalCompositeOperation = 'destination-out'; x.drawImage(m, 0, 0); x.globalCompositeOperation = 'source-over'; return c; };
+    // VHS tracking slip (from the Scanline concept): band [y, y+h) shifts sideways by dx, with a muted ghost copy
+    window.slip = (art, y, h, dx, ghost, gdx) => { const W = art.width, band = canvas(W, art.height), bx = band.getContext('2d');
+      bx.drawImage(art, 0, y, W, h, 0, y, W, h); const g = canvas(W, art.height), gx = g.getContext('2d'); gx.drawImage(band, 0, 0); gx.globalCompositeOperation = 'source-in'; gx.fillStyle = ghost; gx.fillRect(0, 0, W, art.height);
+      const x = art.getContext('2d'); x.clearRect(0, y, W, h); x.drawImage(g, gdx, 0); x.drawImage(band, dx, 0); };
     // sharp foreground: red / cyan fringe, dark keyline, then the fills (layers: [canvas mask, color])
     window.foreground = (W, H, sil, layers, key, fringe, k) => {
       const c = canvas(W, H), x = c.getContext('2d'), keyC = dilate(sil, W * 0.011 * k);
       const t = (m, col) => { const z = canvas(W, H), zx = z.getContext('2d'); zx.drawImage(m, 0, 0); zx.globalCompositeOperation = 'source-in'; zx.fillStyle = col; zx.fillRect(0, 0, W, H); return z; };
       x.drawImage(t(keyC, '#ff2a3d'), -fringe, 0); x.drawImage(t(keyC, '#00c8ff'), fringe, 0);
       x.drawImage(t(keyC, key), 0, 0);
-      for (const [m, col] of layers) x.drawImage(t(m, col), 0, 0);
+      for (const [m, col] of layers) x.drawImage(col ? t(m, col) : m, 0, 0);
       return c;
     };
   ` });
@@ -126,12 +130,22 @@ const MARK = {
   for (const [vid, v] of Object.entries(VERSIONS)) {
     const res = await page.evaluate(async ({ v, MARK, ART_W, ART_H, MARK_H }) => {
       const W = ART_W, H = ART_H;
-      // the Little Devil, sharp, in the foreground, at the normal logo size
+      // the Saint in the foreground, at the normal logo size
       const mh = MARK_H, mw = mh * 124 / 144, X = (W - mw) / 2, Y = (H - mh) / 2;
       const lay = async (s, sc = 1) => { const i = await loadImg('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s.replace('__W__', mw * sc).replace('__H__', mh * sc))); const c = canvas(W, H); c.getContext('2d').drawImage(i, (W - mw * sc) / 2, (H - mh * sc) / 2, mw * sc, mh * sc); return c; };
       const tC = await lay(MARK.toast), hC = await lay(MARK.top), dC = await lay(MARK.det);
       const sil = canvas(W, H); sil.getContext('2d').drawImage(tC, 0, 0); sil.getContext('2d').drawImage(hC, 0, 0);
-      const fg = foreground(W, H, sil, [[hC, v.fg.top], [dilate(tC, W * 0.006), v.fg.key], [tC, v.fg.toast], [dC, v.fg.face]], v.fg.key, W * 0.006, 1);   // horns behind the toast, keyline between
+      // the logo in scan lines (Scanline concept): dark body, cream lines (gold on the halo), a clean gap around
+      // the face and crust line, which are drawn solid; then tracking slips with rose / teal ghosts
+      const P = W * 0.0052, LW = P * 0.58, gap = dilate(dC, P * 0.9);
+      const lines = canvas(W, H), lx = lines.getContext('2d');
+      const tint2 = (m, col) => { const z = canvas(W, H), zx = z.getContext('2d'); zx.drawImage(m, 0, 0); zx.globalCompositeOperation = 'source-in'; zx.fillStyle = col; zx.fillRect(0, 0, W, H); return z; };
+      lx.drawImage(tint2(raster(tC, P, LW), v.fg.toast), 0, 0); lx.drawImage(tint2(raster(hC, P, LW), v.fg.top), 0, 0);
+      cutOut(lines, gap);
+      const fg = foreground(W, H, sil, [[lines, null], [dC, v.fg.face]], v.fg.key, W * 0.006, 1);
+      const snap = y => Math.round(y / P) * P - (P - LW) / 2;
+      [[0.30, 3, 0.022, 0], [0.47, 5, -0.016, 1], [0.66, 2, 0.026, 0], [0.8, 4, -0.012, 1]].forEach(([fy, n, d, gi]) =>
+        slip(fg, snap(Y + mh * fy), P * n, W * d, v.fg.ghost[gi], -W * d * 0.5));
       // the background: a swirling field with a big scrambled echo of the mark in it
       const eT = alphaOf(await lay(MARK.toast, 1.12)), eH = alphaOf(await lay(MARK.top, 1.12));
       const L = new Float32Array(W * H);

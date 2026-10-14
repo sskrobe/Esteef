@@ -1,17 +1,24 @@
 ---
 tags: [coma-toast, shirt, scrambled, printful]
 updated: 2026-10-13
-status: v3 (Little Devil, normal logo size), waiting on review
+status: v4 (go-forward look, color version only), waiting on review
 ---
 # Scrambled
 
 Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]) as a full chest print of an **80s scrambled cable channel**: TV static plus the wavy, torn, false-colored picture of a premium channel you didn't pay for (after the user's scrambled-TV screenshots). Name is a working title. Replaces [[Scanline]] (rejected), keeping its scan-line / VHS idea.
 
-- **Status:** v1, v2 and v3 made 2026-10-13; v3 is current. Store name if published: "Scrambled King ComaToast Logo".
+- **Status:** v1–v4 made 2026-10-13; **v4 is current**. The **color (Scrambled) version is the go-forward**; the black-and-white Static version is dropped (files removed, still in git history). Store name if published: "Scrambled King ComaToast Logo".
 - **Local folder:** `G:\ComaToast\Scrambled\`
 - **Repo folder:** `tshirts/scrambled/`
 
-## v3 (current): Little Devil, bigger, more glitch on the logo
+## v4 (current, go-forward): Saint in scan lines
+Feedback on v3: go back to the halo (Saint); the color version is the go-forward; add a little more static to the logo, more like the Scanline concept.
+- **Mark:** the **Saint** again, at the v3 size (11.5 in tall in the 11.5 × 12.6 in screen, top 1 in below the collar).
+- **Built like the [[Scanline]] concept:** a dark body filled with **cream scan lines** (gold `#ffe45c` lines on the halo), about 17 lines per inch; the **face and inner crust line solid cream** inside a clean dark gap; dark keyline with the red / cyan fringe.
+- **VHS tracking slips** across the logo (4 bands, shifted sideways with rose / teal ghosts), plus the scramble's jitter slices, false-color bands, snow, grain and dropout streaks.
+- **Background and back:** unchanged (scrambled green / magenta / violet channel; `$DAILY BREAD$` strip).
+
+## v3: Little Devil, bigger, more glitch on the logo
 Feedback on v2: swap the halo logo for the one with the horns (no wings); a little more static and distortion over the logo; make the logo larger so it sits in its normal place on our shirts.
 - **Mark:** the **Little Devil** (red `#ff3b4a` horns; white in the Static version). The horns sit behind the toast with a dark keyline between, like the official logo.
 - **Size:** the mark is **11.5 in tall** (our chest logos are 12 in tall, e.g. Argyle 10.08 × 12 in) in an **11.5 × 12.6 in** screen, which fits the smallest front print area (XS–M 11.5 × 13.8 in).
@@ -37,7 +44,7 @@ The picture (the Saint big and centered, with a dark keyline, over a swirling ba
 | Version | Colors | Shirts |
 |---|---|---|
 | **Scrambled** | acid green / magenta / violet false color | black (best), white |
-| **Static** | black and white with red / cyan fringes | black, white |
+| **Static** (dropped in v4) | black and white with red / cyan fringes | black, white |
 
 ## Size and placement
 Bella+Canvas 3001 (Printful product 71), DTG front: **11.5 × 12.6 in**, centered, top **1 in below the collar seam** (v1 and v2 were 10.5 × 9.66 in, top 1.5 in).
@@ -45,9 +52,9 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **11.5 × 12.6 in**, centere
 ## Back: $Daily Bread$
 `$DAILY BREAD$` (Montserrat Black) as a small scrambled strip in the same treatment, 7.2 × 1.25 in, bottom-right of the 12 × 16 in back print area.
 
-## Files (`files/<scrambled|static>/`)
+## Files (`files/scrambled/`)
 - `front.png` (300 dpi), `back.png` (whole 12 × 16 in back area; fill it).
-- `scrambled-samples.png`: each version on black and white, front and back, plus close-ups.
+- `scrambled-samples.png`: on black and white tees, front and back, plus close-ups.
 
 ## Printful setup
 1. **Front print:** upload `front.png`, set it 11.5 in wide, center it, top 1 in below the collar seam.
@@ -57,9 +64,10 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **11.5 × 12.6 in**, centere
 `node tshirts/scrambled/scrambled.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Color maps are at the top; tear, roll, snow and wave amounts are in `scramble()`. Change the seed (1986) for a different scramble.
 
 ## Change log
+- **2026-10-13 — v4:** back to the Saint; logo built from scan lines with a solid face (Scanline concept) and tracking slips; color version only (Static dropped).
 - **2026-10-13 — v3:** Saint swapped for the Little Devil; mark enlarged to the normal logo size (11.5 in tall in an 11.5 × 12.6 in screen, top 1 in below the collar); more jitter, false-color bands, snow and fringe over the logo.
 - **2026-10-13 — v2:** scramble moved to the background, the Saint sharp in the foreground, static over everything (logo included); back text sharp too.
 - **2026-10-13 — v1:** scrambled-channel Saint, scrambled and static versions, scrambled `$Daily Bread$` back. Rolling bands toned down so the face stays readable.
 
 ## Open items
-- [ ] Review; pick scrambled, static or both; confirm the name.
+- [ ] Review v4; confirm the name.
