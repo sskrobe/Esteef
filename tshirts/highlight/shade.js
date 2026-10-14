@@ -74,6 +74,9 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
     window.and = (a, b) => { const c = copy(a), x = c.getContext('2d'); x.globalCompositeOperation = 'destination-in'; x.drawImage(b, 0, 0); return c; };
     window.or = (...ms) => { const c = canvas(ms[0].width, ms[0].height), x = c.getContext('2d'); ms.forEach(m => x.drawImage(m, 0, 0)); return c; };
     window.grow = (m, r) => { const c = canvas(m.width, m.height), x = c.getContext('2d'); for (let a = 0; a < 360; a += 5) for (const f of [0.34, 0.67, 1]) x.drawImage(m, Math.cos(a * Math.PI / 180) * r * f, Math.sin(a * Math.PI / 180) * r * f); x.drawImage(m, 0, 0); return hard(c); };
+    // a pen outline centered on a mask's edge, r each side (ink color)
+    window.edge = (m, r) => { const inv = canvas(m.width, m.height), ix = inv.getContext('2d'); ix.fillStyle = '#fff'; ix.fillRect(0, 0, inv.width, inv.height); ix.globalCompositeOperation = 'destination-out'; ix.drawImage(m, 0, 0);
+      const ring = minus(grow(m, r), minus(m, grow(inv, r))), x = ring.getContext('2d'); x.globalCompositeOperation = 'source-in'; x.fillStyle = '#161616'; x.fillRect(0, 0, ring.width, ring.height); return ring; };
     // one marker stroke (chisel ends, slight bow, faint lighter streaks) drawn onto ctx in color col
     window.marker = (cx, x0, y0, x1, y1, w, col, R, alpha) => {
       const dx = x1 - x0, dy = y1 - y0, L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L, nx = -uy, ny = ux, sl = w * 0.35, bow = (R() - 0.5) * w * 0.6;
@@ -171,7 +174,7 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
       layer(paper, castM, () => cw.cast, R, -0.62, px * 0.35);
       layer(paper, away(T, 0.1), () => cw.mid, R, -0.62, px * 0.35);
       layer(paper, away(T, 0.035), () => cw.dark, R, -0.62, px * 0.3);
-      p.font = '900 ' + px + 'px "Montserrat"'; p.lineJoin = 'round'; p.strokeStyle = '#161616'; p.lineWidth = px * 0.045; p.strokeText(t, X, Y);
+      p.drawImage(edge(T, px * 0.0225), 0, 0);   // pen outline from the letter silhouette (strokeText traces the font's overlapping contours)
       const art = trim(hard(paper)), f = canvas(AREA_W, AREA_H);
       f.getContext('2d').drawImage(art, AREA_W - INSET - art.width, AREA_H - INSET - art.height);
       return { png: f.toDataURL('image/png'), w: art.width, h: art.height };

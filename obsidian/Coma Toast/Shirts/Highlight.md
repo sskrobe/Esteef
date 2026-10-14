@@ -11,7 +11,26 @@ Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]), larg
 - **Local folder:** `G:\ComaToast\Highlight\`
 - **Repo folder:** `tshirts/highlight/`
 
-## v3.1 (current): six colorways, open halo
+## Rainbow: long sleeves and hoodies (`products.js`)
+The user asked for the Rainbow design on long sleeves, back patterns and hoodies. `products.js` builds a shared set of print files from the Rainbow front (run `shade.js` first), all shaded the same way, in `files/rainbow-products/` (300 dpi, transparent):
+
+| File | What it is | Size |
+|---|---|---|
+| `front.png` | the Rainbow front | 10.16 × 12 in (tee / long sleeve); set it **7.62 × 9 in** on the hoodie |
+| `back-small.png` | standard back: `$DAILY BREAD$` bottom-right | whole 12 × 16 in back area |
+| `back-pattern.png` | "sticker bomb": 25 tossed rainbow toast stickers (1.9 to 3.1 in, turned up to about ±26°, no overlaps), bottom-right corner kept clear for `$DAILY BREAD$` | whole 12 × 16 in back area |
+| `back-big.png` | one big toast (8.46 × 10 in) on the upper back, top 1 in down, plus `$DAILY BREAD$` bottom-right | whole 12 × 16 in back area |
+| `sleeve-left.png` | a small toast sticker at the shoulder, then **DAILY BREAD** running down the arm | 2.03 × 14.92 in |
+| `sleeve-right.png` | the same with **COMA TOAST** | 2.03 × 15.01 in |
+
+**Placement:**
+- **Long sleeve tee:** front as on the tee (10.16 in wide, top 1.5 in below the collar seam); back: `back-small`, `back-pattern` or `back-big`; left and right sleeve files on the sleeves, sticker end at the shoulder.
+- **Hoodie:** front set **7.62 in wide (9 in tall), top about 3 in below the collar seam**, so it clears the hood and sits above the front pocket; back: `back-big` (recommended) or `back-pattern`; sleeves as on the long sleeve.
+- **Check the sleeve print area** for the exact product in Printful's design maker: if it is shorter than 15 in, scale the sleeve file down to fit (keep it centered on the sleeve, sticker toward the shoulder).
+- Mockups: `products-samples.png` (long sleeve and hoodie, front and back options, plus the flat files).
+- Also fixed: the pen outline on all text (back tags and sleeves) is now drawn from the letter silhouette; the font's overlapping contours had shown as stray lines inside A, Y and R.
+
+## v3.1: six colorways, open halo
 Feedback on v3: keep all three colorways plus three more; cut a little transparent oval inside the halo so the background comes through, keeping the 3D look.
 - **Colorways (all go forward):** Blue, Pink, Rainbow, plus **Mint** (`#c8f5df` / `#6fd6a8` / `#23926a`), **Lavender** (`#e3d6ff` / `#b294f5` / `#6a45c4`) and **Tangerine** (`#ffdcb8` / `#ffa45a` / `#dc5f16`). Files in `files/shade-<colorway>/`.
 - **Open halo:** a transparent oval is cut through the halo's center, keeping a thin (0.1 in) white matte rim inside it. To keep it 3D, the ring's back inner edge (just above the opening) gets the medium and dark layers, and the halo shades the top of that inner rim.
@@ -65,6 +84,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 `node tshirts/highlight/highlight.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Highlighter colors, zones, stroke width and passes are in the script; change the seed (1219) for a different stroke layout.
 
 ## Change log
+- **2026-10-13 — Rainbow products:** long sleeve and hoodie files (sleeve prints, sticker-pattern back, big-toast back, hoodie front size); clean pen outline on all text.
 - **2026-10-13 — v3.1:** all of Blue, Pink, Rainbow go forward, plus Mint, Lavender, Tangerine; transparent oval cut through the halo with a shaded inner edge.
 - **2026-10-13 — v3:** three-marker light and shadow (light / medium / dark layers of one color family, light from the halo, cast shadows), on the sticker matte; Blue, Pink and Rainbow colorways. The small white gaps where marker strokes meet ("rain dashes") are kept on purpose: the user likes them (a solid-fill variant was tried and dropped).
 - **2026-10-13 — v2:** matte for dark shirts in two styles (sticker: color trimmed to just past the lines on a die-cut white matte; page: a torn-edge sketchbook page with a paler wash across it); back on a paper matte, pen outline fixed.
@@ -72,6 +92,7 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 
 ## Open items
 - [ ] Set up the six colorways in Printful.
+- [ ] Set up the Rainbow long sleeve and hoodie in Printful (pick the back option).
 - [ ] Pick the shirt color(s) to offer (recommended: black).
 - [ ] Set up in Printful as "Highlight King ComaToast Logo".
 - [ ] Women's (Queen) version?

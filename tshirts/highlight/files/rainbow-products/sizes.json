@@ -1,0 +1,23 @@
+{
+  "front": {
+    "wIn": 10.16,
+    "hIn": 12
+  },
+  "hoodieFront": {
+    "wIn": 7.62,
+    "hIn": 9
+  },
+  "backBig": {
+    "markWIn": 8.46,
+    "markHIn": 10
+  },
+  "patternStickers": 25,
+  "sleeveLeft": {
+    "wIn": 2.03,
+    "hIn": 14.92
+  },
+  "sleeveRight": {
+    "wIn": 2.03,
+    "hIn": 15.01
+  }
+}
