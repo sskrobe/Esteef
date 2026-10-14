@@ -75,7 +75,7 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
       const shape = x => { x.beginPath(); const N = 16; for (let i = 0; i <= N; i++) { const [a, b] = P(sl + (L - sl) * i / N, -w / 2); i ? x.lineTo(a, b) : x.moveTo(a, b); }
         for (let i = N; i >= 0; i--) { const [a, b] = P((L - sl) * i / N, w / 2); x.lineTo(a, b); } x.closePath(); };
       cx.save(); cx.globalAlpha = alpha; cx.fillStyle = col; shape(cx); cx.fill();
-      cx.globalAlpha = 0.12; cx.strokeStyle = '#ffffff'; cx.lineWidth = Math.max(2, w * 0.03); shape(cx); cx.clip();
+      cx.globalAlpha = 0.18; cx.strokeStyle = '#ffffff'; cx.lineWidth = Math.max(2, w * 0.03); shape(cx); cx.clip();
       for (let k = 0; k < 3; k++) { const s = (R() - 0.5) * w * 0.8; cx.beginPath(); for (let i = 0; i <= 12; i++) { const [a, b] = P(L * i / 12, s); i ? cx.lineTo(a, b) : cx.moveTo(a, b); } cx.stroke(); }
       cx.restore(); };
     // one marker LAYER over a region: a flat fill plus streaky strokes on one diagonal, clipped to the region, then
@@ -83,9 +83,9 @@ SVGS.pen = svg(outline(1.25) + `<g transform="translate(0.7,-0.5) rotate(0.5 100
     window.layer = (paper, region, colorAt, R, ang, w) => {
       const W = paper.width, H = paper.height, t = canvas(W, H), tx = t.getContext('2d');
       const ux = Math.cos(ang), uy = Math.sin(ang), nx = -uy, ny = ux, D = Math.hypot(W, H);
-      for (let s = -D / 2; s < D / 2; s += w * 0.58) { let p = -D / 2;
+      for (let s = -D / 2; s < D / 2; s += w * 0.7) { let p = -D / 2;
         while (p < D / 2) { const l = (1 + R() * 2.2) * 300, a = [W / 2 + nx * s + ux * p, H / 2 + ny * s + uy * p], b = [a[0] + ux * l, a[1] + uy * l];
-          marker(tx, a[0], a[1], b[0], b[1], w * (0.95 + R() * 0.1), colorAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2), R, 0.86 + R() * 0.1); p += l - w * 0.7; } }
+          marker(tx, a[0], a[1], b[0], b[1], w * (0.95 + R() * 0.1), colorAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2), R, 0.82 + R() * 0.12); p += l - w * 0.25; } }   // the small gaps where strokes meet leave white "rain" dashes (the user likes them)
       const clipped = and(t, region), px = paper.getContext('2d'); px.save(); px.globalCompositeOperation = 'multiply'; px.drawImage(clipped, 0, 0); px.restore(); };
   ` });
 
