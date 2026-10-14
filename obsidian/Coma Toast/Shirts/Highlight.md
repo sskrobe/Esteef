@@ -1,7 +1,7 @@
 ---
 tags: [coma-toast, shirt, highlight, printful]
 updated: 2026-10-13
-status: v2 (two matte styles), waiting on pick
+status: v3 (three-marker shading), waiting on pick
 ---
 # Highlight
 
@@ -10,6 +10,18 @@ Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]), larg
 - **Status:** v1 approved 2026-10-13 ("i like this one!"); v2 adds a matte for dark shirts in two styles, waiting on the pick.
 - **Local folder:** `G:\ComaToast\Highlight\`
 - **Repo folder:** `tshirts/highlight/`
+
+## v3: three-marker light and shadow (`shade.js`)
+The user shared a marker tutorial ("Easiest Light and Shadows Tutorial With THREE Markers", Katie's Color Therapy) for the style they want: **layers of one color family build the shadows**. The technique: a light marker over everything (bare paper left where the light hits), a medium marker over the shadow areas, the darkest marker only in the deepest shadows, with flat, hard-edged cast shadows all falling the same way.
+- **Light source:** the halo, upper left; every shadow falls down and to the right.
+- **Light layer:** the whole mark, except a bare-paper highlight along the lit (upper-left) edges of the crust rim and halo.
+- **Medium layer:** the toast's lower-right side; the crust rim shading the inside of the slice along its upper-left edge; the halo's lower-right band; the halo's cast shadow on the top of the toast.
+- **Dark layer:** right at the lower-right edges, the deepest corner inside the rim, and small contact shadows under the X eyes and mouth.
+- **Cast shadow** of the toast on the white sticker matte (it makes the mark stand up off the shirt).
+- Each layer is a solid marker fill with streaky strokes, multiplied over the one below; pen line art on top; sticker matte (0.3 in border) for dark shirts.
+- **Colorways** (`files/shade-<blue|pink|rainbow>/`, 10.16 × 12 in): **Blue** (like the video: `#bfe3f7` / `#74b4e3` / `#2f6fb3`), **Pink** (`#ffd3e6` / `#ff92c0` / `#d9467f`), **Rainbow** (the v1 highlighter colors as the light layer, violet shadow layers).
+- **Back:** `$DAILY BREAD$` shaded the same way (light letters, medium and dark on the lower-right edges, a cast shadow) on a small matte.
+- Sample sheet: `shade-samples.png`. Regenerate with `node tshirts/highlight/shade.js`.
 
 ## v2: a matte behind it (for dark shirts)
 Feedback on v1: on black it needs some kind of matte behind it; the strokes past the edges look messy. Either extend them more and make them part of the art, or shorten them to just past the lines. v2 does both, as two styles:
@@ -47,11 +59,12 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 `node tshirts/highlight/highlight.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Highlighter colors, zones, stroke width and passes are in the script; change the seed (1219) for a different stroke layout.
 
 ## Change log
+- **2026-10-13 — v3:** three-marker light and shadow (light / medium / dark layers of one color family, light from the halo, cast shadows), on the sticker matte; Blue, Pink and Rainbow colorways. First pass showed white gaps where strokes met; strokes now overlap so each layer reads solid.
 - **2026-10-13 — v2:** matte for dark shirts in two styles (sticker: color trimmed to just past the lines on a die-cut white matte; page: a torn-edge sketchbook page with a paler wash across it); back on a paper matte, pen outline fixed.
 - **2026-10-13 — v1:** first pass (many short strokes in three directions) read as confetti and spiked too far past the outline; reworked into edge-to-edge parallel lanes with partial crossing passes, a paper base, and a clean halo center.
 
 ## Open items
-- [ ] Pick sticker or page matte.
+- [ ] Pick v3 colorway (Blue / Pink / Rainbow), or v2 sticker / page.
 - [ ] Pick the shirt color(s) to offer (recommended: black).
 - [ ] Set up in Printful as "Highlight King ComaToast Logo".
 - [ ] Women's (Queen) version?
