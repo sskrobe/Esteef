@@ -27,7 +27,8 @@ A plain slice of toast, knocked out: X'd-out eyes and a "Soft Pulse" heartbeat l
 | Blurry | v1: Saint in double-vision line art + large DAILY / BREAD block back, 4 colorways × single/double line; waiting on pick | [[Blurry]] |
 | 3D | v1: anaglyph DAILY / BREAD block behind the Saint mark, light and dark shirt versions | [[3D]] |
 | Bones | Rejected | [[Bones]] |
-| Retro | v1: 80s synthwave scene with the three characters, Outrun / Miami | [[Retro]] |
+| Scanline | v1: high-fashion 80s nod, the three characters in scan lines, Ivory / Ink | [[Scanline]] |
+| Retro | Rejected (too obvious) | [[Retro]] |
 | Equalizer | Rejected | [[Equalizer]] |
 | Looney | Rejected | [[Looney]] |
 | Store logo (Esteef.co) | v1: mark / halo / tagline options; waiting on pick | [[Store Logo]] |

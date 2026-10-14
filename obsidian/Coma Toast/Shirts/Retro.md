@@ -1,13 +1,13 @@
 ---
 tags: [coma-toast, shirt, retro, printful]
 updated: 2026-10-13
-status: v1 samples (2 colorways), waiting on review
+status: rejected
 ---
 # Retro
 
 Part of [[Coma Toast]]. An **80s synthwave / outrun** scene starring the three character marks (see [[Logo Marks]]): the **Saint** (left), the plain **Coma Toast** (center, biggest) and the **Little Devil** (right). Name is a working title. Replaces [[Bones]] and [[Equalizer]] (both rejected).
 
-- **Status:** v1 made 2026-10-13.
+- **Status:** **rejected** 2026-10-13 (the user wanted something more unique and high fashion that only alludes to the 80s). Replaced by [[Scanline]]. Files kept for reference.
 - **Local folder:** `G:\ComaToast\Retro\`
 - **Repo folder:** `tshirts/retro/`
 
@@ -43,7 +43,8 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **10.5 × 10.94 in**, center
 `node tshirts/retro/retro.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Colors, cast, sun stripes and grid are in the script.
 
 ## Change log
+- **2026-10-13 — rejected:** too obvious; replaced by [[Scanline]].
 - **2026-10-13 — v1:** synthwave sun, laser grid, the three characters in neon outlines, chrome DAILY BREAD with neon Coma Toast script; Outrun and Miami colorways; chrome `$Daily Bread$` back.
 
 ## Open items
-- [ ] Review; pick a colorway; confirm the name and the three characters.
+- None (rejected).
