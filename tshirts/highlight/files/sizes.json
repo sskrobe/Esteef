@@ -1,10 +1,22 @@
 {
-  "front": {
-    "wIn": 9.74,
-    "hIn": 12
+  "sticker": {
+    "front": {
+      "wIn": 10.17,
+      "hIn": 12
+    },
+    "back": {
+      "wIn": 7.21,
+      "hIn": 0.99
+    }
   },
-  "back": {
-    "wIn": 7.6,
-    "hIn": 0.91
+  "page": {
+    "front": {
+      "wIn": 10.5,
+      "hIn": 11.81
+    },
+    "back": {
+      "wIn": 7.21,
+      "hIn": 0.99
+    }
   }
 }

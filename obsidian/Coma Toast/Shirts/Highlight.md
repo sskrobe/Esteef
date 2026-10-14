@@ -1,17 +1,24 @@
 ---
 tags: [coma-toast, shirt, highlight, printful]
 updated: 2026-10-13
-status: approved (user likes it), ready for Printful
+status: v2 (two matte styles), waiting on pick
 ---
 # Highlight
 
 Part of [[Coma Toast]]. The **Saint** mark (halo logo, see [[Logo Marks]]), large in the normal chest spot, filled with **layered highlighter strokes** under black fine-liner pen line art, after a pen-and-highlighter eye drawing the user shared. Named "Highlight" by the user. Store name if published: "Highlight King ComaToast Logo".
 
-- **Status:** v1 made and **approved** 2026-10-13 ("i like this one!"). Ready to set up in Printful.
+- **Status:** v1 approved 2026-10-13 ("i like this one!"); v2 adds a matte for dark shirts in two styles, waiting on the pick.
 - **Local folder:** `G:\ComaToast\Highlight\`
 - **Repo folder:** `tshirts/highlight/`
 
-## Look
+## v2: a matte behind it (for dark shirts)
+Feedback on v1: on black it needs some kind of matte behind it; the strokes past the edges look messy. Either extend them more and make them part of the art, or shorten them to just past the lines. v2 does both, as two styles:
+- **Sticker matte** (`files/sticker/`, **10.17 × 12 in**): the color stops about 0.1 in past the pen outline, on a clean white matte that follows the mark with an even 0.3 in border, like a die-cut sticker (the halo's center is filled white).
+- **Page matte** (`files/page/`, **10.5 × 11.81 in**): the mark on a white sketchbook page turned slightly, with a torn (deckled) edge. A paler, sparser wash of the same strokes runs across the page (inset from the edge, ragged ends) and the mark keeps the full saturated layering, so the overflow reads as part of the artwork.
+- Both: centered, top 1.5 in below the collar seam. Both work on black and white shirts.
+- **Back:** `$DAILY BREAD$` now sits on its own small paper matte too (and the pen outline is fixed: a stray comment had dropped its color and weight). Same back for both styles.
+
+## Look (v1)
 - **Highlighter fill:** broad chisel-tip swipes (about 0.44 in wide) in highlighter pink, orange, yellow, cyan, blue and purple, layered like real ink (they darken where they cross):
   - **Pass 1:** parallel diagonal lanes running edge to edge across the mark, with a little overshoot past the outline; long runs sometimes switch color partway.
   - **Pass 2:** partial strokes at a crossing angle.
@@ -28,21 +35,23 @@ Bella+Canvas 3001 (Printful product 71), DTG front: **9.74 × 12 in**, centered,
 ## Back: $Daily Bread$
 `$DAILY BREAD$` in Montserrat Black: paper-white letters with a pen outline (doubled) over six highlighter swipes, about 7.6 × 0.91 in, bottom-right of the 12 × 16 in back print area.
 
-## Files (`files/`)
+## Files (`files/<sticker|page>/`)
 - `front.png` (trimmed, 300 dpi, transparent), `back.png` (whole 12 × 16 in back area; fill it).
-- `highlight-samples.png`: front and back on white, black and athletic heather shirts, plus close-ups.
+- `highlight-samples.png`: each style front and back on black and white shirts, plus close-ups.
 
 ## Printful setup
-1. **Front print:** upload `front.png`, set it 9.74 in wide (12 in tall), center it, top 1.5 in below the collar seam.
+1. **Front print:** upload the chosen style's `front.png` and set it to its width (sticker 10.17 in, page 10.5 in), centered, top 1.5 in below the collar seam.
 2. **Back print:** upload `back.png` and let it fill the area.
 
 ## Regenerating
 `node tshirts/highlight/highlight.js` (needs Node and Playwright, or `playwright-core` with `PLAYWRIGHT_PATH` and `BROWSER_CHANNEL=msedge`). Highlighter colors, zones, stroke width and passes are in the script; change the seed (1219) for a different stroke layout.
 
 ## Change log
+- **2026-10-13 — v2:** matte for dark shirts in two styles (sticker: color trimmed to just past the lines on a die-cut white matte; page: a torn-edge sketchbook page with a paler wash across it); back on a paper matte, pen outline fixed.
 - **2026-10-13 — v1:** first pass (many short strokes in three directions) read as confetti and spiked too far past the outline; reworked into edge-to-edge parallel lanes with partial crossing passes, a paper base, and a clean halo center.
 
 ## Open items
+- [ ] Pick sticker or page matte.
 - [ ] Pick the shirt color(s) to offer (recommended: black).
 - [ ] Set up in Printful as "Highlight King ComaToast Logo".
 - [ ] Women's (Queen) version?
